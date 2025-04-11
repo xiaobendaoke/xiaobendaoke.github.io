@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="A*�㷨��������ͨ�׽���һ����ƪ������ʹ�õ� A* �㷨��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣  ? һ�仰���� A* �㷨��A* ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�  ? ͨ������">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2025/04/11/demo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="A*�㷨��������ͨ�׽���һ����ƪ������ʹ�õ� A* �㷨��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣  ? һ�仰���� A* �㷨��A* ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�  ? ͨ������">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-04-11T03:19:09.010Z">
+<meta property="article:modified_time" content="2025-04-11T03:20:50.233Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "http://example.com/2025/04/11/demo/",
+  "image": "http://example.com/img/butterfly-icon.png",
+  "datePublished": "2025-04-11T03:19:09.010Z",
+  "dateModified": "2025-04-11T03:20:50.233Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/04/11/demo/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/"><span class="site-name">Hexo</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Untitled</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-04-11T03:20:50.233Z" title="Updated 2025-04-11 11:20:50">2025-04-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="A-�㷨"><a href="#A-�㷨" class="headerlink" title="A*�㷨"></a>A*�㷨</h2><p>��������ͨ�׽���һ����ƪ������ʹ�õ� <strong>A* �㷨</strong>��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣</p>
+<hr>
+<h4 id="һ�仰����-A-�㷨��"><a href="#һ�仰����-A-�㷨��" class="headerlink" title="? һ�仰���� A* �㷨��"></a>? һ�仰���� A* �㷨��</h4><p><strong>A*</strong> ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�</p>
+<hr>
+<h4 id="ͨ������-A-�㷨��"><a href="#ͨ������-A-�㷨��" class="headerlink" title="? ͨ������ A* �㷨��"></a>? ͨ������ A* �㷨��</h4><p>��������һ�����˻���վ��һ���Թ�����ڣ������ҵ����ķ�ʽ�����յ㣬ͬʱ�ֲ������ϰ��A* �㷨�᣺</p>
+<ol>
+<li><strong>�ѵ�ͼ�ֳɺܶ����</strong>���������̣���</li>
+<li>ÿ�����Ӷ�Ҫ�жϣ���������ߵ��������˶೤���� <code>G</code>���������ﵽ�յ��Ż�Ҫ�೤���� <code>H</code>������</li>
+<li>�����߼�������<code>F = G + H</code>����ѡ����С����һ������ǰ����</li>
+<li>һֱ�ߣ�ֱ���ߵ��յ�Ϊֹ��</li>
+</ol>
+<hr>
+<h4 id="��ѧԭ�����ͣ���΢רҵһ�㣩��"><a href="#��ѧԭ�����ͣ���΢רҵһ�㣩��" class="headerlink" title="?? ��ѧԭ�����ͣ���΢רҵһ�㣩��"></a>?? ��ѧԭ�����ͣ���΢רҵһ�㣩��</h4><p>A* �㷨�ĺ��Ĺ�ʽ�ǣ�</p>
+<p>[<br>F(n) &#x3D; G(n) + H(n)<br>]</p>
+<ul>
+<li>( G(n) )����㵽��ǰ�ڵ� ( n ) ��ʵ��·�����ۣ��������˼�������</li>
+<li>( H(n) )���ӵ�ǰ�ڵ� ( n ) ���յ�Ĺ��ƴ��ۣ��µģ���������������������</li>
+</ul>
+<p>���������������У�</p>
+<ul>
+<li><p>�����پ��루ֻ�����������ߣ���<br>[<br>H(n) &#x3D; D \cdot (|x_{\text{current}} - x_{\text{goal}}| + |y_{\text{current}} - y_{\text{goal}}|)<br>]</p>
+</li>
+<li><p>�Խ��߾��루����б���ߣ�Ҳ�У��������������˽ϼ򻯵Ĺ��Ʒ�ʽ��</p>
+</li>
+</ul>
+<hr>
+<h4 id="�L���-A-�������еJ��£���"><a href="#�L���-A-�������еJ��£���" class="headerlink" title="? �Ľ��� A*�������еĴ��£���"></a>? �Ľ��� A*�������еĴ��£���</h4><p>ԭʼ A* �㷨���ҡ����·�����������·������̫��������ᾪ�����ǡ��������ߣ�</p>
+<ul>
+<li><strong>�Ѷ�����Ϊ�ϰ���</strong>��</li>
+<li><strong>��չ�ϰ���Χ</strong>����Ϊ <code>n</code>���������趨����ġ������뾶���� 2 ���ǾͰѶ�����Χ 2 ��Ҳ����ϰ���</li>
+</ul>
+<p>�������˻�����<strong>�Ƶø�ԶһЩ</strong>���������ŵ����</p>
+<hr>
+<h4 id="ֱ��ͼʾ���Ұ��㻭һ�£�"><a href="#ֱ��ͼʾ���Ұ��㻭һ�£�" class="headerlink" title="? ֱ��ͼʾ���Ұ��㻭һ�£�"></a>? ֱ��ͼʾ���Ұ��㻭һ�£�</h4><p>������һ��С��ͼ��չʾ A* �㷨����ô����·���ģ�����ԭʼ�͸Ľ��İ汾��</p>
+<ul>
+<li>��ɫ�����</li>
+<li>��ɫ���յ�</li>
+<li>��ɫ���ϰ������</li>
+<li>��ɫ����չ�ϰ����򣨾�����Χ��</li>
+<li>���ߣ�·��</li>
+</ul>
+<p>��������ͼ�� ?<br><img src="/image.png" alt="alt text"></p>
+<p>������ʹ�õ� <strong>ESO����չ״̬�۲���, Extended State Observer��</strong> �㷨�������е�ߴ��ϣ�����ʵ���ǿ����÷ǳ�ͨ�׵ķ�ʽ�������������ҽ�һ��������ѧԭ���������Ҳ�ử��ͼ�������ֱ�۵����⡣</p>
+<hr>
+<h2 id="ESO�㷨"><a href="#ESO�㷨" class="headerlink" title="ESO�㷨"></a>ESO�㷨</h2><h4 id="ͨ�׽��ͣ�ESO-�N���g�"><a href="#ͨ�׽��ͣ�ESO-�N���g�" class="headerlink" title="? ͨ�׽��ͣ�ESO �Ǹ���ģ�"></a>? ͨ�׽��ͣ�ESO �Ǹ���ģ�</h4><p>�������ڿ�һ�����˻����У��������̫���ˣ����ֿ������磬��ô���ܷɵ��ȣ�</p>
+<p><strong>ESO ������һ��������������</strong>����ͨ���۲����˻����˶�״̬���²���磨���ţ��ж��Ȼ��ʱ���߿���ϵͳȥ������������������ܵ������ˣ��ͻ�ѹ�ͷ�����һ����</p>
+<hr>
+<h4 id="�������˵��"><a href="#�������˵��" class="headerlink" title="? �������˵��"></a>? �������˵��</h4><p>���ǿ��԰����˻���ϵͳ���ɣ�</p>
+<p>[<br>\dot{x} &#x3D; f(x, u) + d<br>]</p>
+<ul>
+<li>(x)����ǰ״̬������λ�á��ٶȣ�</li>
+<li>(u)���������루������������</li>
+<li>(d)���㲻֪���ĸ��ţ�����硢ģ����</li>
+</ul>
+<p>? �㲢��֪�� (d)��������Ӱ����С�</p>
+<hr>
+<h4 id="ESO-��ѧԭ����ͨ�׽��⣩��"><a href="#ESO-��ѧԭ����ͨ�׽��⣩��" class="headerlink" title="? ESO ��ѧԭ����ͨ�׽��⣩��"></a>? ESO ��ѧԭ����ͨ�׽��⣩��</h4><p>ESO ��Ŀ���ǣ�<strong>�ڲ�֪������ (d) ������£����������ơ�������</strong></p>
+<p>���ǰ�ϵͳ��һ������չ״̬��������</p>
+<ul>
+<li>�� (z_1 &#x3D; x)��ԭʼ״̬��</li>
+<li>(z_2 &#x3D; d)��δ֪���ţ�</li>
+</ul>
+<p>����д�ɣ�</p>
+<p>[<br>\begin{cases}<br>\dot{z}_1 &#x3D; f(x, u) + z_2 \<br>\dot{z}_2 &#x3D; \dot{d} \quad ��ͨ���Ǹ�С����<br>\end{cases}<br>]</p>
+<p>Ȼ�� ESO �ṹ��һ����������Ĺ۲�����</p>
+<p>[<br>\begin{cases}<br>\dot{\hat{z}}_1 &#x3D; f(x, u) + \hat{z}_2 + �۲������� \<br>\dot{\hat{z}}_2 &#x3D; ������<br>\end{cases}<br>]</p>
+<p>ͨ���Ƚ� (\hat{z}_1) ����ʵ���֮��������ϸ��¹���ֵ (\hat{z}_2)�����������ƽ���ʵ���� (d)��</p>
+<hr>
+<h4 id="Ϊʲo��������"><a href="#Ϊʲo��������" class="headerlink" title="? Ϊʲô��������"></a>? Ϊʲô��������</h4><p>��ƪ�����õ��� <strong>������ʱ�� ESO��</strong>����˼�ǣ������ܹ��Ƹ��ţ���������һ���̶�ʱ�����������������������ӽ�������ϵͳ�Ϳ��Ը�����ȡ�</p>
+<p>ͬʱ�����һ�ֽ��� <strong>�ն˻�ģ���ƣ�NTSMC��</strong> �ķ�����������ϵͳ��ʹ���������£�Ҳ���ڶ�ʱ���ھ�׼�ظ��ٷ��й켣��</p>
+<h2 id="������w�򷽷�"><a href="#������w�򷽷�" class="headerlink" title="������ŵ�򷽷�"></a>������ŵ�򷽷�</h2><p>����������ͨ�׽���һ�´�˵�еĿ������۴��񼶹��ߡ���<strong>������ŵ�򷽷���Lyapunov Method��</strong>�����ģ��һ����ճ�����+��ѧԭ��+ͼʾ�������붮��</p>
+<hr>
+<h4 id="һ�仰���ͣ�"><a href="#һ�仰���ͣ�" class="headerlink" title="? һ�仰���ͣ�"></a>? һ�仰���ͣ�</h4><p>������ŵ�򷽷�����һ���жϡ�һ��ϵͳ�᲻�����ܡ��᲻�������ȶ��������İ취�������㿴һ��С���ǲ��ǻ�����ͣ�����һ����</p>
+<hr>
+<h4 id="ͨ����ou�С�����"><a href="#ͨ����ou�С�����" class="headerlink" title="? ͨ����ȣ�С�����"></a>? ͨ����ȣ�С�����</h4><p>�������һ��С�򶪵�һ�����</p>
+<ul>
+<li>������� <strong>���ϵ�͹��</strong>��С����ܻ���ߣ�ϵͳ���ȶ���</li>
+<li>������� <strong>���µİ���</strong>��С��������ף��𽥾�ֹ�������һ��<strong>�ȶ�ϵͳ</strong>��</li>
+</ul>
+<p><strong>������ŵ�򷽷��ĺ���˼�������һ��������������V(x)����һ����һ�����ж�����������ջ᲻��ͣ����ס�</strong></p>
+<hr>
+<h4 id="��ѧԭ���򻯽��⣺"><a href="#��ѧԭ���򻯽��⣺" class="headerlink" title="? ��ѧԭ���򻯽��⣺"></a>? ��ѧԭ���򻯽��⣺</h4><p>������ŵ�򷽷���Ŀ�꣺�ж�ϵͳ��<strong>�ȶ���</strong>��</p>
+<p>��������һ��ϵͳ��</p>
+<p>[<br>\dot{x} &#x3D; f(x)<br>]</p>
+<p>Ҫ�ж����ϵͳ�ǲ����� (x &#x3D; 0) �������ȶ��ģ����ǹ���һ������ (V(x))���������Ҫ���㣺</p>
+<h4 id="������w����������������"><a href="#������w����������������" class="headerlink" title="? ������ŵ����������������"></a>? ������ŵ����������������</h4><ol>
+<li><strong>������</strong>����һ���룩��</li>
+</ol>
+<p>[<br>V(x) &gt; 0 \quad \text{��} x \neq 0,\quad V(0) &#x3D; 0<br>]</p>
+<ol start="2">
+<li><strong>����Ϊ��</strong>�������ڼ��٣���</li>
+</ol>
+<p>[<br>\dot{V}(x) &#x3D; \frac{dV}{dt} &#x3D; \nabla V \cdot f(x) &lt; 0<br>]</p>
+<p>��ô���Ǿ�˵��<strong>ϵͳ�ǽ����ȶ���</strong>��Ҳ����С�������ͣ����ס�</p>
+<hr>
+<h4 id="�ٸ������ӣ�"><a href="#�ٸ������ӣ�" class="headerlink" title="? �ٸ������ӣ�"></a>? �ٸ������ӣ�</h4><p>����ϵͳ��</p>
+<p>[<br>\dot{x} &#x3D; -x<br>]</p>
+<p>���ǹ��캯����</p>
+<p>[<br>V(x) &#x3D; \frac{1}{2}x^2<br>]</p>
+<p>�����ĵ����ǣ�</p>
+<p>[<br>\dot{V} &#x3D; x \cdot \dot{x} &#x3D; x \cdot (-x) &#x3D; -x^2 \leq 0<br>]</p>
+<p>����������ŵ������������ϵͳ�ȶ���</p>
+<hr>
+<h4 id="��չһ����������̫��Ҳ�У���"><a href="#��չһ����������̫��Ҳ�У���" class="headerlink" title="? ��չһ����������̫��Ҳ�У���"></a>? ��չһ����������̫��Ҳ�У���</h4><ul>
+<li>��� (\dot{V} &lt; 0)��ϵͳ�����ȶ���</li>
+<li>��� (\dot{V} \leq 0)��ϵͳ�ȶ������ܲ��ǽ�����</li>
+<li>��� (\dot{V} &gt; 0)��ϵͳ���ȶ���</li>
+</ul>
+<hr>
+<h4 id="��һ��ͼ����ֱ�����⣺"><a href="#��һ��ͼ����ֱ�����⣺" class="headerlink" title="? ��һ��ͼ����ֱ�����⣺"></a>? ��һ��ͼ����ֱ�����⣺</h4><p>�һ�һ��ͼ��չʾ������ŵ�����ļ������壺<br>һ�����κ��� (V(x))��С��Ӳ�ͬλ�ó������켣�����𽥹�����ס�  </p>
+<p>����������������ͼ ?<br><img src="/image-1.png" alt="alt text"></p>
+<h2 id="������"><a href="#������" class="headerlink" title="������"></a>������</h2><hr>
+<h4 id="������Ҫ֪��������������������g�"><a href="#������Ҫ֪��������������������g�" class="headerlink" title="? ������Ҫ֪��������������������ģ�"></a>? ������Ҫ֪��������������������ģ�</h4><p>��������������<strong>������ϵͳ</strong>��ƿ������ķ�����Ŀ���ǣ�<br>? <strong>��ϵͳ�ȶ������������������ķ�ʽ�˶�</strong>��</p>
+<p>���ر����������֡�ÿһ�������������һ�㡱��ϵͳ��Ҳ������ν�� <strong>�ϸ�����ʽϵͳ</strong>��</p>
+<hr>
+<h4 id="��һ����ʲo�a��ϸ�����ʽ���k�����ϵͳ��"><a href="#��һ����ʲo�a��ϸ�����ʽ���k�����ϵͳ��" class="headerlink" title="? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��"></a>? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��</h4><p>�����ȿ���������ϵͳ�ṹ��</p>
+<p>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; f_1(x_1) + g_1(x_1) x_2 \<br>\dot{x}_2 &#x3D; f_2(x_1, x_2) + g_2(x_1, x_2) u<br>\end{cases}<br>]</p>
+<p>���ϵͳ��ֻ�ܿ��� (u)������Ŀ��ȴ���� (x_1 \to 0)��</p>
+<ul>
+<li>�㲻��ֱ�ӿ��� (x_1)��ֻ��ͨ�� (x_2) ��Ӱ������</li>
+<li>�ֲ���ֱ�ӿ��� (x_2)��Ҫͨ������ (u) ��Ӱ�� (x_2)��</li>
+<li>�������<strong>����������һ��������Ŀ��Ϳ�����</strong>��</li>
+</ul>
+<p>��ͽ�<strong>������</strong>�ġ�������</p>
+<hr>
+<h4 id="��-�ڶ������������L���˼·�����̨��ʽ�ȶ���"><a href="#��-�ڶ������������L���˼·�����̨��ʽ�ȶ���" class="headerlink" title="??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���"></a>??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���</h4><p>���ǿ�������ľһ���������⡰�ֲ㡱������</p>
+<h5 id="Step-1���c������ܿ���-x-2-������һ����������o�-x-2"><a href="#Step-1���c������ܿ���-x-2-������һ����������o�-x-2" class="headerlink" title="? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)"></a>? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)</h5><p>Ŀ������ (x_1 \to 0)��������</p>
+<p>[<br>z_1 &#x3D; x_1<br>]</p>
+<p>ѡ��һ�� Lyapunov ������</p>
+<p>[<br>V_1 &#x3D; \frac{1}{2} z_1^2<br>]</p>
+<p>Ϊ���� (\dot{V}_1 &lt; 0)������ϣ����</p>
+<p>[<br>x_2 &#x3D; x_2^* &#x3D; -k_1 z_1<br>]</p>
+<p>�������ǡ�������ơ�����Ŀǰ����������� (x_2) �������</p>
+<hr>
+<h5 id="Step-2�������һ��������-u-����-x-2-to-x-2"><a href="#Step-2�������һ��������-u-����-x-2-to-x-2" class="headerlink" title="? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)"></a>? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)</h5><p>������</p>
+<p>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
+<p>�����µ� Lyapunov ������</p>
+<p>[<br>V &#x3D; V_1 + \frac{1}{2} z_2^2<br>]</p>
+<p>Ȼ����� (V) �󵼣��õ�һ������ (u) �Ĺ�ʽ��Ȼ��ѡ��һ�����ʵ� (u)������ PD ��ʽ���� (\dot{V} &lt; 0)���Ӷ�<strong>����ϵͳ�ȶ�</strong>��</p>
+<hr>
+<h4 id="��ѧ���̼��ܽ᣺"><a href="#��ѧ���̼��ܽ᣺" class="headerlink" title="? ��ѧ���̼��ܽ᣺"></a>? ��ѧ���̼��ܽ᣺</h4><ol>
+<li><strong>����������</strong>�������ϲ�״̬��ʼ��  </li>
+<li><strong>���� Lyapunov ����</strong>���𲽼ӽ�ȥ��  </li>
+<li><strong>��ơ������������</strong>��Ϊ�м�״̬���Ŀ�꣩  </li>
+<li><strong>���һ��������������� (u)</strong>���������������</li>
+</ol>
+<hr>
+<h4 id="�ٸ��dz��򵥵k��������ӣ�"><a href="#�ٸ��dz��򵥵k��������ӣ�" class="headerlink" title="? �ٸ��ǳ��򵥵ķ��������ӣ�"></a>? �ٸ��ǳ��򵥵ķ��������ӣ�</h4><p>ϵͳ��<br>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; x_2 \<br>\dot{x}_2 &#x3D; u<br>\end{cases}<br>]</p>
+<p>Ŀ������ (x_1 \to 0)</p>
+<hr>
+<h5 id="��һ����"><a href="#��һ����" class="headerlink" title="? ��һ����"></a>? ��һ����</h5><p>�裺<br>[<br>z_1 &#x3D; x_1, \quad x_2^* &#x3D; -k_1 z_1<br>]</p>
+<h5 id="�ڶ�����"><a href="#�ڶ�����" class="headerlink" title="? �ڶ�����"></a>? �ڶ�����</h5><p>���裺<br>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
+<h5 id="Lyapunov-������"><a href="#Lyapunov-������" class="headerlink" title="? Lyapunov ������"></a>? Lyapunov ������</h5><p>[<br>V &#x3D; \frac{1}{2}z_1^2 + \frac{1}{2}z_2^2<br>]</p>
+<p>�����ƿ�������</p>
+<p>[<br>u &#x3D; \dot{x}_2^* - k_2 z_2 &#x3D; k_1^2 z_1 - k_2 z_2<br>]</p>
+<p>������ (\dot{x}_2^* &#x3D; -k_1 \dot{z}_1 &#x3D; -k_1 x_2 &#x3D; -k_1(x_2^* + z_2))��</p>
+<p>? ����ϵͳ���ȶ��ˣ�</p>
+<hr>
+<h4 id="ͼʾ�u��̨��ʽ���oi�"><a href="#ͼʾ�u��̨��ʽ���oi�" class="headerlink" title="? ͼʾ�ṹ��̨��ʽ���ƣ�"></a>? ͼʾ�ṹ��̨��ʽ���ƣ�</h4><p>��Ȼ������ͼ���ɶ�������ˣ����������������������̣�</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ŀ�꣺x1 �� 0</span><br><span class="line"> �� ���������� x2* = -k1��x1</span><br><span class="line">�м�״̬��x2</span><br><span class="line"> �� ʵ�ʿ����� u �� x2 �� x2*</span><br><span class="line">���տ�������u = ����(x1, x2)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="С��һ�仰��"><a href="#С��һ�仰��" class="headerlink" title="? С��һ�仰��"></a>? С��һ�仰��</h2><p>�õģ�������ͨ�׵ؽ���һ�� PID ���Ʊ������ѧԭ��������˼�����<strong>���������ѧ���������������ڡ�������ȥ���͡�δ�����ơ��Կ��ƾ��ߵ�Ӱ��</strong>��</p>
+<p>����һ�£����ǻ���Ҫ���Ʒ����¶��� 25��C��</p>
+<h3 id="1-������i�����"><a href="#1-������i�����" class="headerlink" title="1. ������ı�����"></a>1. ������ı�����</h3><ul>
+<li><strong>Ŀ��ֵ (Setpoint, SP)</strong>: ����Ҫ���¶ȣ������� 25��C������һ���̶���Ŀ�ꡣ</li>
+<li><strong>ʵ��ֵ (Process Variable, PV(t))</strong>: ��ǰ������������ʵ���¶ȡ����ֵ����ʱ��仯�ģ������� (PV(t)) ��ʾ��</li>
+<li><strong>��� (Error, e(t))</strong>: Ŀ��ֵ��ʵ��ֵ֮��Ĳ�ࡣ���� PID ���Ƽ���Ļ�����<ul>
+<li>��ѧ��ʾ��(e(t) &#x3D; SP - PV(t))</li>
+<li>�����ǰ�¶��� 28��C����� (e(t) &#x3D; 25 - 28 &#x3D; -3)�������ǰ�� 23��C����� (e(t) &#x3D; 25 - 23 &#x3D; 2)����ע�⣺��ʱҲ����Ϊ (PV(t) - SP)�����Żᷴ��������ԭ��һ��������� (K) ֵ����Ӧ���������������ﰴ (SP - PV(t)) �����͡�</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-PID-�����������-u-t-��"><a href="#2-PID-�����������-u-t-��" class="headerlink" title="2. PID ����������� (u(t))��"></a>2. PID ����������� (u(t))��</h3><p>PID ����������Ҫ�����һ�������ź� (u(t))��������յ��������书�ʣ�������ź��� P��I��D �������ּ��������ܺ͡�</p>
+<ul>
+<li><strong>P (����) ���� - �������ڡ�����ѧ����</strong>��<ul>
+<li>ԭ��������뵱ǰ���������ȡ�</li>
+<li>��ѧ��ʽ��(P_{term} &#x3D; K_p \cdot e(t))</li>
+<li>���ͣ�(K_p) ��һ��<strong>��������</strong>��һ����Ҫ�����ĳ���������ǰ��� (e(t)) Խ��(P_{term}) ��һ���ֵ������Խ��(K_p) �����˶Ե�ǰ���ķ�Ӧ�жࡰ��������ǿ�ҡ���</li>
+</ul>
+</li>
+<li><strong>I (����) ���� - ������ȥ������ѧ����</strong>��<ul>
+<li>ԭ����������ȥ���������ܺͣ��ۻ����������ȡ�</li>
+<li>��ѧ��ʽ��(I_{term} &#x3D; K_i \cdot \int_{0}^{t} e(\tau) d\tau)</li>
+<li>ͨ�׽��ͣ������ (\int_{0}^{t} e(\tau) d\tau) ����<strong>����</strong>������԰�������ɡ��ӿ�ʼ��0ʱ�̣������ڣ�tʱ�̣��������ֵ���ۼ��ܺ͡���������һֱ���ڣ���ʹ��С��������ܺ;ͻ�Խ��Խ�󣨻�Խ��ԽС��ȡ���������ţ���(K_i) ��<strong>��������</strong>����һ����Ҫ�����ĳ��������������˶Թ�ȥ�ۻ��������ӳ̶ȡ������������������Щ P ���Ƶ���������˵ĳ���С����̬����</li>
+</ul>
+</li>
+<li><strong>D (΢��) ���� - ����δ�����ơ�����ѧ����</strong>��<ul>
+<li>ԭ��������뵱ǰ���仯��<strong>����</strong>�����ȡ�</li>
+<li>��ѧ��ʽ��(D_{term} &#x3D; K_d \cdot \frac{d(e(t))}{dt})</li>
+<li>ͨ�׽��ͣ������ (\frac{d(e(t))}{dt}) ����<strong>΢��</strong>������ʾ��� (e(t)) ��ʱ�� (t) �仯��<strong>˲ʱ����</strong>�������������������ڵ�ǰ��ġ�б�ʡ��򡰱仯�ٶȡ��������������ڿ��ټ�С�������¶ȿ��ٽӽ� 25��C�������΢��ֵ���Ǹ��ģ�(D_{term}) �����һ���������������������ǰ��С���䣩����ֹ���塣�������ڿ��������������һ������������������ٷ�Ӧ��(K_d) ��<strong>΢������</strong>����������Ҫ�����ĳ������������˶����仯���ʵķ�Ӧǿ�ȡ�</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-���յL��������"><a href="#3-���յL��������" class="headerlink" title="3. ���յĿ��������"></a>3. ���յĿ��������</h3><p>�����������ּ��������͵õ��� PID ���������������<br>[u(t) &#x3D; P_{term} + I_{term} + D_{term} &#x3D; K_p \cdot e(t) + K_i \cdot \int_{0}^{t} e(\tau) d\tau + K_d \cdot \frac{d(e(t))}{dt}]</p>
+<h3 id="�ܽ�һ����ѧԭ����ͨ�����⣺"><a href="#�ܽ�һ����ѧԭ����ͨ�����⣺" class="headerlink" title="�ܽ�һ����ѧԭ����ͨ�����⣺"></a>�ܽ�һ����ѧԭ����ͨ�����⣺</h3><p>PID ���Ƶ���ѧ���ľ������<strong>����˱��������֡�΢�ֵ�������Ϲ�ʽ</strong>��</p>
+<ul>
+<li><strong>������ (K_p \cdot e(t))</strong> �ÿ������Ե�ǰ����������ٷ�Ӧ��</li>
+<li><strong>������ (K_i \cdot \int e(t)dt)</strong> ͨ���ۻ���ʷ�������������ڵ���̬��ȷ�������ܾ�ȷ�ﵽĿ�ꡣ</li>
+<li><strong>΢���� (K_d \cdot \frac{de(t)}{dt})</strong> ͨ���۲����ı仯���ƣ�Ԥ��δ������ǰ�����������Լ��ٹ�����񵴣����ϵͳ�ȶ��ԡ�</li>
+</ul>
+<p>ͨ������ (K_p), (K_i), (K_d) ��������������Ϊ PID <strong>����</strong>��<strong>����</strong>��������ʦ���Ըı�ÿ��������������еġ�����Ȩ����Ȩ�ء����Ӷ��Ż������������ܣ���ϵͳ�����緿���¶ȣ��ܹ����١�׼ȷ���ȶ��شﵽ��ά����Ŀ��ֵ��25��C���� </p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/11/demo/">http://example.com/2025/04/11/demo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/11/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-%EF%BF%BD%E3%B7%A8"><span class="toc-number">1.</span> <span class="toc-text">A*�㷨</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%E3%B7%A8%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.1.</span> <span class="toc-text">? һ�仰���� A* �㷨��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%E3%B7%A8%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.2.</span> <span class="toc-text">? ͨ������ A* �㷨��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD%CE%A2%D7%A8%D2%B5%D2%BB%EF%BF%BD%E3%A3%A9%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.3.</span> <span class="toc-text">?? ��ѧԭ�����ͣ���΢רҵһ�㣩��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BDL%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D0%B5J%EF%BF%BD%EF%BF%BD%C2%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.4.</span> <span class="toc-text">? �Ľ��� A*�������еĴ��£���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%D6%B1%EF%BF%BD%EF%BF%BD%CD%BC%CA%BE%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%B0%EF%BF%BD%EF%BF%BD%E3%BB%AD%D2%BB%EF%BF%BD%C2%A3%EF%BF%BD"><span class="toc-number">1.0.5.</span> <span class="toc-text">? ֱ��ͼʾ���Ұ��㻭һ�£�</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESO%EF%BF%BD%E3%B7%A8"><span class="toc-number">2.</span> <span class="toc-text">ESO�㷨</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%D7%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BDESO-%EF%BF%BDN%EF%BF%BD%EF%BF%BD%EF%BF%BDg%EF%BF%BD"><span class="toc-number">2.0.1.</span> <span class="toc-text">? ͨ�׽��ͣ�ESO �Ǹ���ģ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CB%B5%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.2.</span> <span class="toc-text">? �������˵��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ESO-%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A8%EF%BF%BD%D7%BD%EF%BF%BD%EF%BF%BD%E2%A3%A9%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.3.</span> <span class="toc-text">? ESO ��ѧԭ����ͨ�׽��⣩��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CE%AA%CA%B2o%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.4.</span> <span class="toc-text">? Ϊʲô��������</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDw%EF%BF%BD%F2%B7%BD%B7%EF%BF%BD"><span class="toc-number">3.</span> <span class="toc-text">������ŵ�򷽷�</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BD"><span class="toc-number">3.0.1.</span> <span class="toc-text">? һ�仰���ͣ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDou%EF%BF%BD%D0%A1%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.2.</span> <span class="toc-text">? ͨ����ȣ�С�����</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%F2%BB%AF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">3.0.3.</span> <span class="toc-text">? ��ѧԭ���򻯽��⣺</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDw%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.4.</span> <span class="toc-text">? ������ŵ����������������</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%D9%B8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D3%A3%EF%BF%BD"><span class="toc-number">3.0.5.</span> <span class="toc-text">? �ٸ������ӣ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D5%B9%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%AB%EF%BF%BD%EF%BF%BD%D2%B2%EF%BF%BD%D0%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.6.</span> <span class="toc-text">? ��չһ����������̫��Ҳ�У���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%CD%BC%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D6%B1%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">3.0.7.</span> <span class="toc-text">? ��һ��ͼ����ֱ�����⣺</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.</span> <span class="toc-text">������</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%AA%D6%AA%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDg%EF%BF%BD"><span class="toc-number">4.0.1.</span> <span class="toc-text">? ������Ҫ֪��������������������ģ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CA%B2o%EF%BF%BDa%EF%BF%BD%EF%BF%BD%CF%B8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDk%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CF%B5%CD%B3%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.2.</span> <span class="toc-text">? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD-%EF%BF%BD%DA%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDL%EF%BF%BD%EF%BF%BD%EF%BF%BD%CB%BC%C2%B7%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%A8%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%C8%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.3.</span> <span class="toc-text">??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-1%EF%BF%BD%EF%BF%BD%EF%BF%BDc%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%DC%BF%EF%BF%BD%EF%BF%BD%EF%BF%BD-x-2-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDo%EF%BF%BD-x-2"><span class="toc-number">4.0.3.1.</span> <span class="toc-text">? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-2%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-u-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-x-2-to-x-2"><span class="toc-number">4.0.3.2.</span> <span class="toc-text">? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%BC%EF%BF%BD%EF%BF%BD%DC%BD%E1%A3%BA"><span class="toc-number">4.0.4.</span> <span class="toc-text">? ��ѧ���̼��ܽ᣺</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%D9%B8%EF%BF%BD%EF%BF%BDdz%EF%BF%BD%EF%BF%BD%F2%B5%A5%B5k%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D3%A3%EF%BF%BD"><span class="toc-number">4.0.5.</span> <span class="toc-text">? �ٸ��ǳ��򵥵ķ��������ӣ�</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.1.</span> <span class="toc-text">? ��һ����</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%EF%BF%BD%DA%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.2.</span> <span class="toc-text">? �ڶ�����</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lyapunov-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.3.</span> <span class="toc-text">? Lyapunov ������</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%BC%CA%BE%EF%BF%BDu%EF%BF%BD%EF%BF%BD%CC%A8%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDoi%EF%BF%BD"><span class="toc-number">4.0.6.</span> <span class="toc-text">? ͼʾ�ṹ��̨��ʽ���ƣ�</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%D0%A1%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.</span> <span class="toc-text">? С��һ�仰��</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDi%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.1.</span> <span class="toc-text">1. ������ı�����</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-PID-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-u-t-%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.2.</span> <span class="toc-text">2. PID ����������� (u(t))��</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%EF%BF%BD%EF%BF%BD%EF%BF%BD%D5%B5L%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.3.</span> <span class="toc-text">3. ���յĿ��������</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BF%BD%DC%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">5.4.</span> <span class="toc-text">�ܽ�һ����ѧԭ����ͨ�����⣺</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/demo/" title="Untitled">Untitled</a><time datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-11T02:21:36.051Z" title="Created 2025-04-11 10:21:36">2025-04-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

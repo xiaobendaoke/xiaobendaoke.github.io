@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="A*�㷨��������ͨ�׽���һ����ƪ������ʹ�õ� A* �㷨��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣  ? һ�仰���� A* �㷨��A* ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�  ? ͨ������">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="A*算法我们先来通俗解释一下这篇论文中使用的 A* 算法，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。  ? 一句话解释 A* 算法：A* 是一种聪明的“找路”算法，像是在迷宫里找最短路径，它会“猜”哪个方向最可能到终点，然后朝那个方向走。  ? 通俗理解 A* 算法：想象你是一架无人机，站在一个迷宫的入口，你想找到最快的方式到达终点，同时又不碰到障碍物。A* 算法会：  把地图分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2025/04/11/demo/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="A*�㷨��������ͨ�׽���һ����ƪ������ʹ�õ� A* �㷨��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣  ? һ�仰���� A* �㷨��A* ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�  ? ͨ������">
+<meta property="og:description" content="A*算法我们先来通俗解释一下这篇论文中使用的 A* 算法，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。  ? 一句话解释 A* 算法：A* 是一种聪明的“找路”算法，像是在迷宫里找最短路径，它会“猜”哪个方向最可能到终点，然后朝那个方向走。  ? 通俗理解 A* 算法：想象你是一架无人机，站在一个迷宫的入口，你想找到最快的方式到达终点，同时又不碰到障碍物。A* 算法会：  把地图分">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/butterfly-icon.png">
 <meta property="article:published_time" content="2025-04-11T03:19:09.010Z">
-<meta property="article:modified_time" content="2025-04-11T03:20:50.233Z">
+<meta property="article:modified_time" content="2025-04-11T03:56:01.819Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
@@ -17,7 +17,7 @@
   "url": "http://example.com/2025/04/11/demo/",
   "image": "http://example.com/img/butterfly-icon.png",
   "datePublished": "2025-04-11T03:19:09.010Z",
-  "dateModified": "2025-04-11T03:20:50.233Z",
+  "dateModified": "2025-04-11T03:56:01.819Z",
   "author": [
     {
       "@type": "Person",
@@ -158,206 +158,206 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/"><span class="site-name">Hexo</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Untitled</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-04-11T03:20:50.233Z" title="Updated 2025-04-11 11:20:50">2025-04-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="A-�㷨"><a href="#A-�㷨" class="headerlink" title="A*�㷨"></a>A*�㷨</h2><p>��������ͨ�׽���һ����ƪ������ʹ�õ� <strong>A* �㷨</strong>��Ȼ���ٴ����������������ѧԭ��������һử��ͼ�����������⡣</p>
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/"><span class="site-name">Hexo</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Untitled</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-04-11T03:56:01.819Z" title="Updated 2025-04-11 11:56:01">2025-04-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="A-算法"><a href="#A-算法" class="headerlink" title="A*算法"></a>A*算法</h2><p>我们先来通俗解释一下这篇论文中使用的 <strong>A* 算法</strong>，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。</p>
 <hr>
-<h4 id="һ�仰����-A-�㷨��"><a href="#һ�仰����-A-�㷨��" class="headerlink" title="? һ�仰���� A* �㷨��"></a>? һ�仰���� A* �㷨��</h4><p><strong>A*</strong> ��һ�ִ����ġ���·���㷨���������Թ��������·�������ᡰ�¡��ĸ���������ܵ��յ㣬Ȼ���Ǹ������ߡ�</p>
+<h4 id="一句话解释-A-算法："><a href="#一句话解释-A-算法：" class="headerlink" title="? 一句话解释 A* 算法："></a>? 一句话解释 A* 算法：</h4><p><strong>A*</strong> 是一种聪明的“找路”算法，像是在迷宫里找最短路径，它会“猜”哪个方向最可能到终点，然后朝那个方向走。</p>
 <hr>
-<h4 id="ͨ������-A-�㷨��"><a href="#ͨ������-A-�㷨��" class="headerlink" title="? ͨ������ A* �㷨��"></a>? ͨ������ A* �㷨��</h4><p>��������һ�����˻���վ��һ���Թ�����ڣ������ҵ����ķ�ʽ�����յ㣬ͬʱ�ֲ������ϰ��A* �㷨�᣺</p>
+<h4 id="通俗理解-A-算法："><a href="#通俗理解-A-算法：" class="headerlink" title="? 通俗理解 A* 算法："></a>? 通俗理解 A* 算法：</h4><p>想象你是一架无人机，站在一个迷宫的入口，你想找到最快的方式到达终点，同时又不碰到障碍物。A* 算法会：</p>
 <ol>
-<li><strong>�ѵ�ͼ�ֳɺܶ����</strong>���������̣���</li>
-<li>ÿ�����Ӷ�Ҫ�жϣ���������ߵ��������˶೤���� <code>G</code>���������ﵽ�յ��Ż�Ҫ�೤���� <code>H</code>������</li>
-<li>�����߼�������<code>F = G + H</code>����ѡ����С����һ������ǰ����</li>
-<li>һֱ�ߣ�ֱ���ߵ��յ�Ϊֹ��</li>
+<li><strong>把地图分成很多格子</strong>（就像棋盘）。</li>
+<li>每个格子都要判断：“从起点走到这里用了多长（叫 <code>G</code>），从这里到终点大概还要多长（叫 <code>H</code>）。”</li>
+<li>把两者加起来（<code>F = G + H</code>），选择最小的那一个继续前进。</li>
+<li>一直走，直到走到终点为止。</li>
 </ol>
 <hr>
-<h4 id="��ѧԭ�����ͣ���΢רҵһ�㣩��"><a href="#��ѧԭ�����ͣ���΢רҵһ�㣩��" class="headerlink" title="?? ��ѧԭ�����ͣ���΢רҵһ�㣩��"></a>?? ��ѧԭ�����ͣ���΢רҵһ�㣩��</h4><p>A* �㷨�ĺ��Ĺ�ʽ�ǣ�</p>
+<h4 id="数学原理解释（稍微专业一点）："><a href="#数学原理解释（稍微专业一点）：" class="headerlink" title="?? 数学原理解释（稍微专业一点）："></a>?? 数学原理解释（稍微专业一点）：</h4><p>A* 算法的核心公式是：</p>
 <p>[<br>F(n) &#x3D; G(n) + H(n)<br>]</p>
 <ul>
-<li>( G(n) )����㵽��ǰ�ڵ� ( n ) ��ʵ��·�����ۣ��������˼�������</li>
-<li>( H(n) )���ӵ�ǰ�ڵ� ( n ) ���յ�Ĺ��ƴ��ۣ��µģ���������������������</li>
+<li>( G(n) )：起点到当前节点 ( n ) 的实际路径代价（比如走了几步）。</li>
+<li>( H(n) )：从当前节点 ( n ) 到终点的估计代价（猜的，叫做“启发函数”）。</li>
 </ul>
-<p>���������������У�</p>
+<p>常见的启发函数有：</p>
 <ul>
-<li><p>�����پ��루ֻ�����������ߣ���<br>[<br>H(n) &#x3D; D \cdot (|x_{\text{current}} - x_{\text{goal}}| + |y_{\text{current}} - y_{\text{goal}}|)<br>]</p>
+<li><p>曼哈顿距离（只能上下左右走）：<br>[<br>H(n) &#x3D; D \cdot (|x_{\text{current}} - x_{\text{goal}}| + |y_{\text{current}} - y_{\text{goal}}|)<br>]</p>
 </li>
-<li><p>�Խ��߾��루����б���ߣ�Ҳ�У��������������˽ϼ򻯵Ĺ��Ʒ�ʽ��</p>
+<li><p>对角线距离（可以斜着走）也有，但在论文中用了较简化的估计方式。</p>
 </li>
 </ul>
 <hr>
-<h4 id="�L���-A-�������еJ��£���"><a href="#�L���-A-�������еJ��£���" class="headerlink" title="? �Ľ��� A*�������еĴ��£���"></a>? �Ľ��� A*�������еĴ��£���</h4><p>ԭʼ A* �㷨���ҡ����·�����������·������̫��������ᾪ�����ǡ��������ߣ�</p>
+<h4 id="改进版-A-（论文中的创新）："><a href="#改进版-A-（论文中的创新）：" class="headerlink" title="? 改进版 A*（论文中的创新）："></a>? 改进版 A*（论文中的创新）：</h4><p>原始 A* 算法是找“最短路径”，但这个路径可能太靠近动物，会惊扰它们。于是作者：</p>
 <ul>
-<li><strong>�Ѷ�����Ϊ�ϰ���</strong>��</li>
-<li><strong>��չ�ϰ���Χ</strong>����Ϊ <code>n</code>���������趨����ġ������뾶���� 2 ���ǾͰѶ�����Χ 2 ��Ҳ����ϰ���</li>
+<li><strong>把动物设为障碍物</strong>。</li>
+<li><strong>扩展障碍范围</strong>（称为 <code>n</code>），比如设定动物的“警觉半径”是 2 格，那就把动物周围 2 格也设成障碍。</li>
 </ul>
-<p>�������˻�����<strong>�Ƶø�ԶһЩ</strong>���������ŵ����</p>
+<p>这样无人机就能<strong>绕得更远一些</strong>，不容易吓到动物。</p>
 <hr>
-<h4 id="ֱ��ͼʾ���Ұ��㻭һ�£�"><a href="#ֱ��ͼʾ���Ұ��㻭һ�£�" class="headerlink" title="? ֱ��ͼʾ���Ұ��㻭һ�£�"></a>? ֱ��ͼʾ���Ұ��㻭һ�£�</h4><p>������һ��С��ͼ��չʾ A* �㷨����ô����·���ģ�����ԭʼ�͸Ľ��İ汾��</p>
+<h4 id="直观图示（我帮你画一下）"><a href="#直观图示（我帮你画一下）" class="headerlink" title="? 直观图示（我帮你画一下）"></a>? 直观图示（我帮你画一下）</h4><p>我来画一个小地图，展示 A* 算法是怎么搜索路径的，包括原始和改进的版本：</p>
 <ul>
-<li>��ɫ�����</li>
-<li>��ɫ���յ�</li>
-<li>��ɫ���ϰ������</li>
-<li>��ɫ����չ�ϰ����򣨾�����Χ��</li>
-<li>���ߣ�·��</li>
+<li>蓝色：起点</li>
+<li>橙色：终点</li>
+<li>黑色：障碍（动物）</li>
+<li>灰色：扩展障碍区域（警觉范围）</li>
+<li>红线：路径</li>
 </ul>
-<p>��������ͼ�� ?<br><img src="/image.png" alt="alt text"></p>
-<p>������ʹ�õ� <strong>ESO����չ״̬�۲���, Extended State Observer��</strong> �㷨�������е�ߴ��ϣ�����ʵ���ǿ����÷ǳ�ͨ�׵ķ�ʽ�������������ҽ�һ��������ѧԭ���������Ҳ�ử��ͼ�������ֱ�۵����⡣</p>
+<p>让我生成图像 ?<br><img src="/image.png" alt="alt text"></p>
+<p>论文中使用的 <strong>ESO（扩展状态观测器, Extended State Observer）</strong> 算法听起来有点高大上，但其实我们可以用非常通俗的方式来解释它，并且讲一讲它的数学原理。最后我也会画个图帮助你更直观地理解。</p>
 <hr>
-<h2 id="ESO�㷨"><a href="#ESO�㷨" class="headerlink" title="ESO�㷨"></a>ESO�㷨</h2><h4 id="ͨ�׽��ͣ�ESO-�N���g�"><a href="#ͨ�׽��ͣ�ESO-�N���g�" class="headerlink" title="? ͨ�׽��ͣ�ESO �Ǹ���ģ�"></a>? ͨ�׽��ͣ�ESO �Ǹ���ģ�</h4><p>�������ڿ�һ�����˻����У��������̫���ˣ����ֿ������磬��ô���ܷɵ��ȣ�</p>
-<p><strong>ESO ������һ��������������</strong>����ͨ���۲����˻����˶�״̬���²���磨���ţ��ж��Ȼ��ʱ���߿���ϵͳȥ������������������ܵ������ˣ��ͻ�ѹ�ͷ�����һ����</p>
+<h2 id="ESO算法"><a href="#ESO算法" class="headerlink" title="ESO算法"></a>ESO算法</h2><h4 id="通俗解释：ESO-是干嘛的？"><a href="#通俗解释：ESO-是干嘛的？" class="headerlink" title="? 通俗解释：ESO 是干嘛的？"></a>? 通俗解释：ESO 是干嘛的？</h4><p>想象你在开一架无人机飞行，但外面风太大了，你又看不到风，怎么才能飞得稳？</p>
+<p><strong>ESO 就像是一个“风的侦测器”</strong>，它通过观察无人机的运动状态，猜测出风（干扰）有多大，然后及时告诉控制系统去做出调整，就像你感受到风变大了，就会压低方向盘一样。</p>
 <hr>
-<h4 id="�������˵��"><a href="#�������˵��" class="headerlink" title="? �������˵��"></a>? �������˵��</h4><p>���ǿ��԰����˻���ϵͳ���ɣ�</p>
+<h4 id="更具体点说："><a href="#更具体点说：" class="headerlink" title="? 更具体点说："></a>? 更具体点说：</h4><p>我们可以把无人机的系统看成：</p>
 <p>[<br>\dot{x} &#x3D; f(x, u) + d<br>]</p>
 <ul>
-<li>(x)����ǰ״̬������λ�á��ٶȣ�</li>
-<li>(u)���������루������������</li>
-<li>(d)���㲻֪���ĸ��ţ�����硢ģ����</li>
+<li>(x)：当前状态（比如位置、速度）</li>
+<li>(u)：控制输入（比如电机推力）</li>
+<li>(d)：你不知道的干扰（比如风、模型误差）</li>
 </ul>
-<p>? �㲢��֪�� (d)��������Ӱ����С�</p>
+<p>? 你并不知道 (d)，但它会影响飞行。</p>
 <hr>
-<h4 id="ESO-��ѧԭ����ͨ�׽��⣩��"><a href="#ESO-��ѧԭ����ͨ�׽��⣩��" class="headerlink" title="? ESO ��ѧԭ����ͨ�׽��⣩��"></a>? ESO ��ѧԭ����ͨ�׽��⣩��</h4><p>ESO ��Ŀ���ǣ�<strong>�ڲ�֪������ (d) ������£����������ơ�������</strong></p>
-<p>���ǰ�ϵͳ��һ������չ״̬��������</p>
+<h4 id="ESO-数学原理（通俗讲解）："><a href="#ESO-数学原理（通俗讲解）：" class="headerlink" title="? ESO 数学原理（通俗讲解）："></a>? ESO 数学原理（通俗讲解）：</h4><p>ESO 的目标是：<strong>在不知道干扰 (d) 的情况下，把它“估计”出来。</strong></p>
+<p>我们把系统加一个“扩展状态”变量：</p>
 <ul>
-<li>�� (z_1 &#x3D; x)��ԭʼ״̬��</li>
-<li>(z_2 &#x3D; d)��δ֪���ţ�</li>
+<li>设 (z_1 &#x3D; x)（原始状态）</li>
+<li>(z_2 &#x3D; d)（未知干扰）</li>
 </ul>
-<p>����д�ɣ�</p>
-<p>[<br>\begin{cases}<br>\dot{z}_1 &#x3D; f(x, u) + z_2 \<br>\dot{z}_2 &#x3D; \dot{d} \quad ��ͨ���Ǹ�С����<br>\end{cases}<br>]</p>
-<p>Ȼ�� ESO �ṹ��һ����������Ĺ۲�����</p>
-<p>[<br>\begin{cases}<br>\dot{\hat{z}}_1 &#x3D; f(x, u) + \hat{z}_2 + �۲������� \<br>\dot{\hat{z}}_2 &#x3D; ������<br>\end{cases}<br>]</p>
-<p>ͨ���Ƚ� (\hat{z}_1) ����ʵ���֮��������ϸ��¹���ֵ (\hat{z}_2)�����������ƽ���ʵ���� (d)��</p>
+<p>这样写成：</p>
+<p>[<br>\begin{cases}<br>\dot{z}_1 &#x3D; f(x, u) + z_2 \<br>\dot{z}_2 &#x3D; \dot{d} \quad （通常是个小量）<br>\end{cases}<br>]</p>
+<p>然后 ESO 会构造一个类似下面的观测器：</p>
+<p>[<br>\begin{cases}<br>\dot{\hat{z}}_1 &#x3D; f(x, u) + \hat{z}_2 + 观测修正项 \<br>\dot{\hat{z}}_2 &#x3D; 修正项<br>\end{cases}<br>]</p>
+<p>通过比较 (\hat{z}_1) 和真实输出之间的误差，不断更新估计值 (\hat{z}_2)，让它尽量逼近真实干扰 (d)。</p>
 <hr>
-<h4 id="Ϊʲo��������"><a href="#Ϊʲo��������" class="headerlink" title="? Ϊʲô��������"></a>? Ϊʲô��������</h4><p>��ƪ�����õ��� <strong>������ʱ�� ESO��</strong>����˼�ǣ������ܹ��Ƹ��ţ���������һ���̶�ʱ�����������������������ӽ�������ϵͳ�Ϳ��Ը�����ȡ�</p>
-<p>ͬʱ�����һ�ֽ��� <strong>�ն˻�ģ���ƣ�NTSMC��</strong> �ķ�����������ϵͳ��ʹ���������£�Ҳ���ڶ�ʱ���ھ�׼�ظ��ٷ��й켣��</p>
-<h2 id="������w�򷽷�"><a href="#������w�򷽷�" class="headerlink" title="������ŵ�򷽷�"></a>������ŵ�򷽷�</h2><p>����������ͨ�׽���һ�´�˵�еĿ������۴��񼶹��ߡ���<strong>������ŵ�򷽷���Lyapunov Method��</strong>�����ģ��һ����ճ�����+��ѧԭ��+ͼʾ�������붮��</p>
+<h4 id="为什么它厉害？"><a href="#为什么它厉害？" class="headerlink" title="? 为什么它厉害？"></a>? 为什么它厉害？</h4><p>这篇论文用的是 <strong>“有限时间 ESO”</strong>，意思是：不光能估计干扰，而且能在一个固定时间内收敛，不会无限慢慢接近。控制系统就可以更快更稳。</p>
+<p>同时结合了一种叫做 <strong>终端滑模控制（NTSMC）</strong> 的方法，让整个系统即使在外界干扰下，也能在短时间内精准地跟踪飞行轨迹。</p>
+<h2 id="李雅普诺夫方法"><a href="#李雅普诺夫方法" class="headerlink" title="李雅普诺夫方法"></a>李雅普诺夫方法</h2><p>我们现在来通俗解释一下传说中的控制理论大神级工具——<strong>李雅普诺夫方法（Lyapunov Method）</strong>。放心，我会用日常比喻+数学原理+图示来让它秒懂！</p>
 <hr>
-<h4 id="һ�仰���ͣ�"><a href="#һ�仰���ͣ�" class="headerlink" title="? һ�仰���ͣ�"></a>? һ�仰���ͣ�</h4><p>������ŵ�򷽷�����һ���жϡ�һ��ϵͳ�᲻�����ܡ��᲻�������ȶ��������İ취�������㿴һ��С���ǲ��ǻ�����ͣ�����һ����</p>
+<h4 id="一句话解释："><a href="#一句话解释：" class="headerlink" title="? 一句话解释："></a>? 一句话解释：</h4><p>李雅普诺夫方法就是一种判断“一个系统会不会乱跑、会不会最终稳定下来”的办法，就像你看一个小球是不是会最终停在碗底一样。</p>
 <hr>
-<h4 id="ͨ����ou�С�����"><a href="#ͨ����ou�С�����" class="headerlink" title="? ͨ����ȣ�С�����"></a>? ͨ����ȣ�С�����</h4><p>�������һ��С�򶪵�һ�����</p>
+<h4 id="通俗类比：小球和碗"><a href="#通俗类比：小球和碗" class="headerlink" title="? 通俗类比：小球和碗"></a>? 通俗类比：小球和碗</h4><p>想象你把一个小球丢到一个碗里：</p>
 <ul>
-<li>������� <strong>���ϵ�͹��</strong>��С����ܻ���ߣ�ϵͳ���ȶ���</li>
-<li>������� <strong>���µİ���</strong>��С��������ף��𽥾�ֹ�������һ��<strong>�ȶ�ϵͳ</strong>��</li>
+<li>如果碗是 <strong>向上的凸面</strong>，小球可能会滚走，系统不稳定。</li>
+<li>如果碗是 <strong>向下的凹面</strong>，小球会滚到碗底，逐渐静止，这就像一个<strong>稳定系统</strong>。</li>
 </ul>
-<p><strong>������ŵ�򷽷��ĺ���˼�������һ��������������V(x)����һ����һ�����ж�����������ջ᲻��ͣ����ס�</strong></p>
+<p><strong>李雅普诺夫方法的核心思想就是造一个“能量函数”V(x)，像一个碗一样，判断这个“球”最终会不会停在碗底。</strong></p>
 <hr>
-<h4 id="��ѧԭ���򻯽��⣺"><a href="#��ѧԭ���򻯽��⣺" class="headerlink" title="? ��ѧԭ���򻯽��⣺"></a>? ��ѧԭ���򻯽��⣺</h4><p>������ŵ�򷽷���Ŀ�꣺�ж�ϵͳ��<strong>�ȶ���</strong>��</p>
-<p>��������һ��ϵͳ��</p>
+<h4 id="数学原理简化讲解："><a href="#数学原理简化讲解：" class="headerlink" title="? 数学原理简化讲解："></a>? 数学原理简化讲解：</h4><p>李雅普诺夫方法的目标：判断系统的<strong>稳定性</strong>。</p>
+<p>我们来看一个系统：</p>
 <p>[<br>\dot{x} &#x3D; f(x)<br>]</p>
-<p>Ҫ�ж����ϵͳ�ǲ����� (x &#x3D; 0) �������ȶ��ģ����ǹ���һ������ (V(x))���������Ҫ���㣺</p>
-<h4 id="������w����������������"><a href="#������w����������������" class="headerlink" title="? ������ŵ����������������"></a>? ������ŵ����������������</h4><ol>
-<li><strong>������</strong>����һ���룩��</li>
+<p>要判断这个系统是不是在 (x &#x3D; 0) 附近是稳定的，我们构造一个函数 (V(x))，这个函数要满足：</p>
+<h4 id="李雅普诺夫函数的两个条件："><a href="#李雅普诺夫函数的两个条件：" class="headerlink" title="? 李雅普诺夫函数的两个条件："></a>? 李雅普诺夫函数的两个条件：</h4><ol>
+<li><strong>正定性</strong>（像一个碗）：</li>
 </ol>
-<p>[<br>V(x) &gt; 0 \quad \text{��} x \neq 0,\quad V(0) &#x3D; 0<br>]</p>
+<p>[<br>V(x) &gt; 0 \quad \text{当} x \neq 0,\quad V(0) &#x3D; 0<br>]</p>
 <ol start="2">
-<li><strong>����Ϊ��</strong>�������ڼ��٣���</li>
+<li><strong>导数为负</strong>（能量在减少）：</li>
 </ol>
 <p>[<br>\dot{V}(x) &#x3D; \frac{dV}{dt} &#x3D; \nabla V \cdot f(x) &lt; 0<br>]</p>
-<p>��ô���Ǿ�˵��<strong>ϵͳ�ǽ����ȶ���</strong>��Ҳ����С�������ͣ����ס�</p>
+<p>那么我们就说：<strong>系统是渐近稳定的</strong>，也就是小球会慢慢停在碗底。</p>
 <hr>
-<h4 id="�ٸ������ӣ�"><a href="#�ٸ������ӣ�" class="headerlink" title="? �ٸ������ӣ�"></a>? �ٸ������ӣ�</h4><p>����ϵͳ��</p>
+<h4 id="举个简单例子："><a href="#举个简单例子：" class="headerlink" title="? 举个简单例子："></a>? 举个简单例子：</h4><p>假设系统：</p>
 <p>[<br>\dot{x} &#x3D; -x<br>]</p>
-<p>���ǹ��캯����</p>
+<p>我们构造函数：</p>
 <p>[<br>V(x) &#x3D; \frac{1}{2}x^2<br>]</p>
-<p>�����ĵ����ǣ�</p>
+<p>那它的导数是：</p>
 <p>[<br>\dot{V} &#x3D; x \cdot \dot{x} &#x3D; x \cdot (-x) &#x3D; -x^2 \leq 0<br>]</p>
-<p>����������ŵ������������ϵͳ�ȶ���</p>
+<p>满足李雅普诺夫条件，所以系统稳定！</p>
 <hr>
-<h4 id="��չһ����������̫��Ҳ�У���"><a href="#��չһ����������̫��Ҳ�У���" class="headerlink" title="? ��չһ����������̫��Ҳ�У���"></a>? ��չһ����������̫��Ҳ�У���</h4><ul>
-<li>��� (\dot{V} &lt; 0)��ϵͳ�����ȶ���</li>
-<li>��� (\dot{V} \leq 0)��ϵͳ�ȶ������ܲ��ǽ�����</li>
-<li>��� (\dot{V} &gt; 0)��ϵͳ���ȶ���</li>
+<h4 id="拓展一丢丢（不用太懂也行）："><a href="#拓展一丢丢（不用太懂也行）：" class="headerlink" title="? 拓展一丢丢（不用太懂也行）："></a>? 拓展一丢丢（不用太懂也行）：</h4><ul>
+<li>如果 (\dot{V} &lt; 0)：系统渐近稳定。</li>
+<li>如果 (\dot{V} \leq 0)：系统稳定但可能不是渐近。</li>
+<li>如果 (\dot{V} &gt; 0)：系统不稳定。</li>
 </ul>
 <hr>
-<h4 id="��һ��ͼ����ֱ�����⣺"><a href="#��һ��ͼ����ֱ�����⣺" class="headerlink" title="? ��һ��ͼ����ֱ�����⣺"></a>? ��һ��ͼ����ֱ�����⣺</h4><p>�һ�һ��ͼ��չʾ������ŵ�����ļ������壺<br>һ�����κ��� (V(x))��С��Ӳ�ͬλ�ó������켣�����𽥹�����ס�  </p>
-<p>����������������ͼ ?<br><img src="/image-1.png" alt="alt text"></p>
-<h2 id="������"><a href="#������" class="headerlink" title="������"></a>������</h2><hr>
-<h4 id="������Ҫ֪��������������������g�"><a href="#������Ҫ֪��������������������g�" class="headerlink" title="? ������Ҫ֪��������������������ģ�"></a>? ������Ҫ֪��������������������ģ�</h4><p>��������������<strong>������ϵͳ</strong>��ƿ������ķ�����Ŀ���ǣ�<br>? <strong>��ϵͳ�ȶ������������������ķ�ʽ�˶�</strong>��</p>
-<p>���ر����������֡�ÿһ�������������һ�㡱��ϵͳ��Ҳ������ν�� <strong>�ϸ�����ʽϵͳ</strong>��</p>
+<h4 id="来一张图帮助直观理解："><a href="#来一张图帮助直观理解：" class="headerlink" title="? 来一张图帮助直观理解："></a>? 来一张图帮助直观理解：</h4><p>我画一个图来展示李雅普诺夫函数的几何意义：<br>一个碗形函数 (V(x))，小球从不同位置出发，轨迹都会逐渐滚进碗底。  </p>
+<p>下面我来生成这张图 ?<br><img src="/image-1.png" alt="alt text"></p>
+<h2 id="反步法"><a href="#反步法" class="headerlink" title="反步法"></a>反步法</h2><hr>
+<h4 id="你首先要知道：反步法是用来干嘛的？"><a href="#你首先要知道：反步法是用来干嘛的？" class="headerlink" title="? 你首先要知道：反步法是用来干嘛的？"></a>? 你首先要知道：反步法是用来干嘛的？</h4><p>反步法是用来给<strong>非线性系统</strong>设计控制器的方法，目标是：<br>? <strong>让系统稳定，并按照我们期望的方式运动</strong>。</p>
+<p>它特别适用于那种“每一层变量都依赖下一层”的系统，也就是所谓的 <strong>严格反馈形式系统</strong>。</p>
 <hr>
-<h4 id="��һ����ʲo�a��ϸ�����ʽ���k�����ϵͳ��"><a href="#��һ����ʲo�a��ϸ�����ʽ���k�����ϵͳ��" class="headerlink" title="? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��"></a>? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��</h4><p>�����ȿ���������ϵͳ�ṹ��</p>
+<h4 id="第一步：什么是“严格反馈形式”的非线性系统？"><a href="#第一步：什么是“严格反馈形式”的非线性系统？" class="headerlink" title="? 第一步：什么是“严格反馈形式”的非线性系统？"></a>? 第一步：什么是“严格反馈形式”的非线性系统？</h4><p>我们先看个这样的系统结构：</p>
 <p>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; f_1(x_1) + g_1(x_1) x_2 \<br>\dot{x}_2 &#x3D; f_2(x_1, x_2) + g_2(x_1, x_2) u<br>\end{cases}<br>]</p>
-<p>���ϵͳ��ֻ�ܿ��� (u)������Ŀ��ȴ���� (x_1 \to 0)��</p>
+<p>这个系统你只能控制 (u)，但是目标却是让 (x_1 \to 0)。</p>
 <ul>
-<li>�㲻��ֱ�ӿ��� (x_1)��ֻ��ͨ�� (x_2) ��Ӱ������</li>
-<li>�ֲ���ֱ�ӿ��� (x_2)��Ҫͨ������ (u) ��Ӱ�� (x_2)��</li>
-<li>�������<strong>����������һ��������Ŀ��Ϳ�����</strong>��</li>
+<li>你不能直接控制 (x_1)，只能通过 (x_2) 来影响它；</li>
+<li>又不能直接控制 (x_2)，要通过控制 (u) 来影响 (x_2)；</li>
+<li>所以你得**“反着来”一步步构造目标和控制器**。</li>
 </ul>
-<p>��ͽ�<strong>������</strong>�ġ�������</p>
+<p>这就叫<strong>反步法</strong>的“反”！</p>
 <hr>
-<h4 id="��-�ڶ������������L���˼·�����̨��ʽ�ȶ���"><a href="#��-�ڶ������������L���˼·�����̨��ʽ�ȶ���" class="headerlink" title="??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���"></a>??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���</h4><p>���ǿ�������ľһ���������⡰�ֲ㡱������</p>
-<h5 id="Step-1���c������ܿ���-x-2-������һ����������o�-x-2"><a href="#Step-1���c������ܿ���-x-2-������һ����������o�-x-2" class="headerlink" title="? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)"></a>? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)</h5><p>Ŀ������ (x_1 \to 0)��������</p>
+<h4 id="♂-第二步：反步法的基本思路（类比台阶式稳定）"><a href="#♂-第二步：反步法的基本思路（类比台阶式稳定）" class="headerlink" title="??♂? 第二步：反步法的基本思路（类比台阶式稳定）"></a>??♂? 第二步：反步法的基本思路（类比台阶式稳定）</h4><p>我们可以像搭积木一样，把问题“分层”处理：</p>
+<h5 id="Step-1：先假设你能控制-x-2-，构造一个“理想控制”-x-2"><a href="#Step-1：先假设你能控制-x-2-，构造一个“理想控制”-x-2" class="headerlink" title="? Step 1：先假设你能控制 (x_2)，构造一个“理想控制” (x_2^*)"></a>? Step 1：先假设你能控制 (x_2)，构造一个“理想控制” (x_2^*)</h5><p>目标是让 (x_1 \to 0)，定义误差：</p>
 <p>[<br>z_1 &#x3D; x_1<br>]</p>
-<p>ѡ��һ�� Lyapunov ������</p>
+<p>选择一个 Lyapunov 函数：</p>
 <p>[<br>V_1 &#x3D; \frac{1}{2} z_1^2<br>]</p>
-<p>Ϊ���� (\dot{V}_1 &lt; 0)������ϣ����</p>
+<p>为了让 (\dot{V}_1 &lt; 0)，我们希望：</p>
 <p>[<br>x_2 &#x3D; x_2^* &#x3D; -k_1 z_1<br>]</p>
-<p>�������ǡ�������ơ�����Ŀǰ����������� (x_2) �������</p>
+<p>（但这是“虚拟控制”，你目前还不能真的让 (x_2) 变成它）</p>
 <hr>
-<h5 id="Step-2�������һ��������-u-����-x-2-to-x-2"><a href="#Step-2�������һ��������-u-����-x-2-to-x-2" class="headerlink" title="? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)"></a>? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)</h5><p>������</p>
+<h5 id="Step-2：再设计一个控制器-u-，让-x-2-to-x-2"><a href="#Step-2：再设计一个控制器-u-，让-x-2-to-x-2" class="headerlink" title="? Step 2：再设计一个控制器 (u)，让 (x_2 \to x_2^*)"></a>? Step 2：再设计一个控制器 (u)，让 (x_2 \to x_2^*)</h5><p>定义误差：</p>
 <p>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
-<p>�����µ� Lyapunov ������</p>
+<p>构造新的 Lyapunov 函数：</p>
 <p>[<br>V &#x3D; V_1 + \frac{1}{2} z_2^2<br>]</p>
-<p>Ȼ����� (V) �󵼣��õ�һ������ (u) �Ĺ�ʽ��Ȼ��ѡ��һ�����ʵ� (u)������ PD ��ʽ���� (\dot{V} &lt; 0)���Ӷ�<strong>����ϵͳ�ȶ�</strong>��</p>
+<p>然后你对 (V) 求导，得到一个包含 (u) 的公式，然后选择一个合适的 (u)（比如 PD 形式）让 (\dot{V} &lt; 0)，从而<strong>整体系统稳定</strong>。</p>
 <hr>
-<h4 id="��ѧ���̼��ܽ᣺"><a href="#��ѧ���̼��ܽ᣺" class="headerlink" title="? ��ѧ���̼��ܽ᣺"></a>? ��ѧ���̼��ܽ᣺</h4><ol>
-<li><strong>����������</strong>�������ϲ�״̬��ʼ��  </li>
-<li><strong>���� Lyapunov ����</strong>���𲽼ӽ�ȥ��  </li>
-<li><strong>��ơ������������</strong>��Ϊ�м�״̬���Ŀ�꣩  </li>
-<li><strong>���һ��������������� (u)</strong>���������������</li>
+<h4 id="数学流程简化总结："><a href="#数学流程简化总结：" class="headerlink" title="? 数学流程简化总结："></a>? 数学流程简化总结：</h4><ol>
+<li><strong>定义误差变量</strong>（从最上层状态开始）  </li>
+<li><strong>构造 Lyapunov 函数</strong>（逐步加进去）  </li>
+<li><strong>设计“虚拟控制器”</strong>（为中间状态设计目标）  </li>
+<li><strong>最后一步设计真正控制器 (u)</strong>（让误差逐步消除）</li>
 </ol>
 <hr>
-<h4 id="�ٸ��dz��򵥵k��������ӣ�"><a href="#�ٸ��dz��򵥵k��������ӣ�" class="headerlink" title="? �ٸ��ǳ��򵥵ķ��������ӣ�"></a>? �ٸ��ǳ��򵥵ķ��������ӣ�</h4><p>ϵͳ��<br>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; x_2 \<br>\dot{x}_2 &#x3D; u<br>\end{cases}<br>]</p>
-<p>Ŀ������ (x_1 \to 0)</p>
+<h4 id="举个非常简单的反步法例子："><a href="#举个非常简单的反步法例子：" class="headerlink" title="? 举个非常简单的反步法例子："></a>? 举个非常简单的反步法例子：</h4><p>系统：<br>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; x_2 \<br>\dot{x}_2 &#x3D; u<br>\end{cases}<br>]</p>
+<p>目标是让 (x_1 \to 0)</p>
 <hr>
-<h5 id="��һ����"><a href="#��һ����" class="headerlink" title="? ��һ����"></a>? ��һ����</h5><p>�裺<br>[<br>z_1 &#x3D; x_1, \quad x_2^* &#x3D; -k_1 z_1<br>]</p>
-<h5 id="�ڶ�����"><a href="#�ڶ�����" class="headerlink" title="? �ڶ�����"></a>? �ڶ�����</h5><p>���裺<br>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
-<h5 id="Lyapunov-������"><a href="#Lyapunov-������" class="headerlink" title="? Lyapunov ������"></a>? Lyapunov ������</h5><p>[<br>V &#x3D; \frac{1}{2}z_1^2 + \frac{1}{2}z_2^2<br>]</p>
-<p>�����ƿ�������</p>
+<h5 id="第一步："><a href="#第一步：" class="headerlink" title="? 第一步："></a>? 第一步：</h5><p>设：<br>[<br>z_1 &#x3D; x_1, \quad x_2^* &#x3D; -k_1 z_1<br>]</p>
+<h5 id="第二步："><a href="#第二步：" class="headerlink" title="? 第二步："></a>? 第二步：</h5><p>再设：<br>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
+<h5 id="Lyapunov-函数："><a href="#Lyapunov-函数：" class="headerlink" title="? Lyapunov 函数："></a>? Lyapunov 函数：</h5><p>[<br>V &#x3D; \frac{1}{2}z_1^2 + \frac{1}{2}z_2^2<br>]</p>
+<p>最后设计控制器：</p>
 <p>[<br>u &#x3D; \dot{x}_2^* - k_2 z_2 &#x3D; k_1^2 z_1 - k_2 z_2<br>]</p>
-<p>������ (\dot{x}_2^* &#x3D; -k_1 \dot{z}_1 &#x3D; -k_1 x_2 &#x3D; -k_1(x_2^* + z_2))��</p>
-<p>? ����ϵͳ���ȶ��ˣ�</p>
+<p>（其中 (\dot{x}_2^* &#x3D; -k_1 \dot{z}_1 &#x3D; -k_1 x_2 &#x3D; -k_1(x_2^* + z_2))）</p>
+<p>? 最终系统就稳定了！</p>
 <hr>
-<h4 id="ͼʾ�u��̨��ʽ���oi�"><a href="#ͼʾ�u��̨��ʽ���oi�" class="headerlink" title="? ͼʾ�ṹ��̨��ʽ���ƣ�"></a>? ͼʾ�ṹ��̨��ʽ���ƣ�</h4><p>��Ȼ������ͼ���ɶ�������ˣ����������������������̣�</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ŀ�꣺x1 �� 0</span><br><span class="line"> �� ���������� x2* = -k1��x1</span><br><span class="line">�м�״̬��x2</span><br><span class="line"> �� ʵ�ʿ����� u �� x2 �� x2*</span><br><span class="line">���տ�������u = ����(x1, x2)</span><br></pre></td></tr></table></figure>
+<h4 id="图示结构（台阶式控制）"><a href="#图示结构（台阶式控制）" class="headerlink" title="? 图示结构（台阶式控制）"></a>? 图示结构（台阶式控制）</h4><p>虽然你现在图生成额度用完了，但你可以这样想象这个流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">目标：x1 → 0</span><br><span class="line"> ↓ 设计虚拟控制 x2* = -k1·x1</span><br><span class="line">中间状态：x2</span><br><span class="line"> ↓ 实际控制器 u 让 x2 → x2*</span><br><span class="line">最终控制器：u = 函数(x1, x2)</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="С��һ�仰��"><a href="#С��һ�仰��" class="headerlink" title="? С��һ�仰��"></a>? С��һ�仰��</h2><p>�õģ�������ͨ�׵ؽ���һ�� PID ���Ʊ������ѧԭ��������˼�����<strong>���������ѧ���������������ڡ�������ȥ���͡�δ�����ơ��Կ��ƾ��ߵ�Ӱ��</strong>��</p>
-<p>����һ�£����ǻ���Ҫ���Ʒ����¶��� 25��C��</p>
-<h3 id="1-������i�����"><a href="#1-������i�����" class="headerlink" title="1. ������ı�����"></a>1. ������ı�����</h3><ul>
-<li><strong>Ŀ��ֵ (Setpoint, SP)</strong>: ����Ҫ���¶ȣ������� 25��C������һ���̶���Ŀ�ꡣ</li>
-<li><strong>ʵ��ֵ (Process Variable, PV(t))</strong>: ��ǰ������������ʵ���¶ȡ����ֵ����ʱ��仯�ģ������� (PV(t)) ��ʾ��</li>
-<li><strong>��� (Error, e(t))</strong>: Ŀ��ֵ��ʵ��ֵ֮��Ĳ�ࡣ���� PID ���Ƽ���Ļ�����<ul>
-<li>��ѧ��ʾ��(e(t) &#x3D; SP - PV(t))</li>
-<li>�����ǰ�¶��� 28��C����� (e(t) &#x3D; 25 - 28 &#x3D; -3)�������ǰ�� 23��C����� (e(t) &#x3D; 25 - 23 &#x3D; 2)����ע�⣺��ʱҲ����Ϊ (PV(t) - SP)�����Żᷴ��������ԭ��һ��������� (K) ֵ����Ӧ���������������ﰴ (SP - PV(t)) �����͡�</li>
+<h2 id="小结一句话："><a href="#小结一句话：" class="headerlink" title="? 小结一句话："></a>? 小结一句话：</h2><p>好的，我们来通俗地解释一下 PID 控制背后的数学原理。核心思想就是<strong>如何利用数学方法来量化“现在”、“过去”和“未来趋势”对控制决策的影响</strong>。</p>
+<p>想象一下，我们还是要控制房间温度在 25°C。</p>
+<h3 id="1-定义核心变量："><a href="#1-定义核心变量：" class="headerlink" title="1. 定义核心变量："></a>1. 定义核心变量：</h3><ul>
+<li><strong>目标值 (Setpoint, SP)</strong>: 你想要的温度，这里是 25°C。这是一个固定的目标。</li>
+<li><strong>实际值 (Process Variable, PV(t))</strong>: 当前传感器测量的实际温度。这个值是随时间变化的，我们用 (PV(t)) 表示。</li>
+<li><strong>误差 (Error, e(t))</strong>: 目标值和实际值之间的差距。这是 PID 控制计算的基础。<ul>
+<li>数学表示：(e(t) &#x3D; SP - PV(t))</li>
+<li>如果当前温度是 28°C，误差 (e(t) &#x3D; 25 - 28 &#x3D; -3)。如果当前是 23°C，误差 (e(t) &#x3D; 25 - 23 &#x3D; 2)。（注意：有时也定义为 (PV(t) - SP)，符号会反过来，但原理一样，后面的 (K) 值会相应调整）。我们这里按 (SP - PV(t)) 来解释。</li>
 </ul>
 </li>
 </ul>
-<h3 id="2-PID-�����������-u-t-��"><a href="#2-PID-�����������-u-t-��" class="headerlink" title="2. PID ����������� (u(t))��"></a>2. PID ����������� (u(t))��</h3><p>PID ����������Ҫ�����һ�������ź� (u(t))��������յ��������书�ʣ�������ź��� P��I��D �������ּ��������ܺ͡�</p>
+<h3 id="2-PID-控制器的输出-u-t-："><a href="#2-PID-控制器的输出-u-t-：" class="headerlink" title="2. PID 控制器的输出 (u(t))："></a>2. PID 控制器的输出 (u(t))：</h3><p>PID 控制器最终要计算出一个控制信号 (u(t))（比如给空调多大的制冷功率）。这个信号是 P、I、D 三个部分计算结果的总和。</p>
 <ul>
-<li><strong>P (����) ���� - �������ڡ�����ѧ����</strong>��<ul>
-<li>ԭ��������뵱ǰ���������ȡ�</li>
-<li>��ѧ��ʽ��(P_{term} &#x3D; K_p \cdot e(t))</li>
-<li>���ͣ�(K_p) ��һ��<strong>��������</strong>��һ����Ҫ�����ĳ���������ǰ��� (e(t)) Խ��(P_{term}) ��һ���ֵ������Խ��(K_p) �����˶Ե�ǰ���ķ�Ӧ�жࡰ��������ǿ�ҡ���</li>
+<li><strong>P (比例) 部分 - “看现在”的数学表达</strong>：<ul>
+<li>原理：输出与当前的误差成正比。</li>
+<li>数学公式：(P_{term} &#x3D; K_p \cdot e(t))</li>
+<li>解释：(K_p) 是一个<strong>比例增益</strong>（一个需要调整的常数）。当前误差 (e(t)) 越大，(P_{term}) 这一部分的输出就越大。(K_p) 决定了对当前误差的反应有多“灵敏”或“强烈”。</li>
 </ul>
 </li>
-<li><strong>I (����) ���� - ������ȥ������ѧ����</strong>��<ul>
-<li>ԭ����������ȥ���������ܺͣ��ۻ����������ȡ�</li>
-<li>��ѧ��ʽ��(I_{term} &#x3D; K_i \cdot \int_{0}^{t} e(\tau) d\tau)</li>
-<li>ͨ�׽��ͣ������ (\int_{0}^{t} e(\tau) d\tau) ����<strong>����</strong>������԰�������ɡ��ӿ�ʼ��0ʱ�̣������ڣ�tʱ�̣��������ֵ���ۼ��ܺ͡���������һֱ���ڣ���ʹ��С��������ܺ;ͻ�Խ��Խ�󣨻�Խ��ԽС��ȡ���������ţ���(K_i) ��<strong>��������</strong>����һ����Ҫ�����ĳ��������������˶Թ�ȥ�ۻ��������ӳ̶ȡ������������������Щ P ���Ƶ���������˵ĳ���С����̬����</li>
+<li><strong>I (积分) 部分 - “看过去”的数学表达</strong>：<ul>
+<li>原理：输出与过去所有误差的总和（累积量）成正比。</li>
+<li>数学公式：(I_{term} &#x3D; K_i \cdot \int_{0}^{t} e(\tau) d\tau)</li>
+<li>通俗解释：这里的 (\int_{0}^{t} e(\tau) d\tau) 就是<strong>积分</strong>，你可以把它想象成“从开始（0时刻）到现在（t时刻）所有误差值的累加总和”。如果误差一直存在（即使很小），这个总和就会越来越大（或越来越小，取决于误差符号）。(K_i) 是<strong>积分增益</strong>（另一个需要调整的常数），它决定了对过去累积误差的重视程度。这个部分用来消除那些 P 控制单独解决不了的持续小误差（稳态误差）。</li>
 </ul>
 </li>
-<li><strong>D (΢��) ���� - ����δ�����ơ�����ѧ����</strong>��<ul>
-<li>ԭ��������뵱ǰ���仯��<strong>����</strong>�����ȡ�</li>
-<li>��ѧ��ʽ��(D_{term} &#x3D; K_d \cdot \frac{d(e(t))}{dt})</li>
-<li>ͨ�׽��ͣ������ (\frac{d(e(t))}{dt}) ����<strong>΢��</strong>������ʾ��� (e(t)) ��ʱ�� (t) �仯��<strong>˲ʱ����</strong>�������������������ڵ�ǰ��ġ�б�ʡ��򡰱仯�ٶȡ��������������ڿ��ټ�С�������¶ȿ��ٽӽ� 25��C�������΢��ֵ���Ǹ��ģ�(D_{term}) �����һ���������������������ǰ��С���䣩����ֹ���塣�������ڿ��������������һ������������������ٷ�Ӧ��(K_d) ��<strong>΢������</strong>����������Ҫ�����ĳ������������˶����仯���ʵķ�Ӧǿ�ȡ�</li>
+<li><strong>D (微分) 部分 - “看未来趋势”的数学表达</strong>：<ul>
+<li>原理：输出与当前误差变化的<strong>速率</strong>成正比。</li>
+<li>数学公式：(D_{term} &#x3D; K_d \cdot \frac{d(e(t))}{dt})</li>
+<li>通俗解释：这里的 (\frac{d(e(t))}{dt}) 就是<strong>微分</strong>，它表示误差 (e(t)) 随时间 (t) 变化的<strong>瞬时速率</strong>（可以想象成误差曲线在当前点的“斜率”或“变化速度”）。如果误差正在快速减小（比如温度快速接近 25°C），这个微分值就是负的，(D_{term}) 会产生一个反向的作用力（比如提前减小制冷），防止过冲。如果误差在快速增大，它会产生一个正向的作用力，加速反应。(K_d) 是<strong>微分增益</strong>（第三个需要调整的常数），决定了对误差变化速率的反应强度。</li>
 </ul>
 </li>
 </ul>
-<h3 id="3-���յL��������"><a href="#3-���յL��������" class="headerlink" title="3. ���յĿ��������"></a>3. ���յĿ��������</h3><p>�����������ּ��������͵õ��� PID ���������������<br>[u(t) &#x3D; P_{term} + I_{term} + D_{term} &#x3D; K_p \cdot e(t) + K_i \cdot \int_{0}^{t} e(\tau) d\tau + K_d \cdot \frac{d(e(t))}{dt}]</p>
-<h3 id="�ܽ�һ����ѧԭ����ͨ�����⣺"><a href="#�ܽ�һ����ѧԭ����ͨ�����⣺" class="headerlink" title="�ܽ�һ����ѧԭ����ͨ�����⣺"></a>�ܽ�һ����ѧԭ����ͨ�����⣺</h3><p>PID ���Ƶ���ѧ���ľ������<strong>����˱��������֡�΢�ֵ�������Ϲ�ʽ</strong>��</p>
+<h3 id="3-最终的控制输出："><a href="#3-最终的控制输出：" class="headerlink" title="3. 最终的控制输出："></a>3. 最终的控制输出：</h3><p>把这三个部分加起来，就得到了 PID 控制器的总输出：<br>[u(t) &#x3D; P_{term} + I_{term} + D_{term} &#x3D; K_p \cdot e(t) + K_i \cdot \int_{0}^{t} e(\tau) d\tau + K_d \cdot \frac{d(e(t))}{dt}]</p>
+<h3 id="总结一下数学原理的通俗理解："><a href="#总结一下数学原理的通俗理解：" class="headerlink" title="总结一下数学原理的通俗理解："></a>总结一下数学原理的通俗理解：</h3><p>PID 控制的数学核心就是这个<strong>结合了比例、积分、微分的线性组合公式</strong>。</p>
 <ul>
-<li><strong>������ (K_p \cdot e(t))</strong> �ÿ������Ե�ǰ����������ٷ�Ӧ��</li>
-<li><strong>������ (K_i \cdot \int e(t)dt)</strong> ͨ���ۻ���ʷ�������������ڵ���̬��ȷ�������ܾ�ȷ�ﵽĿ�ꡣ</li>
-<li><strong>΢���� (K_d \cdot \frac{de(t)}{dt})</strong> ͨ���۲����ı仯���ƣ�Ԥ��δ������ǰ�����������Լ��ٹ�����񵴣����ϵͳ�ȶ��ԡ�</li>
+<li><strong>比例项 (K_p \cdot e(t))</strong> 让控制器对当前误差做出快速反应。</li>
+<li><strong>积分项 (K_i \cdot \int e(t)dt)</strong> 通过累积历史误差，消除持续存在的稳态误差，确保最终能精确达到目标。</li>
+<li><strong>微分项 (K_d \cdot \frac{de(t)}{dt})</strong> 通过观察误差的变化趋势，预测未来，提前做出调整，以减少过冲和振荡，提高系统稳定性。</li>
 </ul>
-<p>ͨ������ (K_p), (K_i), (K_d) ��������������Ϊ PID <strong>����</strong>��<strong>����</strong>��������ʦ���Ըı�ÿ��������������еġ�����Ȩ����Ȩ�ء����Ӷ��Ż������������ܣ���ϵͳ�����緿���¶ȣ��ܹ����١�׼ȷ���ȶ��شﵽ��ά����Ŀ��ֵ��25��C���� </p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/11/demo/">http://example.com/2025/04/11/demo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/11/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-%EF%BF%BD%E3%B7%A8"><span class="toc-number">1.</span> <span class="toc-text">A*�㷨</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%E3%B7%A8%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.1.</span> <span class="toc-text">? һ�仰���� A* �㷨��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%E3%B7%A8%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.2.</span> <span class="toc-text">? ͨ������ A* �㷨��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD%CE%A2%D7%A8%D2%B5%D2%BB%EF%BF%BD%E3%A3%A9%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.3.</span> <span class="toc-text">?? ��ѧԭ�����ͣ���΢רҵһ�㣩��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BDL%EF%BF%BD%EF%BF%BD%EF%BF%BD-A-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D0%B5J%EF%BF%BD%EF%BF%BD%C2%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">1.0.4.</span> <span class="toc-text">? �Ľ��� A*�������еĴ��£���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%D6%B1%EF%BF%BD%EF%BF%BD%CD%BC%CA%BE%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%B0%EF%BF%BD%EF%BF%BD%E3%BB%AD%D2%BB%EF%BF%BD%C2%A3%EF%BF%BD"><span class="toc-number">1.0.5.</span> <span class="toc-text">? ֱ��ͼʾ���Ұ��㻭һ�£�</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESO%EF%BF%BD%E3%B7%A8"><span class="toc-number">2.</span> <span class="toc-text">ESO�㷨</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%D7%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BDESO-%EF%BF%BDN%EF%BF%BD%EF%BF%BD%EF%BF%BDg%EF%BF%BD"><span class="toc-number">2.0.1.</span> <span class="toc-text">? ͨ�׽��ͣ�ESO �Ǹ���ģ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CB%B5%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.2.</span> <span class="toc-text">? �������˵��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ESO-%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A8%EF%BF%BD%D7%BD%EF%BF%BD%EF%BF%BD%E2%A3%A9%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.3.</span> <span class="toc-text">? ESO ��ѧԭ����ͨ�׽��⣩��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CE%AA%CA%B2o%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">2.0.4.</span> <span class="toc-text">? Ϊʲô��������</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDw%EF%BF%BD%F2%B7%BD%B7%EF%BF%BD"><span class="toc-number">3.</span> <span class="toc-text">������ŵ�򷽷�</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A3%EF%BF%BD"><span class="toc-number">3.0.1.</span> <span class="toc-text">? һ�仰���ͣ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDou%EF%BF%BD%D0%A1%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.2.</span> <span class="toc-text">? ͨ����ȣ�С�����</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%F2%BB%AF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">3.0.3.</span> <span class="toc-text">? ��ѧԭ���򻯽��⣺</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDw%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.4.</span> <span class="toc-text">? ������ŵ����������������</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%D9%B8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D3%A3%EF%BF%BD"><span class="toc-number">3.0.5.</span> <span class="toc-text">? �ٸ������ӣ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D5%B9%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%AB%EF%BF%BD%EF%BF%BD%D2%B2%EF%BF%BD%D0%A3%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">3.0.6.</span> <span class="toc-text">? ��չһ����������̫��Ҳ�У���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%CD%BC%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D6%B1%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">3.0.7.</span> <span class="toc-text">? ��һ��ͼ����ֱ�����⣺</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.</span> <span class="toc-text">������</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%AA%D6%AA%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDg%EF%BF%BD"><span class="toc-number">4.0.1.</span> <span class="toc-text">? ������Ҫ֪��������������������ģ�</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CA%B2o%EF%BF%BDa%EF%BF%BD%EF%BF%BD%CF%B8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDk%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CF%B5%CD%B3%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.2.</span> <span class="toc-text">? ��һ����ʲô�ǡ��ϸ�����ʽ���ķ�����ϵͳ��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD-%EF%BF%BD%DA%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDL%EF%BF%BD%EF%BF%BD%EF%BF%BD%CB%BC%C2%B7%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%A8%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%C8%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.3.</span> <span class="toc-text">??��? �ڶ������������Ļ���˼·�����̨��ʽ�ȶ���</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-1%EF%BF%BD%EF%BF%BD%EF%BF%BDc%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%DC%BF%EF%BF%BD%EF%BF%BD%EF%BF%BD-x-2-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDo%EF%BF%BD-x-2"><span class="toc-number">4.0.3.1.</span> <span class="toc-text">? Step 1���ȼ������ܿ��� (x_2)������һ����������ơ� (x_2^*)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-2%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-u-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-x-2-to-x-2"><span class="toc-number">4.0.3.2.</span> <span class="toc-text">? Step 2�������һ�������� (u)���� (x_2 \to x_2^*)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D1%A7%EF%BF%BD%EF%BF%BD%EF%BF%BD%CC%BC%EF%BF%BD%EF%BF%BD%DC%BD%E1%A3%BA"><span class="toc-number">4.0.4.</span> <span class="toc-text">? ��ѧ���̼��ܽ᣺</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%D9%B8%EF%BF%BD%EF%BF%BDdz%EF%BF%BD%EF%BF%BD%F2%B5%A5%B5k%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D3%A3%EF%BF%BD"><span class="toc-number">4.0.5.</span> <span class="toc-text">? �ٸ��ǳ��򵥵ķ��������ӣ�</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.1.</span> <span class="toc-text">? ��һ����</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%EF%BF%BD%DA%B6%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.2.</span> <span class="toc-text">? �ڶ�����</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lyapunov-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">4.0.5.3.</span> <span class="toc-text">? Lyapunov ������</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CD%BC%CA%BE%EF%BF%BDu%EF%BF%BD%EF%BF%BD%CC%A8%EF%BF%BD%EF%BF%BD%CA%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDoi%EF%BF%BD"><span class="toc-number">4.0.6.</span> <span class="toc-text">? ͼʾ�ṹ��̨��ʽ���ƣ�</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%D0%A1%EF%BF%BD%EF%BF%BD%D2%BB%EF%BF%BD%E4%BB%B0%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.</span> <span class="toc-text">? С��һ�仰��</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDi%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.1.</span> <span class="toc-text">1. ������ı�����</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-PID-%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD-u-t-%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.2.</span> <span class="toc-text">2. PID ����������� (u(t))��</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%EF%BF%BD%EF%BF%BD%EF%BF%BD%D5%B5L%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-number">5.3.</span> <span class="toc-text">3. ���յĿ��������</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BF%BD%DC%BD%EF%BF%BD%D2%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%D1%A7%D4%AD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%CD%A8%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%E2%A3%BA"><span class="toc-number">5.4.</span> <span class="toc-text">�ܽ�һ����ѧԭ����ͨ�����⣺</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/demo/" title="Untitled">Untitled</a><time datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-11T02:21:36.051Z" title="Created 2025-04-11 10:21:36">2025-04-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+<p>通过调整 (K_p), (K_i), (K_d) 这三个参数（称为 PID <strong>整定</strong>或<strong>调参</strong>），工程师可以改变每个部分在总输出中的“发言权”或“权重”，从而优化控制器的性能，让系统（比如房间温度）能够快速、准确且稳定地达到并维持在目标值（25°C）。 </p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/11/demo/">http://example.com/2025/04/11/demo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/11/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">A*算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8A-A-%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-number">1.0.1.</span> <span class="toc-text">? 一句话解释 A* 算法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%90%86%E8%A7%A3-A-%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-number">1.0.2.</span> <span class="toc-text">? 通俗理解 A* 算法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86%E8%A7%A3%E9%87%8A%EF%BC%88%E7%A8%8D%E5%BE%AE%E4%B8%93%E4%B8%9A%E4%B8%80%E7%82%B9%EF%BC%89%EF%BC%9A"><span class="toc-number">1.0.3.</span> <span class="toc-text">?? 数学原理解释（稍微专业一点）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E7%89%88-A-%EF%BC%88%E8%AE%BA%E6%96%87%E4%B8%AD%E7%9A%84%E5%88%9B%E6%96%B0%EF%BC%89%EF%BC%9A"><span class="toc-number">1.0.4.</span> <span class="toc-text">? 改进版 A*（论文中的创新）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E8%A7%82%E5%9B%BE%E7%A4%BA%EF%BC%88%E6%88%91%E5%B8%AE%E4%BD%A0%E7%94%BB%E4%B8%80%E4%B8%8B%EF%BC%89"><span class="toc-number">1.0.5.</span> <span class="toc-text">? 直观图示（我帮你画一下）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESO%E7%AE%97%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">ESO算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E8%A7%A3%E9%87%8A%EF%BC%9AESO-%E6%98%AF%E5%B9%B2%E5%98%9B%E7%9A%84%EF%BC%9F"><span class="toc-number">2.0.1.</span> <span class="toc-text">? 通俗解释：ESO 是干嘛的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E5%85%B7%E4%BD%93%E7%82%B9%E8%AF%B4%EF%BC%9A"><span class="toc-number">2.0.2.</span> <span class="toc-text">? 更具体点说：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ESO-%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86%EF%BC%88%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3%EF%BC%89%EF%BC%9A"><span class="toc-number">2.0.3.</span> <span class="toc-text">? ESO 数学原理（通俗讲解）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%83%E5%8E%89%E5%AE%B3%EF%BC%9F"><span class="toc-number">2.0.4.</span> <span class="toc-text">? 为什么它厉害？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%8E%E9%9B%85%E6%99%AE%E8%AF%BA%E5%A4%AB%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">李雅普诺夫方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="toc-number">3.0.1.</span> <span class="toc-text">? 一句话解释：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%B1%BB%E6%AF%94%EF%BC%9A%E5%B0%8F%E7%90%83%E5%92%8C%E7%A2%97"><span class="toc-number">3.0.2.</span> <span class="toc-text">? 通俗类比：小球和碗</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86%E7%AE%80%E5%8C%96%E8%AE%B2%E8%A7%A3%EF%BC%9A"><span class="toc-number">3.0.3.</span> <span class="toc-text">? 数学原理简化讲解：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%8E%E9%9B%85%E6%99%AE%E8%AF%BA%E5%A4%AB%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.0.4.</span> <span class="toc-text">? 李雅普诺夫函数的两个条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="toc-number">3.0.5.</span> <span class="toc-text">? 举个简单例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E5%B1%95%E4%B8%80%E4%B8%A2%E4%B8%A2%EF%BC%88%E4%B8%8D%E7%94%A8%E5%A4%AA%E6%87%82%E4%B9%9F%E8%A1%8C%EF%BC%89%EF%BC%9A"><span class="toc-number">3.0.6.</span> <span class="toc-text">? 拓展一丢丢（不用太懂也行）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A5%E4%B8%80%E5%BC%A0%E5%9B%BE%E5%B8%AE%E5%8A%A9%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%EF%BC%9A"><span class="toc-number">3.0.7.</span> <span class="toc-text">? 来一张图帮助直观理解：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E6%AD%A5%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">反步法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%A0%E9%A6%96%E5%85%88%E8%A6%81%E7%9F%A5%E9%81%93%EF%BC%9A%E5%8F%8D%E6%AD%A5%E6%B3%95%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E5%98%9B%E7%9A%84%EF%BC%9F"><span class="toc-number">4.0.1.</span> <span class="toc-text">? 你首先要知道：反步法是用来干嘛的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E4%B8%A5%E6%A0%BC%E5%8F%8D%E9%A6%88%E5%BD%A2%E5%BC%8F%E2%80%9D%E7%9A%84%E9%9D%9E%E7%BA%BF%E6%80%A7%E7%B3%BB%E7%BB%9F%EF%BC%9F"><span class="toc-number">4.0.2.</span> <span class="toc-text">? 第一步：什么是“严格反馈形式”的非线性系统？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%99%82-%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%8F%8D%E6%AD%A5%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF%EF%BC%88%E7%B1%BB%E6%AF%94%E5%8F%B0%E9%98%B6%E5%BC%8F%E7%A8%B3%E5%AE%9A%EF%BC%89"><span class="toc-number">4.0.3.</span> <span class="toc-text">??♂? 第二步：反步法的基本思路（类比台阶式稳定）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-1%EF%BC%9A%E5%85%88%E5%81%87%E8%AE%BE%E4%BD%A0%E8%83%BD%E6%8E%A7%E5%88%B6-x-2-%EF%BC%8C%E6%9E%84%E9%80%A0%E4%B8%80%E4%B8%AA%E2%80%9C%E7%90%86%E6%83%B3%E6%8E%A7%E5%88%B6%E2%80%9D-x-2"><span class="toc-number">4.0.3.1.</span> <span class="toc-text">? Step 1：先假设你能控制 (x_2)，构造一个“理想控制” (x_2^*)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step-2%EF%BC%9A%E5%86%8D%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%8E%A7%E5%88%B6%E5%99%A8-u-%EF%BC%8C%E8%AE%A9-x-2-to-x-2"><span class="toc-number">4.0.3.2.</span> <span class="toc-text">? Step 2：再设计一个控制器 (u)，让 (x_2 \to x_2^*)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E6%B5%81%E7%A8%8B%E7%AE%80%E5%8C%96%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">4.0.4.</span> <span class="toc-text">? 数学流程简化总结：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E9%9D%9E%E5%B8%B8%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%8D%E6%AD%A5%E6%B3%95%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="toc-number">4.0.5.</span> <span class="toc-text">? 举个非常简单的反步法例子：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A"><span class="toc-number">4.0.5.1.</span> <span class="toc-text">? 第一步：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A"><span class="toc-number">4.0.5.2.</span> <span class="toc-text">? 第二步：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lyapunov-%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="toc-number">4.0.5.3.</span> <span class="toc-text">? Lyapunov 函数：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%A4%BA%E7%BB%93%E6%9E%84%EF%BC%88%E5%8F%B0%E9%98%B6%E5%BC%8F%E6%8E%A7%E5%88%B6%EF%BC%89"><span class="toc-number">4.0.6.</span> <span class="toc-text">? 图示结构（台阶式控制）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">? 小结一句话：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89%E6%A0%B8%E5%BF%83%E5%8F%98%E9%87%8F%EF%BC%9A"><span class="toc-number">5.1.</span> <span class="toc-text">1. 定义核心变量：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-PID-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E8%BE%93%E5%87%BA-u-t-%EF%BC%9A"><span class="toc-number">5.2.</span> <span class="toc-text">2. PID 控制器的输出 (u(t))：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%80%E7%BB%88%E7%9A%84%E6%8E%A7%E5%88%B6%E8%BE%93%E5%87%BA%EF%BC%9A"><span class="toc-number">5.3.</span> <span class="toc-text">3. 最终的控制输出：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86%E7%9A%84%E9%80%9A%E4%BF%97%E7%90%86%E8%A7%A3%EF%BC%9A"><span class="toc-number">5.4.</span> <span class="toc-text">总结一下数学原理的通俗理解：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/demo/" title="Untitled">Untitled</a><time datetime="2025-04-11T03:19:09.010Z" title="Created 2025-04-11 11:19:09">2025-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/11/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-11T02:21:36.051Z" title="Created 2025-04-11 10:21:36">2025-04-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

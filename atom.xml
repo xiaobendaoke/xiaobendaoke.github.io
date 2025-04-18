@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ţ����־</title>
+  <icon>https://xiaobendaoke.github.io/img/avatar.png</icon>
+  
+  <link href="https://xiaobendaoke.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://xiaobendaoke.github.io/"/>
+  <updated>2025-04-11T03:56:01.819Z</updated>
+  <id>https://xiaobendaoke.github.io/</id>
+  
+  <author>
+    <name>С������</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://xiaobendaoke.github.io/2025/04/11/demo/"/>
+    <id>https://xiaobendaoke.github.io/2025/04/11/demo/</id>
+    <published>2025-04-11T03:19:09.010Z</published>
+    <updated>2025-04-11T03:56:01.819Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;A-算法&quot;&gt;&lt;a href=&quot;#A-算法&quot; class=&quot;headerlink&quot; title=&quot;A*算法&quot;&gt;&lt;/a&gt;A*算法&lt;/h2&gt;&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://xiaobendaoke.github.io/2025/04/11/hello-world/"/>
+    <id>https://xiaobendaoke.github.io/2025/04/11/hello-world/</id>
+    <published>2025-04-11T02:21:36.051Z</published>
+    <updated>2025-04-11T02:21:36.051Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>

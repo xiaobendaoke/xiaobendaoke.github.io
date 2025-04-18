@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>ţ����־</title>
+  <title>牛马日志</title>
   <icon>https://xiaobendaoke.github.io/img/avatar.png</icon>
   
   <link href="https://xiaobendaoke.github.io/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>https://xiaobendaoke.github.io/</id>
   
   <author>
-    <name>С������</name>
+    <name>小笨刀客</name>
     
   </author>
   

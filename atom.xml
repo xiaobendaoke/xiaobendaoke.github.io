@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>牛马日志</title>
   <icon>https://xiaobendaoke.github.io/img/avatar.png</icon>
-  
+  <subtitle>纯牛马研究生</subtitle>
   <link href="https://xiaobendaoke.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaobendaoke.github.io/"/>
-  <updated>2025-04-26T13:33:24.232Z</updated>
+  <updated>2025-04-26T14:01:20.642Z</updated>
   <id>https://xiaobendaoke.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://xiaobendaoke.github.io/2025/04/11/demo/"/>
     <id>https://xiaobendaoke.github.io/2025/04/11/demo/</id>
     <published>2025-04-11T03:19:09.010Z</published>
-    <updated>2025-04-26T13:33:24.232Z</updated>
+    <updated>2025-04-26T14:01:20.642Z</updated>
     
     
       

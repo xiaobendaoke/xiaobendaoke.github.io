@@ -241,14 +241,14 @@ if (true) {
 </ol>
 <hr>
 <h4 id="数学原理解释（稍微专业一点）："><a href="#数学原理解释（稍微专业一点）：" class="headerlink" title="?? 数学原理解释（稍微专业一点）："></a>?? 数学原理解释（稍微专业一点）：</h4><p>A* 算法的核心公式是：</p>
-<p>[<br>F(n) = G(n) + H(n)<br>]</p>
+<p>[<br>F(n) &#x3D; G(n) + H(n)<br>]</p>
 <ul>
 <li>( G(n) )：起点到当前节点 ( n ) 的实际路径代价（比如走了几步）。</li>
 <li>( H(n) )：从当前节点 ( n ) 到终点的估计代价（猜的，叫做“启发函数”）。</li>
 </ul>
 <p>常见的启发函数有：</p>
 <ul>
-<li><p>曼哈顿距离（只能上下左右走）：<br>[<br>H(n) = D \cdot (|x<em>{\text{current}} - x</em>{\text{goal}}| + |y<em>{\text{current}} - y</em>{\text{goal}}|)<br>]</p>
+<li><p>曼哈顿距离（只能上下左右走）：<br>[<br>H(n) &#x3D; D \cdot (|x_{\text{current}} - x_{\text{goal}}| + |y_{\text{current}} - y_{\text{goal}}|)<br>]</p>
 </li>
 <li><p>对角线距离（可以斜着走）也有，但在论文中用了较简化的估计方式。</p>
 </li>
@@ -269,14 +269,14 @@ if (true) {
 <li>灰色：扩展障碍区域（警觉范围）</li>
 <li>红线：路径</li>
 </ul>
-<p>让我生成图像 ?<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/loading.gif" data-original="d6806d5a-9fe0-40c5-8428-0ec7840fd93a.png" alt=""></p>
+<p>让我生成图像 ?<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/loading.gif" data-original="/d6806d5a-9fe0-40c5-8428-0ec7840fd93a.png"></p>
 <p>论文中使用的 <strong>ESO（扩展状态观测器, Extended State Observer）</strong> 算法听起来有点高大上，但其实我们可以用非常通俗的方式来解释它，并且讲一讲它的数学原理。最后我也会画个图帮助你更直观地理解。</p>
 <hr>
 <h2 id="ESO算法"><a href="#ESO算法" class="headerlink" title="ESO算法"></a>ESO算法</h2><h4 id="通俗解释：ESO-是干嘛的？"><a href="#通俗解释：ESO-是干嘛的？" class="headerlink" title="? 通俗解释：ESO 是干嘛的？"></a>? 通俗解释：ESO 是干嘛的？</h4><p>想象你在开一架无人机飞行，但外面风太大了，你又看不到风，怎么才能飞得稳？</p>
 <p><strong>ESO 就像是一个“风的侦测器”</strong>，它通过观察无人机的运动状态，猜测出风（干扰）有多大，然后及时告诉控制系统去做出调整，就像你感受到风变大了，就会压低方向盘一样。</p>
 <hr>
 <h4 id="更具体点说："><a href="#更具体点说：" class="headerlink" title="? 更具体点说："></a>? 更具体点说：</h4><p>我们可以把无人机的系统看成：</p>
-<p>[<br>\dot{x} = f(x, u) + d<br>]</p>
+<p>[<br>\dot{x} &#x3D; f(x, u) + d<br>]</p>
 <ul>
 <li>(x)：当前状态（比如位置、速度）</li>
 <li>(u)：控制输入（比如电机推力）</li>
@@ -287,13 +287,13 @@ if (true) {
 <h4 id="ESO-数学原理（通俗讲解）："><a href="#ESO-数学原理（通俗讲解）：" class="headerlink" title="? ESO 数学原理（通俗讲解）："></a>? ESO 数学原理（通俗讲解）：</h4><p>ESO 的目标是：<strong>在不知道干扰 (d) 的情况下，把它“估计”出来。</strong></p>
 <p>我们把系统加一个“扩展状态”变量：</p>
 <ul>
-<li>设 (z_1 = x)（原始状态）</li>
-<li>(z_2 = d)（未知干扰）</li>
+<li>设 (z_1 &#x3D; x)（原始状态）</li>
+<li>(z_2 &#x3D; d)（未知干扰）</li>
 </ul>
 <p>这样写成：</p>
-<p>[<br>\begin{cases}<br>\dot{z}_1 = f(x, u) + z_2 \<br>\dot{z}_2 = \dot{d} \quad （通常是个小量）<br>\end{cases}<br>]</p>
+<p>[<br>\begin{cases}<br>\dot{z}_1 &#x3D; f(x, u) + z_2 \<br>\dot{z}_2 &#x3D; \dot{d} \quad （通常是个小量）<br>\end{cases}<br>]</p>
 <p>然后 ESO 会构造一个类似下面的观测器：</p>
-<p>[<br>\begin{cases}<br>\dot{\hat{z}}_1 = f(x, u) + \hat{z}_2 + 观测修正项 \<br>\dot{\hat{z}}_2 = 修正项<br>\end{cases}<br>]</p>
+<p>[<br>\begin{cases}<br>\dot{\hat{z}}_1 &#x3D; f(x, u) + \hat{z}_2 + 观测修正项 \<br>\dot{\hat{z}}_2 &#x3D; 修正项<br>\end{cases}<br>]</p>
 <p>通过比较 (\hat{z}_1) 和真实输出之间的误差，不断更新估计值 (\hat{z}_2)，让它尽量逼近真实干扰 (d)。</p>
 <hr>
 <h4 id="为什么它厉害？"><a href="#为什么它厉害？" class="headerlink" title="? 为什么它厉害？"></a>? 为什么它厉害？</h4><p>这篇论文用的是 <strong>“有限时间 ESO”</strong>，意思是：不光能估计干扰，而且能在一个固定时间内收敛，不会无限慢慢接近。控制系统就可以更快更稳。</p>
@@ -311,24 +311,24 @@ if (true) {
 <hr>
 <h4 id="数学原理简化讲解："><a href="#数学原理简化讲解：" class="headerlink" title="? 数学原理简化讲解："></a>? 数学原理简化讲解：</h4><p>李雅普诺夫方法的目标：判断系统的<strong>稳定性</strong>。</p>
 <p>我们来看一个系统：</p>
-<p>[<br>\dot{x} = f(x)<br>]</p>
-<p>要判断这个系统是不是在 (x = 0) 附近是稳定的，我们构造一个函数 (V(x))，这个函数要满足：</p>
+<p>[<br>\dot{x} &#x3D; f(x)<br>]</p>
+<p>要判断这个系统是不是在 (x &#x3D; 0) 附近是稳定的，我们构造一个函数 (V(x))，这个函数要满足：</p>
 <h4 id="李雅普诺夫函数的两个条件："><a href="#李雅普诺夫函数的两个条件：" class="headerlink" title="? 李雅普诺夫函数的两个条件："></a>? 李雅普诺夫函数的两个条件：</h4><ol>
 <li><strong>正定性</strong>（像一个碗）：</li>
 </ol>
-<p>[<br>V(x) &gt; 0 \quad \text{当} x \neq 0,\quad V(0) = 0<br>]</p>
-<ol>
+<p>[<br>V(x) &gt; 0 \quad \text{当} x \neq 0,\quad V(0) &#x3D; 0<br>]</p>
+<ol start="2">
 <li><strong>导数为负</strong>（能量在减少）：</li>
 </ol>
-<p>[<br>\dot{V}(x) = \frac{dV}{dt} = \nabla V \cdot f(x) &lt; 0<br>]</p>
+<p>[<br>\dot{V}(x) &#x3D; \frac{dV}{dt} &#x3D; \nabla V \cdot f(x) &lt; 0<br>]</p>
 <p>那么我们就说：<strong>系统是渐近稳定的</strong>，也就是小球会慢慢停在碗底。</p>
 <hr>
 <h4 id="举个简单例子："><a href="#举个简单例子：" class="headerlink" title="? 举个简单例子："></a>? 举个简单例子：</h4><p>假设系统：</p>
-<p>[<br>\dot{x} = -x<br>]</p>
+<p>[<br>\dot{x} &#x3D; -x<br>]</p>
 <p>我们构造函数：</p>
-<p>[<br>V(x) = \frac{1}{2}x^2<br>]</p>
+<p>[<br>V(x) &#x3D; \frac{1}{2}x^2<br>]</p>
 <p>那它的导数是：</p>
-<p>[<br>\dot{V} = x \cdot \dot{x} = x \cdot (-x) = -x^2 \leq 0<br>]</p>
+<p>[<br>\dot{V} &#x3D; x \cdot \dot{x} &#x3D; x \cdot (-x) &#x3D; -x^2 \leq 0<br>]</p>
 <p>满足李雅普诺夫条件，所以系统稳定！</p>
 <hr>
 <h4 id="拓展一丢丢（不用太懂也行）："><a href="#拓展一丢丢（不用太懂也行）：" class="headerlink" title="? 拓展一丢丢（不用太懂也行）："></a>? 拓展一丢丢（不用太懂也行）：</h4><ul>
@@ -338,34 +338,34 @@ if (true) {
 </ul>
 <hr>
 <h4 id="来一张图帮助直观理解："><a href="#来一张图帮助直观理解：" class="headerlink" title="? 来一张图帮助直观理解："></a>? 来一张图帮助直观理解：</h4><p>我画一个图来展示李雅普诺夫函数的几何意义：<br>一个碗形函数 (V(x))，小球从不同位置出发，轨迹都会逐渐滚进碗底。  </p>
-<p>下面我来生成这张图 ?<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/loading.gif" data-original="image-1.png" alt="alt text"></p>
+<p>下面我来生成这张图 ?<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/loading.gif" data-original="/image-1.png" alt="alt text"></p>
 <h2 id="反步法"><a href="#反步法" class="headerlink" title="反步法"></a>反步法</h2><hr>
 <h4 id="你首先要知道：反步法是用来干嘛的？"><a href="#你首先要知道：反步法是用来干嘛的？" class="headerlink" title="? 你首先要知道：反步法是用来干嘛的？"></a>? 你首先要知道：反步法是用来干嘛的？</h4><p>反步法是用来给<strong>非线性系统</strong>设计控制器的方法，目标是：<br>? <strong>让系统稳定，并按照我们期望的方式运动</strong>。</p>
 <p>它特别适用于那种“每一层变量都依赖下一层”的系统，也就是所谓的 <strong>严格反馈形式系统</strong>。</p>
 <hr>
 <h4 id="第一步：什么是“严格反馈形式”的非线性系统？"><a href="#第一步：什么是“严格反馈形式”的非线性系统？" class="headerlink" title="? 第一步：什么是“严格反馈形式”的非线性系统？"></a>? 第一步：什么是“严格反馈形式”的非线性系统？</h4><p>我们先看个这样的系统结构：</p>
-<p>[<br>\begin{cases}<br>\dot{x}_1 = f_1(x_1) + g_1(x_1) x_2 \<br>\dot{x}_2 = f_2(x_1, x_2) + g_2(x_1, x_2) u<br>\end{cases}<br>]</p>
+<p>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; f_1(x_1) + g_1(x_1) x_2 \<br>\dot{x}_2 &#x3D; f_2(x_1, x_2) + g_2(x_1, x_2) u<br>\end{cases}<br>]</p>
 <p>这个系统你只能控制 (u)，但是目标却是让 (x_1 \to 0)。</p>
 <ul>
 <li>你不能直接控制 (x_1)，只能通过 (x_2) 来影响它；</li>
 <li>又不能直接控制 (x_2)，要通过控制 (u) 来影响 (x_2)；</li>
-<li>所以你得<strong>“反着来”一步步构造目标和控制器</strong>。</li>
+<li>所以你得**“反着来”一步步构造目标和控制器**。</li>
 </ul>
 <p>这就叫<strong>反步法</strong>的“反”！</p>
 <hr>
 <h4 id="♂-第二步：反步法的基本思路（类比台阶式稳定）"><a href="#♂-第二步：反步法的基本思路（类比台阶式稳定）" class="headerlink" title="??♂? 第二步：反步法的基本思路（类比台阶式稳定）"></a>??♂? 第二步：反步法的基本思路（类比台阶式稳定）</h4><p>我们可以像搭积木一样，把问题“分层”处理：</p>
 <h5 id="Step-1：先假设你能控制-x-2-，构造一个“理想控制”-x-2"><a href="#Step-1：先假设你能控制-x-2-，构造一个“理想控制”-x-2" class="headerlink" title="? Step 1：先假设你能控制 (x_2)，构造一个“理想控制” (x_2^*)"></a>? Step 1：先假设你能控制 (x_2)，构造一个“理想控制” (x_2^*)</h5><p>目标是让 (x_1 \to 0)，定义误差：</p>
-<p>[<br>z_1 = x_1<br>]</p>
+<p>[<br>z_1 &#x3D; x_1<br>]</p>
 <p>选择一个 Lyapunov 函数：</p>
-<p>[<br>V_1 = \frac{1}{2} z_1^2<br>]</p>
+<p>[<br>V_1 &#x3D; \frac{1}{2} z_1^2<br>]</p>
 <p>为了让 (\dot{V}_1 &lt; 0)，我们希望：</p>
-<p>[<br>x_2 = x_2^* = -k_1 z_1<br>]</p>
+<p>[<br>x_2 &#x3D; x_2^* &#x3D; -k_1 z_1<br>]</p>
 <p>（但这是“虚拟控制”，你目前还不能真的让 (x_2) 变成它）</p>
 <hr>
 <h5 id="Step-2：再设计一个控制器-u-，让-x-2-to-x-2"><a href="#Step-2：再设计一个控制器-u-，让-x-2-to-x-2" class="headerlink" title="? Step 2：再设计一个控制器 (u)，让 (x_2 \to x_2^*)"></a>? Step 2：再设计一个控制器 (u)，让 (x_2 \to x_2^*)</h5><p>定义误差：</p>
-<p>[<br>z_2 = x_2 - x_2^*<br>]</p>
+<p>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
 <p>构造新的 Lyapunov 函数：</p>
-<p>[<br>V = V_1 + \frac{1}{2} z_2^2<br>]</p>
+<p>[<br>V &#x3D; V_1 + \frac{1}{2} z_2^2<br>]</p>
 <p>然后你对 (V) 求导，得到一个包含 (u) 的公式，然后选择一个合适的 (u)（比如 PD 形式）让 (\dot{V} &lt; 0)，从而<strong>整体系统稳定</strong>。</p>
 <hr>
 <h4 id="数学流程简化总结："><a href="#数学流程简化总结：" class="headerlink" title="? 数学流程简化总结："></a>? 数学流程简化总结：</h4><ol>
@@ -375,19 +375,20 @@ if (true) {
 <li><strong>最后一步设计真正控制器 (u)</strong>（让误差逐步消除）</li>
 </ol>
 <hr>
-<h4 id="举个非常简单的反步法例子："><a href="#举个非常简单的反步法例子：" class="headerlink" title="? 举个非常简单的反步法例子："></a>? 举个非常简单的反步法例子：</h4><p>系统：<br>[<br>\begin{cases}<br>\dot{x}_1 = x_2 \<br>\dot{x}_2 = u<br>\end{cases}<br>]</p>
+<h4 id="举个非常简单的反步法例子："><a href="#举个非常简单的反步法例子：" class="headerlink" title="? 举个非常简单的反步法例子："></a>? 举个非常简单的反步法例子：</h4><p>系统：<br>[<br>\begin{cases}<br>\dot{x}_1 &#x3D; x_2 \<br>\dot{x}_2 &#x3D; u<br>\end{cases}<br>]</p>
 <p>目标是让 (x_1 \to 0)</p>
 <hr>
-<h5 id="第一步："><a href="#第一步：" class="headerlink" title="? 第一步："></a>? 第一步：</h5><p>设：<br>[<br>z_1 = x_1, \quad x_2^* = -k_1 z_1<br>]</p>
-<h5 id="第二步："><a href="#第二步：" class="headerlink" title="? 第二步："></a>? 第二步：</h5><p>再设：<br>[<br>z_2 = x_2 - x_2^*<br>]</p>
-<h5 id="Lyapunov-函数："><a href="#Lyapunov-函数：" class="headerlink" title="? Lyapunov 函数："></a>? Lyapunov 函数：</h5><p>[<br>V = \frac{1}{2}z_1^2 + \frac{1}{2}z_2^2<br>]</p>
+<h5 id="第一步："><a href="#第一步：" class="headerlink" title="? 第一步："></a>? 第一步：</h5><p>设：<br>[<br>z_1 &#x3D; x_1, \quad x_2^* &#x3D; -k_1 z_1<br>]</p>
+<h5 id="第二步："><a href="#第二步：" class="headerlink" title="? 第二步："></a>? 第二步：</h5><p>再设：<br>[<br>z_2 &#x3D; x_2 - x_2^*<br>]</p>
+<h5 id="Lyapunov-函数："><a href="#Lyapunov-函数：" class="headerlink" title="? Lyapunov 函数："></a>? Lyapunov 函数：</h5><p>[<br>V &#x3D; \frac{1}{2}z_1^2 + \frac{1}{2}z_2^2<br>]</p>
 <p>最后设计控制器：</p>
-<p>[<br>u = \dot{x}_2^* - k_2 z_2 = k_1^2 z_1 - k_2 z_2<br>]</p>
-<p>（其中 (\dot{x}_2^<em> = -k_1 \dot{z}_1 = -k_1 x_2 = -k_1(x_2^</em> + z_2))）</p>
+<p>[<br>u &#x3D; \dot{x}_2^* - k_2 z_2 &#x3D; k_1^2 z_1 - k_2 z_2<br>]</p>
+<p>（其中 (\dot{x}_2^* &#x3D; -k_1 \dot{z}_1 &#x3D; -k_1 x_2 &#x3D; -k_1(x_2^* + z_2))）</p>
 <p>? 最终系统就稳定了！</p>
 <hr>
 <h4 id="图示结构（台阶式控制）"><a href="#图示结构（台阶式控制）" class="headerlink" title="? 图示结构（台阶式控制）"></a>? 图示结构（台阶式控制）</h4><p>虽然你现在图生成额度用完了，但你可以这样想象这个流程：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">目标：x1 → 0</span><br><span class="line"> ↓ 设计虚拟控制 x2* = -k1·x1</span><br><span class="line">中间状态：x2</span><br><span class="line"> ↓ 实际控制器 u 让 x2 → x2*</span><br><span class="line">最终控制器：u = 函数(x1, x2)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="小结一句话："><a href="#小结一句话：" class="headerlink" title="? 小结一句话："></a>? 小结一句话：</h2><p>好的，我们来通俗地解释一下 PID 控制背后的数学原理。核心思想就是<strong>如何利用数学方法来量化“现在”、“过去”和“未来趋势”对控制决策的影响</strong>。</p>
 <p>想象一下，我们还是要控制房间温度在 25°C。</p>
@@ -395,8 +396,8 @@ if (true) {
 <li><strong>目标值 (Setpoint, SP)</strong>: 你想要的温度，这里是 25°C。这是一个固定的目标。</li>
 <li><strong>实际值 (Process Variable, PV(t))</strong>: 当前传感器测量的实际温度。这个值是随时间变化的，我们用 (PV(t)) 表示。</li>
 <li><strong>误差 (Error, e(t))</strong>: 目标值和实际值之间的差距。这是 PID 控制计算的基础。<ul>
-<li>数学表示：(e(t) = SP - PV(t))</li>
-<li>如果当前温度是 28°C，误差 (e(t) = 25 - 28 = -3)。如果当前是 23°C，误差 (e(t) = 25 - 23 = 2)。（注意：有时也定义为 (PV(t) - SP)，符号会反过来，但原理一样，后面的 (K) 值会相应调整）。我们这里按 (SP - PV(t)) 来解释。</li>
+<li>数学表示：(e(t) &#x3D; SP - PV(t))</li>
+<li>如果当前温度是 28°C，误差 (e(t) &#x3D; 25 - 28 &#x3D; -3)。如果当前是 23°C，误差 (e(t) &#x3D; 25 - 23 &#x3D; 2)。（注意：有时也定义为 (PV(t) - SP)，符号会反过来，但原理一样，后面的 (K) 值会相应调整）。我们这里按 (SP - PV(t)) 来解释。</li>
 </ul>
 </li>
 </ul>
@@ -404,24 +405,24 @@ if (true) {
 <ul>
 <li><strong>P (比例) 部分 - “看现在”的数学表达</strong>：<ul>
 <li>原理：输出与当前的误差成正比。</li>
-<li>数学公式：(P_{term} = K_p \cdot e(t))</li>
-<li>解释：(K<em>p) 是一个<strong>比例增益</strong>（一个需要调整的常数）。当前误差 (e(t)) 越大，(P</em>{term}) 这一部分的输出就越大。(K_p) 决定了对当前误差的反应有多“灵敏”或“强烈”。</li>
+<li>数学公式：(P_{term} &#x3D; K_p \cdot e(t))</li>
+<li>解释：(K_p) 是一个<strong>比例增益</strong>（一个需要调整的常数）。当前误差 (e(t)) 越大，(P_{term}) 这一部分的输出就越大。(K_p) 决定了对当前误差的反应有多“灵敏”或“强烈”。</li>
 </ul>
 </li>
 <li><strong>I (积分) 部分 - “看过去”的数学表达</strong>：<ul>
 <li>原理：输出与过去所有误差的总和（累积量）成正比。</li>
-<li>数学公式：(I<em>{term} = K_i \cdot \int</em>{0}^{t} e(\tau) d\tau)</li>
+<li>数学公式：(I_{term} &#x3D; K_i \cdot \int_{0}^{t} e(\tau) d\tau)</li>
 <li>通俗解释：这里的 (\int_{0}^{t} e(\tau) d\tau) 就是<strong>积分</strong>，你可以把它想象成“从开始（0时刻）到现在（t时刻）所有误差值的累加总和”。如果误差一直存在（即使很小），这个总和就会越来越大（或越来越小，取决于误差符号）。(K_i) 是<strong>积分增益</strong>（另一个需要调整的常数），它决定了对过去累积误差的重视程度。这个部分用来消除那些 P 控制单独解决不了的持续小误差（稳态误差）。</li>
 </ul>
 </li>
 <li><strong>D (微分) 部分 - “看未来趋势”的数学表达</strong>：<ul>
 <li>原理：输出与当前误差变化的<strong>速率</strong>成正比。</li>
-<li>数学公式：(D_{term} = K_d \cdot \frac{d(e(t))}{dt})</li>
+<li>数学公式：(D_{term} &#x3D; K_d \cdot \frac{d(e(t))}{dt})</li>
 <li>通俗解释：这里的 (\frac{d(e(t))}{dt}) 就是<strong>微分</strong>，它表示误差 (e(t)) 随时间 (t) 变化的<strong>瞬时速率</strong>（可以想象成误差曲线在当前点的“斜率”或“变化速度”）。如果误差正在快速减小（比如温度快速接近 25°C），这个微分值就是负的，(D_{term}) 会产生一个反向的作用力（比如提前减小制冷），防止过冲。如果误差在快速增大，它会产生一个正向的作用力，加速反应。(K_d) 是<strong>微分增益</strong>（第三个需要调整的常数），决定了对误差变化速率的反应强度。</li>
 </ul>
 </li>
 </ul>
-<h3 id="3-最终的控制输出："><a href="#3-最终的控制输出：" class="headerlink" title="3. 最终的控制输出："></a>3. 最终的控制输出：</h3><p>把这三个部分加起来，就得到了 PID 控制器的总输出：<br>[u(t) = P<em>{term} + I</em>{term} + D<em>{term} = K_p \cdot e(t) + K_i \cdot \int</em>{0}^{t} e(\tau) d\tau + K_d \cdot \frac{d(e(t))}{dt}]</p>
+<h3 id="3-最终的控制输出："><a href="#3-最终的控制输出：" class="headerlink" title="3. 最终的控制输出："></a>3. 最终的控制输出：</h3><p>把这三个部分加起来，就得到了 PID 控制器的总输出：<br>[u(t) &#x3D; P_{term} + I_{term} + D_{term} &#x3D; K_p \cdot e(t) + K_i \cdot \int_{0}^{t} e(\tau) d\tau + K_d \cdot \frac{d(e(t))}{dt}]</p>
 <h3 id="总结一下数学原理的通俗理解："><a href="#总结一下数学原理的通俗理解：" class="headerlink" title="总结一下数学原理的通俗理解："></a>总结一下数学原理的通俗理解：</h3><p>PID 控制的数学核心就是这个<strong>结合了比例、积分、微分的线性组合公式</strong>。</p>
 <ul>
 <li><strong>比例项 (K_p \cdot e(t))</strong> 让控制器对当前误差做出快速反应。</li>

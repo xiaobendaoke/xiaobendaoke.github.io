@@ -28,11 +28,7 @@
       
         
         
-    <summary type="html">&lt;h2 id=&quot;a算法&quot;&gt;A*算法&lt;/h2&gt;
-&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*
-算法&lt;/strong&gt;，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;-一句话解释-a-算法&quot;&gt;?</summary>
+    <summary type="html">&lt;h2 id=&quot;A-算法&quot;&gt;&lt;a href=&quot;#A-算法&quot; class=&quot;headerlink&quot; title=&quot;A*算法&quot;&gt;&lt;/a&gt;A*算法&lt;/h2&gt;&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*</summary>
         
       
     
@@ -53,8 +49,7 @@
       
         
         
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very
-first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
         
       
     

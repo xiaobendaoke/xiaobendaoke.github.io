@@ -1,0 +1,1266 @@
+layout: false 
+---
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>终极指南：在STM32H755ZI-Q与Zephyr上实现DVFS能效优化</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: #343a40;
+            scroll-margin-top: 4rem;
+        }
+        h2 { border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; margin-top: 2.5rem; margin-bottom: 1.5rem; }
+        h3 { border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+        h4 { margin-top: 1.5rem; margin-bottom: 1rem; }
+        
+        /* 改进目录链接样式 */
+        .toc-link {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+            margin-bottom: 0.2rem;
+            color: #495057;
+            display: block;
+            border-radius: 0 0.3rem 0.3rem 0;
+        }
+        .toc-link:hover {
+            background-color: #e9ecef;
+            border-left-color: #007bff;
+            color: #007bff;
+        }
+        .toc-link.active {
+            background-color: #e9ecef;
+            border-left-color: #007bff;
+            font-weight: 500;
+            color: #0056b3;
+        }
+        .toc-link.level-3 { 
+            padding-left: 1.8rem;
+            font-size: 0.85rem;
+        }
+        .toc-link.level-4 { 
+            padding-left: 2.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* 移除prose类的最大宽度限制 */
+        .article-content p, .article-content li { 
+            line-height: 1.75; 
+            margin-bottom: 1.25rem; 
+        }
+        .article-content a { 
+            color: #007bff; 
+            text-decoration: none; 
+        }
+        .article-content a:hover { 
+            text-decoration: underline; 
+        }
+
+        .code-block {
+            position: relative;
+            background-color: #282c34;
+            color: #abb2bf;
+            border-radius: 0.5rem;
+            padding: 1.5rem 1rem 1rem 1rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 0.9rem;
+        }
+        .code-block pre { margin: 0; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #444c56;
+            color: #abb2bf;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover { background-color: #565f6c; }
+
+        .custom-blockquote {
+            background-color: #e9ecef;
+            border-left: 5px solid #6c757d;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.25rem;
+        }
+        .warning-blockquote {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .flowchart-node { border: 2px solid #adb5bd; padding: 0.75rem; border-radius: 0.5rem; text-align: center; background-color: #f8f9fa; min-width: 140px; }
+        .flowchart-diamond { transform: rotate(45deg); width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; margin: 2rem auto; }
+        .flowchart-diamond span { transform: rotate(-45deg); max-width: 100px; font-size: 0.875rem; }
+        .flowchart-arrow { position: relative; height: 30px; width: 2px; background-color: #adb5bd; margin: 0 auto; }
+        .flowchart-arrow::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #adb5bd; }
+        .flowchart-decision-line { width: 50%; border-top: 2px dashed #adb5bd; margin: 2rem auto 0 auto; position: relative; }
+        .flowchart-decision-line::before { content: attr(data-label); position: absolute; top: -1.2em; background: #f8f9fa; padding: 0 0.5em; font-size: 0.8em; color: #6c757d; }
+        .decision-yes { left: 25%; }
+        .decision-no { right: 25%; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row">
+        
+        <!-- Table of Contents -->
+        <aside class="w-full lg:w-1/5 lg:sticky top-0 lg:h-screen lg:overflow-y-auto py-8 lg:pr-4">
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <h3 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-200">目录</h3>
+                <nav id="toc" class="overflow-y-auto pr-2 max-h-[calc(100vh-140px)]">
+                    <!-- The script below will auto-generate the ToC here -->
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-full lg:w-4/5 py-8">
+            <article id="main-content" class="article-content px-4 bg-white rounded-lg shadow-sm p-8">
+<h1 id="section-面向新手的终极指南：在stm32h755zi-q与zephyr上实现dvfs能效优化（重制详解版）" class="text-4xl mb-4">面向新手的终极指南：在STM32H755ZI-Q与Zephyr上实现DVFS能效优化（重制详解版）</h1>
+<h2 id="section-引言：开启嵌入式能效探索之旅" class="text-3xl">引言：开启嵌入式能效探索之旅</h2>
+<h3 id="section-1-欢迎与导读" class="text-2xl">1. 欢迎与导读</h3>
+<p>欢迎来到这篇面向嵌入式系统初学者的综合实践指南。本教程的目标是引领您完成一个完整且具有现实意义的嵌入式项目：从环境搭建到最终的性能分析，我们将一步步地在功能强大的STM32H7系列微控制器上，利用先进的Zephyr实时操作系统（RTOS），亲手设计并实现一个动态电压与频率调整（Dynamic Voltage and Frequency Scaling, DVFS）系统。</p>
+<p>嵌入式系统的世界广阔而迷人，但对于初学者而言，其复杂的工具链、繁多的硬件细节和陡峭的学习曲线常常令人望而生畏。本指南正是为此而生。我们将摒弃含糊不清的指令和悬而未决的技术细节，通过详尽的步骤、明确的指令和丰富的图文说明，为您扫清学习道路上的障碍。我们的目标不仅是让您成功复现整个实验，更重要的是，希望您能在此过程中真正理解其背后的核心原理——从CMOS电路的功耗公式到实时系统的截止时间约束，再到DVFS策略的设计哲学。</p>
+<p>无论您是正在进行毕业设计的学生，是希望扩展技能的软件开发者，还是对物联网和底层技术充满热情的爱好者，本教程都将为您提供一个坚实的起点。让我们一起开启这段激动人心的嵌入式能效探索之旅吧！</p>
+<h3 id="section-2-准备工作：您的硬件与软件工具箱" class="text-2xl">2. 准备工作：您的硬件与软件工具箱</h3>
+<p>在开始任何编码工作之前，准备好所有必需的工具和材料是项目成功的关键。所谓"工欲善其事，必先利其器"，一个清晰的准备清单可以帮助您避免在项目进行到一半时因缺少某个工具或驱动而陷入困境。请在开始下一章节前，对照下表检查并准备好所有项目。</p>
+<p><strong class="font-semibold">表1：硬件与软件准备清单</strong></p>
+<div><table class="w-full text-sm border-collapse border border-gray-300 mb-6"><thead><tr class="bg-gray-100"><th class="border border-gray-300 p-2 font-semibold text-left">类别</th><th class="border border-gray-300 p-2 font-semibold text-left">项目</th><th class="border border-gray-300 p-2 font-semibold text-left">数量/版本</th><th class="border border-gray-300 p-2 font-semibold text-left">说明</th></tr></thead><tbody>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><strong class="font-semibold">硬件 (Hardware)</strong></td><td class="border border-gray-300 p-2">NUCLEO-H755ZI-Q 开发板</td><td class="border border-gray-300 p-2">1 块</td><td class="border border-gray-300 p-2">本项目的核心计算平台，集成了强大的双核MCU和调试器 [1, 2]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Micro-USB 数据线</td><td class="border border-gray-300 p-2">1 根</td><td class="border border-gray-300 p-2">用于为开发板供电、下载程序以及通过虚拟串口进行通信 。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">电脑 (Computer)</td><td class="border border-gray-300 p-2">1 台</td><td class="border border-gray-300 p-2">推荐使用 <strong class="font-semibold">Ubuntu 20.04+</strong> 或 <strong class="font-semibold">Windows 10/11</strong> 并安装 <strong class="font-semibold">WSL2</strong> (Windows Subsystem for Linux 2)。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><strong class="font-semibold">软件 (Software)</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">核心依赖</strong></td><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Git</td><td class="border border-gray-300 p-2">最新版</td><td class="border border-gray-300 p-2">版本控制系统，用于获取Zephyr源码 [3]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">CMake</td><td class="border border-gray-300 p-2">v3.20 或更高</td><td class="border border-gray-300 p-2">跨平台的构建系统，Zephyr项目构建的基础 [3]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Python3 及 pip</td><td class="border border-gray-300 p-2">v3.8 或更高</td><td class="border border-gray-300 p-2">Zephyr的脚本和工具依赖Python环境 [4]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Ninja-build</td><td class="border border-gray-300 p-2">最新版</td><td class="border border-gray-300 p-2">一个小型的、专注于速度的构建系统，被Zephyr的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>工具默认使用 [3]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"><strong class="font-semibold">Zephyr 工具链</strong></td><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Zephyr SDK</td><td class="border border-gray-300 p-2">v0.16.x 或更高</td><td class="border border-gray-300 p-2">包含了交叉编译器、调试器和其他构建固件所需的工具。 [4]</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">west</td><td class="border border-gray-300 p-2">最新版</td><td class="border border-gray-300 p-2">Zephyr的元工具，用于管理源码仓库、构建、烧录和调试 [4]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"><strong class="font-semibold">STMicroelectronics 工具</strong></td><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">STM32CubeProgrammer</td><td class="border border-gray-300 p-2">最新版</td><td class="border border-gray-300 p-2">ST官方工具，用于烧录程序和修改MCU的选项字节（如禁用M4核） [1, 5]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">STM32CubeMonitor-Power</td><td class="border border-gray-300 p-2">最新版</td><td class="border border-gray-300 p-2">ST官方工具，用于高精度实时测量开发板的功耗 [1, 6]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><strong class="font-semibold">驱动与权限</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">Windows 用户</strong></td><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">ST-LINK/V3 驱动</td><td class="border border-gray-300 p-2">-</td><td class="border border-gray-300 p-2">通常在安装STM32CubeProgrammer时会自动安装。请确保在设备管理器中能看到 "ST-Link Debug" 和 "ST-Link Virtual COM Port" [1, 5]。</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"><strong class="font-semibold">Linux / WSL2 用户</strong></td><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">ST-LINK udev 规则</td><td class="border border-gray-300 p-2">-</td><td class="border border-gray-300 p-2">极其重要！用于允许非root用户访问ST-LINK调试器。我们将在后续章节提供详细配置命令 [7, 8]。</td></tr>
+</tbody></table></div>
+<hr class="my-8"/>
+<h2 id="section-第一部分：环境搭建与平台基础" class="text-3xl">第一部分：环境搭建与平台基础</h2>
+<p>本部分将指导您从零开始，搭建一个完整、稳定且功能齐全的开发环境，并深入了解我们将要使用的硬件与软件平台的核心特性。</p>
+<h2 id="section-第一章：从零到"hello-world"：搭建您的开发环境" class="text-3xl">第一章：从零到"Hello World"：搭建您的开发环境</h2>
+<p>一个稳定可靠的开发环境是所有后续工作的基础。本章将提供详尽的、可直接复制执行的指令，确保即使是初学者也能顺利完成环境的搭建与验证。我们将以Ubuntu/WSL2环境为例进行讲解，这是目前社区推荐的主流开发环境。</p>
+<h3 id="section-11-依赖项安装 -(分步详解)" class="text-2xl">1.1 依赖项安装 (分步详解)</h3>
+<p>Zephyr的构建系统依赖于一系列标准的开发工具。我们将通过一条命令完成所有必要软件的安装，这大大简化了官方文档中分散的安装步骤 [4]。</p>
+<h4 id="section-针对ubuntu --wsl2用户" class="text-xl">针对Ubuntu / WSL2用户</h4>
+<p>打开您的终端，复制并执行以下命令。这条命令会更新您的软件包列表，并一次性安装所有必需的依赖项，包括Git, CMake, Ninja, Python等 [3, 9]。</p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">sudo apt-get update && sudo apt-get install --no-install-recommends git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python3-dev python3-pip python3-setuptools python3-tk python3-wheel python3-venv libsdl2-dev libmagic1
+</code></pre></div>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">命令解析</strong>：
+<ul>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">sudo apt-get update</code>: 同步您的包管理器索引，确保能安装最新版本的软件。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">sudo apt-get install...</code>: 安装后面列出的一系列软件包。<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">--no-install-recommends</code> 选项可以避免安装一些非必需的推荐包，保持系统整洁。</li>
+</ul>
+</li>
+</ul>
+<h4 id="section-针对windows用户" class="text-xl">针对Windows用户</h4>
+<p>我们强烈建议您在Windows 10/11上安装并使用 <strong class="font-semibold">WSL2 (Windows Subsystem for Linux 2)</strong>。WSL2提供了一个完整的Linux内核，能够提供近乎原生的Linux开发体验，可以完美地避免在原生Windows环境下可能遇到的各种路径、权限和工具兼容性问题。</p>
+<p>您可以参考微软官方的WSL安装指南来完成安装：<a href="https://learn.microsoft.com/zh-cn/windows/wsl/install" target="_blank" class="text-blue-600 hover:underline">https://learn.microsoft.com/zh-cn/windows/wsl/install</a></p>
+<p>安装完成后，您可以从Microsoft Store安装一个Linux发行版（如Ubuntu 20.04 LTS），然后按照上一节"针对Ubuntu / WSL2用户"的步骤进行操作。</p>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">小贴士：为何推荐WSL2？</strong></p></div>
+<p>原生Windows环境下的嵌入式开发常常因为工具链对文件路径格式（斜杠<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">\</code> vs <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">/</code>）、脚本执行环境（CMD/PowerShell vs Bash）和设备驱动的敏感性而变得复杂。WSL2通过提供一个真实的Linux环境，让您能够直接使用为Linux设计的、经过社区广泛验证的工具和命令，极大地简化了开发流程，是现代嵌入式开发的最佳实践之一。</p>
+<h3 id="section-12-获取zephyr源码与工具" class="text-2xl">1.2 获取Zephyr源码与工具</h3>
+<p>接下来，我们将使用Zephyr的专用元工具<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>来获取Zephyr操作系统的源码及其所有依赖模块。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">创建并激活Python虚拟环境</strong>为了避免与系统中其他Python项目的依赖发生冲突，我们首先创建一个独立的Python虚拟环境。这是一个非常好的工程习惯 [4]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash"># 在您的用户主目录下创建一个名为zephyrproject的文件夹，并在其中创建虚拟环境
+python3 -m venv ~/zephyrproject/.venv
+
+# 激活该虚拟环境
+source ~/zephyrproject/.venv/bin/activate
+</code></pre></div>
+<p>激活成功后，您会看到终端提示符前面出现<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">(.venv)</code>字样。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">安装west</strong>在已激活的虚拟环境中，使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">pip</code>安装<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code> [9]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">pip3 install west
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">初始化并更新Zephyr工作区</strong>使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>来下载Zephyr项目的主仓库和所有必需的模块。这个过程可能会花费一些时间，具体取决于您的网络状况 [9]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash"># 进入您的用户主目录
+cd ~
+
+# 初始化west工作区，这会克隆Zephyr主仓库
+west init zephyrproject
+
+# 进入新创建的工作区目录
+cd zephyrproject
+
+# 更新所有依赖的模块
+west update
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">导出Zephyr的CMake包</strong>这一步至关重要，它会生成一个CMake配置文件，让您的系统能够找到Zephyr的构建脚本，从而编译您的应用程序 [9]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">west zephyr-export
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">安装额外的Python依赖</strong>Zephyr的某些脚本还需要一些额外的Python包，我们可以用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>方便地安装它们。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">pip3 install --user -r ~/zephyrproject/zephyr/scripts/requirements.txt
+</code></pre></div>
+<h3 id="section-13-安装与配置zephyr-sdk" class="text-2xl">1.3 安装与配置Zephyr SDK</h3>
+<p>Zephyr SDK（软件开发工具包）包含了用于将您的C代码编译成STM32微控制器可执行的二进制文件的交叉编译器和调试器等核心工具。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">下载SDK</strong>访问Zephyr项目在GitHub上的<a href="https://github.com/zephyrproject-rtos/sdk-ng/releases" target="_blank" class="text-blue-600 hover:underline">官方发布页面</a>，下载最新版本的SDK安装包。请选择与您的系统匹配的版本，例如<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">zephyr-sdk-0.16.5_linux-x86_64.tar.gz</code>。</li>
+</ol>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">安装SDK</strong>将下载的压缩包移动到您的用户主目录，然后解压并运行其内部的安装脚本 。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash"># 假设您已将SDK下载到~/Downloads目录
+cd ~
+tar xvf ~/Downloads/zephyr-sdk-*.tar.gz
+
+# 进入解压后的SDK目录
+cd zephyr-sdk-*
+
+# 运行安装脚本
+./setup.sh
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">配置环境变量（关键步骤）</strong>为了让Zephyr的构建系统能够找到刚刚安装的SDK，您必须设置相应的环境变量。这是一个非常容易被新手忽略的步骤。我们将把这些变量永久性地添加到您的shell配置文件（<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">~/.bashrc</code>）中，这样每次打开新终端时它们都会自动生效 [10]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash"># 将SDK安装路径写入.bashrc文件（请将0.16.x替换为您下载的实际版本号）
+echo "export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.16.5" >> ~/.bashrc
+
+# 设置默认的工具链为zephyr
+echo "export ZEPHYR_TOOLCHAIN_VARIANT=zephyr" >> ~/.bashrc
+
+# 让更改立即生效
+source ~/.bashrc
+</code></pre></div>
+<h3 id="section-14-驱动与权限配置" class="text-2xl">1.4 驱动与权限配置</h3>
+<p>这是确保您的电脑能够与NUCLEO开发板正常通信的关键一步，也是解决"烧录失败"问题的核心。</p>
+<h4 id="section-针对linux --wsl2用户 -(udev规则)" class="text-xl">针对Linux / WSL2用户 (udev规则)</h4>
+<p>默认情况下，Linux系统不允许普通用户直接访问USB硬件设备。我们需要添加一个<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">udev</code>规则，来授予您当前用户访问ST-LINK调试器的权限。否则，<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code>命令会因权限不足而失败 [7, 8]。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">复制udev规则文件</strong>Zephyr SDK已经为您准备好了这个规则文件。您只需将其复制到系统的udev规则目录中。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash"># 将0.16.x替换为您的SDK实际版本号
+sudo cp ~/zephyr-sdk-0.16.5/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d/
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">重新加载udev规则</strong>执行以下命令使新规则立即生效。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">sudo udevadm control --reload
+</code></pre></div>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">小贴士：</strong> 如果您在执行<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code>时遇到任何关于"permission denied"或"could not open device"的错误，99%的可能性是udev规则没有正确配置。请回到这里，仔细检查并重新执行以上步骤。</p></div>
+<h4 id="section-针对windows用户" class="text-xl">针对Windows用户</h4>
+<p>对于使用原生Windows（非WSL）的用户，ST-LINK驱动程序通常会在您安装<strong class="font-semibold">STM32CubeProgrammer</strong>时被一并安装 。安装完成后，请将NUCLEO开发板连接到电脑，然后打开"设备管理器"，检查"端口 (COM & LPT)"和"通用串行总线控制器"下是否能正常识别到"ST-Link Virtual COM Port"和"ST-Link Debug"设备。如果未能识别，请重新安装STM32CubeProgrammer并确保勾选了驱动安装选项。</p>
+<h3 id="section-15-环境验证：编译并运行第一个程序" class="text-2xl">1.5 环境验证：编译并运行第一个程序</h3>
+<p>现在，激动人心的时刻到了！我们将编译并运行一个经典的"Hello World"程序，以验证整个开发环境是否已正确配置。看到程序成功运行的输出，是对您辛勤付出的最好回报。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">构建 (Build)</strong>进入Zephyr项目的主目录，使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>构建<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">hello_world</code>示例。请注意，我们需要为<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">nucleo_h755zi_q</code>开发板的Cortex-M7核心进行编译，因此需要指定完整的板卡名称<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">nucleo_h755zi_q/stm32h755xx/m7</code> 。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">cd ~/zephyrproject/zephyr
+west build -b nucleo_h755zi_q/stm32h755xx/m7 samples/basic/hello_world
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">烧录 (Flash)</strong>将您的NUCLEO-H755ZI-Q开发板通过Micro-USB线连接到电脑。然后执行以下命令将编译好的程序下载到开发板中 。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">west flash
+</code></pre></div>
+<p><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>会自动调用后台的烧录工具（如STM32CubeProgrammer或OpenOCD）完成烧录过程。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">查看输出 (View Output)</strong>打开一个串口终端工具（如Linux下的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">minicom</code>，Windows下的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">PuTTY</code>或VS Code集成的串口监视器）。
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">设置：</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">端口 (Port):</strong> 在Linux/WSL下通常是<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">/dev/ttyACM0</code>。在Windows下，请在设备管理器中查看ST-Link Virtual COM Port对应的COM号（如COM3）。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">波特率 (Baud rate):</strong> 115200</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">数据位 (Data bits):</strong> 8</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">奇偶校验 (Parity):</strong> None</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">停止位 (Stop bits):</strong> 1</li>
+</ul>
+</li>
+<li class="ml-6 list-disc">连接成功后，<strong class="font-semibold">按下开发板上黑色的复位(RESET)按钮</strong>。您应该能在终端窗口看到如下输出：</li>
+</ul>
+</li>
+</ol>
+<div class="my-6 text-center"><img src="https://i.imgur.com/8a6b6fC.png" alt="成功运行Hello World的串口终端截图" class="max-w-full lg:max-w-2xl mx-auto rounded-lg shadow-md"><p class="text-xs text-gray-500 mt-2">图1：成功运行"Hello World"程序的串口终端输出示例</p></div>
+<p><strong class="font-semibold">恭喜您！</strong> 看到这行输出，意味着您的开发环境已全部就绪，可以正式开始我们的DVFS项目开发了。</p>
+<h2 id="section-第二章：深度解析：nucleo-h755zi-q与zephyr-rtos" class="text-3xl">第二章：深度解析：NUCLEO-H755ZI-Q与Zephyr RTOS</h2>
+<p>在正式编写DVFS策略代码之前，深入了解我们所使用的硬件平台和软件操作系统的关键特性是至关重要的。这有助于我们理解"为什么"要这么做，而不仅仅是"如何"做。</p>
+<h3 id="section-21-硬件平台概览" class="text-2xl">2.1 硬件平台概览</h3>
+<p>我们选择的NUCLEO-H755ZI-Q是一款功能强大且极具性价比的开发平台，其核心是意法半导体（STMicroelectronics）的STM32H755ZIT6微控制器。对于本项目，以下几个特性是我们需要重点关注的 [1, 2]：</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">高性能双核MCU:</strong> 这是我们项目的"大脑"。它包含一个主频高达480 MHz的高性能Arm Cortex-M7内核和一个主频为240 MHz的辅助Arm Cortex-M4内核。强大的M7内核为我们实现复杂的DVFS策略和模拟计算密集型任务提供了充足的算力 [11]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">板载调试与功耗监测:</strong> 该开发板集成了ST-LINK/V3调试器。这意味着我们无需购买额外的JTAG或SWD探针，即可通过一根USB线完成程序的下载和断点调试。更重要的是，新版本的ST-LINK/V3配合ST官方软件STM32CubeMonitor-Power，具备了高精度的功耗监测功能，这将成为我们后续实验中量化DVFS节能效果的"神器" [1, 12]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">灵活的供电与丰富的I/O:</strong> 开发板可以通过USB直接供电，极大地简化了实验桌面布线。同时，板载的用户LED和按钮，可以作为开发初期最直观的调试手段，例如用LED的闪烁状态来指示当前的CPU频率 [1, 2]。</li>
+</ul>
+<h3 id="section-22-聚焦单核：禁用cortex-m4 -(图文教程)" class="text-2xl">2.2 聚焦单核：禁用Cortex-M4 (图文教程)</h3>
+<p>STM32H755ZI的双核架构虽然强大，但也引入了显著的开发复杂性，例如核间通信、资源共享冲突和并发调试等问题 [1, 13]。考虑到本项目核心是验证DVFS策略，而非复杂的并行计算，为了极大地降低项目难度、让初学者能将全部精力集中在核心问题上，一个明智的工程决策是：<strong class="font-semibold">在项目初期，完全禁用Cortex-M4内核，将NUCLEO-H755ZI-Q当作一个高性能的单核（Cortex-M7）开发板来使用。</strong></p>
+<p>我们将通过ST官方的STM32CubeProgrammer软件来修改MCU的"选项字节"（Option Bytes），从硬件层面禁止M4内核在系统复位后启动。这是一个一次性配置，除非您再次修改，否则将永久生效。</p>
+<p><strong class="font-semibold">详细步骤如下：</strong></p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">连接开发板与软件：</strong> 使用USB线将NUCLEO开发板连接到电脑，打开STM32CubeProgrammer。在右上角的连接选项中选择"ST-LINK"，然后点击"Connect"。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">进入选项字节界面：</strong> 成功连接后，软件会读取MCU信息。点击左侧导航栏中的"OB"（Option Bytes）图标。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">修改用户配置：</strong> 在选项字节界面中，找到"User Configuration"区域。您会看到一个名为<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BCM4</code>（Boot Cortex-M4）的选项。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">禁用M4内核：</strong> <strong class="font-semibold">取消勾选<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BCM4</code>选项</strong>。这将使其对应的寄存器值变为0，从而阻止M4内核启动。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">应用更改：</strong> 点击右上角的"Apply"按钮。软件会将新的选项字节配置写入MCU的非易失性存储器中。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">验证：</strong> 断开连接并重新给开发板上电。现在，只有Cortex-M7内核会启动和运行您的程序了。</li>
+</ol>
+<div class="my-6 text-center"><img src="https://i.imgur.com/kY7jH3g.png" alt="在STM32CubeProgrammer中修改选项字节BCM4的截图" class="max-w-full lg:max-w-2xl mx-auto rounded-lg shadow-md"><p class="text-xs text-gray-500 mt-2">图2：在STM32CubeProgrammer的选项字节(OB)界面中，取消勾选BCM4以禁用Cortex-M4内核</p></div>
+<div class="custom-blockquote warning-blockquote"><p class="m-0"><strong class="font-semibold">重要警告：</strong></p></div>
+<p>在修改选项字节时，请务必小心。旁边会有一个<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BCM7</code>（Boot Cortex-M7）的选项，<strong class="font-semibold">绝对不要取消勾选<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BCM7</code></strong>，否则可能导致主内核也无法启动，使MCU"变砖"（即无法再次编程）[1, 14]。请再三确认您只修改了<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BCM4</code>。</p>
+<h3 id="section-23-驾驭电源管理单元以实现dvfs" class="text-2xl">2.3 驾驭电源管理单元以实现DVFS</h3>
+<p>要在软件层面实现DVFS，我们必须精确地控制STM32H755ZI内部的三个关键硬件模块。幸运的是，ST的硬件抽象层（HAL）库已经将这些复杂的底层寄存器操作封装成了更易于使用的函数 [1, 15]。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">电源控制 (PWR - Power Control):</strong> 这是<strong class="font-semibold">电压调整</strong>的核心。STM32H7系列通过设置不同的电压调节范围（Voltage Scaling, VOS）来匹配不同的频率。频率越高，就需要越高的核心电压（即更高的VOS等级）。例如，要稳定运行在480 MHz，核心电压必须设置为最高的VOS0等级。我们将使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HAL_PWREx_ControlVoltageScaling()</code>函数来完成此项配置 [1, 15]。</li>
+</ol>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">时钟控制 (RCC - Reset and Clock Control):</strong> 这是<strong class="font-semibold">频率调整</strong>的核心。我们需要通过配置主锁相环（PLL1）的各项分频和倍频参数，来从一个稳定的输入时钟源（如板载的8 MHz外部晶振 HSE）生成我们所需要的目标系统时钟频率（SYSCLK）。我们将使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HAL_RCC_OscConfig()</code>和<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HAL_RCC_ClockConfig()</code>这两个函数来配置时钟树 [1, 16]。</li>
+</ol>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">闪存访问延迟 (Flash Latency):</strong> 这是一个常常被初学者忽略但至关重要的环节。CPU的运行速度远快于从内部Flash存储器中读取指令和数据的速度。当CPU频率提高时，我们必须明确地告诉Flash控制器，在每次读取操作时需要插入更多的等待周期（Wait States, WS）。否则，CPU会因为取不到下一条指令而运行出错，导致程序直接崩溃（通常表现为<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HardFault</code>）。我们将使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HAL_FLASH_SetLatency()</code>函数来设置等待周期 [1, 15]。</li>
+</ol>
+<p>为了方便您在后续编码阶段直接查阅和使用，这里整理了一份针对本项目Cortex-M7内核的DVFS关键操作点速查表。这张表是您将数据手册中的抽象信息转化为具体代码实现的重要桥梁。</p>
+<p><strong class="font-semibold">表2：NUCLEO-H755ZI-Q Cortex-M7内核DVFS操作点参考</strong></p>
+<div><table class="w-full text-sm border-collapse border border-gray-300 mb-6"><thead><tr class="bg-gray-100"><th class="border border-gray-300 p-2 font-semibold text-left">目标频率 (MHz)</th><th class="border border-gray-300 p-2 font-semibold text-left">所需VOS等级</th><th class="border border-gray-300 p-2 font-semibold text-left">HAL库PWR函数参数</th><th class="border border-gray-300 p-2 font-semibold text-left">所需Flash延迟 (WS)</th><th class="border border-gray-300 p-2 font-semibold text-left">HAL库FLASH函数参数</th></tr></thead><tbody>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2">480</td><td class="border border-gray-300 p-2">VOS0</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">PWR_REGULATOR_VOLTAGE_SCALE0</code></td><td class="border border-gray-300 p-2">4</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">FLASH_LATENCY_4</code></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2">400</td><td class="border border-gray-300 p-2">VOS1</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">PWR_REGULATOR_VOLTAGE_SCALE1</code></td><td class="border border-gray-300 p-2">2</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">FLASH_LATENCY_2</code></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2">300</td><td class="border border-gray-300 p-2">VOS2</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">PWR_REGULATOR_VOLTAGE_SCALE2</code></td><td class="border border-gray-300 p-2">1</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">FLASH_LATENCY_1</code></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2">200</td><td class="border border-gray-300 p-2">VOS3</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">PWR_REGULATOR_VOLTAGE_SCALE3</code></td><td class="border border-gray-300 p-2">0</td><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">FLASH_LATENCY_0</code></td></tr>
+</tbody></table></div>
+<p>*注：以上数值基于VDD = 3.3V的典型配置，具体实现时应以最新的STM32H755xx数据手册和参考手册（RM0468）为最终依据 [14, 17]。*</p>
+<h3 id="section-24-zephyr-rtos核心概念" class="text-2xl">2.4 Zephyr RTOS核心概念</h3>
+<p>Zephyr是一个为资源受限的嵌入式设备设计的开源、可扩展的实时操作系统（RTOS）。它拥有强大的社区支持、对众多硬件平台的良好兼容性，以及现代化的内核设计，非常适合用于我们的项目 [1, 18]。在本项目中，您将主要接触到以下几个核心概念：</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">线程 (Threads):</strong> 线程是并发执行的基本单元。在我们的项目中，我们将创建不同的线程来分别执行不同的任务，例如一个线程专门负责监控CPU负载并执行DVFS决策，另一个线程则负责模拟AAV的计算负载 [1, 5]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">调度器 (Scheduler):</strong> Zephyr默认使用基于优先级的抢占式调度器。这意味着，一旦一个高优先级的任务准备就绪，它可以立即中断（抢占）当前正在运行的任何低优先级任务。这对于保证关键控制任务（如飞行姿态控制）的实时性至关重要 [1, 19]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">内核定时器 (Kernel Timers):</strong> 我们可以使用内核定时器来以精确的时间间隔执行某个函数，或者让当前线程休眠（暂停执行）一段指定的时间。这是实现周期性任务（如每20ms执行一次控制算法）和精确延时的基础 [1, 20]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">日志系统 (Logging):</strong> Zephyr提供了一个功能强大且易于使用的日志框架。我们可以在代码的任何地方通过简单的宏（如<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOG_INF()</code>、<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOG_WRN()</code>、<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOG_DBG()</code>）来向控制台（即您PC上的串口终端）输出调试信息和实验数据。这是开发和调试过程中观察系统内部状态、验证策略有效性的不可或缺的工具 [1, 15]。</li>
+</ul>
+<hr class="my-8"/>
+<h2 id="section-第二部分：dvfs策略设计与代码实现" class="text-3xl">第二部分：DVFS策略设计与代码实现</h2>
+<p>在这一部分，我们将把理论设计转化为可在硬件上运行的嵌入式系统，并搭建实验环境来收集数据。这是整个项目中最具挑战性也最能锻炼您动手能力的环节。</p>
+<h2 id="section-第三章：aav计算负载建模" class="text-3xl">第三章：AAV计算负载建模</h2>
+<p>一个优秀的DVFS策略必须针对其应用场景的负载特性进行设计。在本章中，我们将定义一系列能够模拟水空两栖飞行器（AAV）在不同飞行阶段CPU计算需求的负载模型。这些模型将作为后续实验的"输入"，用以检验我们的DVFS策略是否足够智能和高效。</p>
+<h3 id="section-31-区分工作负载类型：计算密集型 -vs- 访存密集型" class="text-2xl">3.1 区分工作负载类型：计算密集型 vs. 访存密集型</h3>
+<p>在设计负载模型之前，理解两种基本的工作负载类型至关重要，因为它们对DVFS策略的响应截然不同。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">计算密集型 (CPU-Bound):</strong> 这类任务的执行速度主要受限于CPU的运算能力。例如，执行复杂的浮点数运算、姿态解算中的矩阵变换等。对于CPU-bound任务，其性能几乎与CPU频率成正比：频率提高一倍，执行时间几乎缩短一半。因此，DVFS降频会显著延长其执行时间 [1, 21]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">访存密集型 (Memory-Bound):</strong> 这类任务的执行速度主要受限于从内存（RAM或Flash）读取数据或指令的速度。例如，处理大型数据数组或在代码执行中频繁发生缓存未命中（Cache Miss）。由于内存的访问速度通常远低于CPU的最高运行速度，CPU在执行此类任务时，可能会花费大量时间处于"停顿"（Stall）状态等待数据。因此，对于memory-bound任务，即使降低CPU频率，其总执行时间的变化也远没有CPU-bound任务那么敏感 [1, 21]。</li>
+</ul>
+<p>将这一认知应用到AAV场景中，我们可以推断：AAV的"跨介质转换"阶段，由于涉及大量实时控制算法，很可能是<strong class="font-semibold">计算密集型</strong>的。而"水下巡航"阶段，如果主要是在等待低速的声纳数据，则可能表现出<strong class="font-semibold">I/O密集型</strong>（访存密集型的一种）的特征。因此，我们设计的负载生成器，不仅要能模拟不同的CPU利用率，还应该能模拟这两种不同的负载性质，这将使我们的仿真实验更加贴近物理现实 [1, 22]。</p>
+<h3 id="section-32-设计综合性工作负载模型" class="text-2xl">3.2 设计综合性工作负载模型</h3>
+<p>我们将AAV的运行场景形式化为一系列可编程的负载模型。核心方法是创建一个周期性的Zephyr线程，在每个周期内，通过执行一定量的"忙碌"工作和一定时间的"睡眠"来精确控制CPU的占用率 [1, 15]。我们定义以下几个核心模型：</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">模型A：稳态低负载 (Steady-State Low Load)</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">AAV场景模拟:</strong> 水下低速巡航。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">负载特性:</strong> CPU利用率长时间维持在较低水平，如10%-20%。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">测试目的:</strong> 检验DVFS策略在持续低负载下能否有效降频以达到最大节能效果。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">模型B：稳态中高负载 (Steady-State Medium-High Load)</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">AAV场景模拟:</strong> 空中悬停或高速飞行。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">负载特性:</strong> CPU利用率稳定在较高区间，如50%-80%。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">测试目的:</strong> 观察DVFS策略在中高负载区间的表现，策略能否稳定在合适的高频点。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">模型C：突发负载响应 (Burst Load Response)</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">AAV场景模拟:</strong> 跨介质转换过程。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">负载特性:</strong> CPU利用率突然从低负载飙升至接近100%。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">测试目的:</strong> 考验DVFS策略的响应速度和对实时性的保障能力。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">模型D：混合任务序列 (Mixed Mission Profile)</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">AAV场景模拟:</strong> 一次完整的任务飞行，包含上述各种模式的串联。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">测试目的:</strong> 评估DVFS策略在长周期、多工况下的综合适应能力和总体节能效果。</li>
+</ul>
+</li>
+</ul>
+<p>为了将这些模型转化为代码，我们定义以下参数。这张表格将是您编写<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">load_generator.c</code>模块的直接依据。</p>
+<p><strong class="font-semibold">表3：AAV工作负载模型参数定义</strong></p>
+<div><table class="w-full text-sm border-collapse border border-gray-300 mb-6"><thead><tr class="bg-gray-100"><th class="border border-gray-300 p-2 font-semibold text-left">模型名称</th><th class="border border-gray-300 p-2 font-semibold text-left">AAV场景类比</th><th class="border border-gray-300 p-2 font-semibold text-left">负载类型模拟</th><th class="border border-gray-300 p-2 font-semibold text-left">周期 (ms)</th><th class="border border-gray-300 p-2 font-semibold text-left">计算时间 (ms)</th><th class="border border-gray-300 p-2 font-semibold text-left">访存停顿模拟 (ms)</th><th class="border border-gray-300 p-2 font-semibold text-left">目标利用率(%) (480MHz下)</th></tr></thead><tbody>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOW_CRUISE</code></td><td class="border border-gray-300 p-2">水下巡航</td><td class="border border-gray-300 p-2">访存密集型</td><td class="border border-gray-300 p-2">20</td><td class="border border-gray-300 p-2">1</td><td class="border border-gray-300 p-2">1</td><td class="border border-gray-300 p-2">10%</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">MED_HOVER</code></td><td class="border border-gray-300 p-2">空中悬停</td><td class="border border-gray-300 p-2">混合型</td><td class="border border-gray-300 p-2">20</td><td class="border border-gray-300 p-2">8</td><td class="border border-gray-300 p-2">2</td><td class="border border-gray-300 p-2">50%</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">HIGH_MANEUVER</code></td><td class="border border-gray-300 p-2">空中机动</td><td class="border border-gray-300 p-2">计算密集型</td><td class="border border-gray-300 p-2">20</td><td class="border border-gray-300 p-2">16</td><td class="border border-gray-300 p-2">0</td><td class="border border-gray-300 p-2">80%</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">BURST_TRANSITION</code></td><td class="border border-gray-300 p-2">跨介质转换</td><td class="border border-gray-300 p-2">计算密集型</td><td class="border border-gray-300 p-2">20</td><td class="border border-gray-300 p-2">19</td><td class="border border-gray-300 p-2">0</td><td class="border border-gray-300 p-2">95%</td></tr>
+</tbody></table></div>
+<h3 id="section-33-基于真实数据优化模型（可选但强烈推荐）" class="text-2xl">3.3 基于真实数据优化模型（可选但强烈推荐）</h3>
+<p>尽管上述模型已相当完善，但若能以真实世界的数据作为基础，您的研究将更具说服力。原始文档中提到的使用Pixhawk飞控进行数据采集的实验，就是一个极好的增强方法 [1, 15]。您可以规划包含悬停、机动等动作的飞行任务，通过PX4固件的日志功能记录CPU负载数据，然后分析其负载曲线的<strong class="font-semibold">形态特征</strong>（如基线水平、峰值高度、上升斜率等），用这些观察到的特征来校准<strong class="font-semibold">表3</strong>中的参数。通过这种方式，即使硬件平台不同，您也能让仿真负载在动态特性上最大程度地逼近真实物理过程，从而使您的DVFS策略评估结果更加可信 [1, 15]。</p>
+<h2 id="section-第四章：设计一种自适应的实时dvfs策略" class="text-3xl">第四章：设计一种自适应的实时DVFS策略</h2>
+<p>这是您论文的核心创新部分。本章将指导您设计出一套专为AAV应用场景量身定制的、能够兼顾能效与实时性的DVFS"大脑"。我们将采用一种基于规则的自适应调速器（governor）方案，它实现简单、开销低，非常适合资源受限的嵌入式系统。</p>
+<h3 id="section-41-核心逻辑：基于阈值的反应式控制器" class="text-2xl">4.1 核心逻辑：基于阈值的反应式控制器</h3>
+<p>我们的策略借鉴了Linux系统中成熟的"ondemand"调速器的核心思想：当系统繁忙时升频，空闲时降频 [1, 15]。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">设定CPU利用率阈值:</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">高负载阈值 ($UTIL_{HIGH}$):</strong> 例如设定为80%。当CPU利用率持续超过这个值时，表明系统负载较重，需要提升频率。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">低负载阈值 ($UTIL_{LOW}$):</strong> 例如设定为30%。当CPU利用率持续低于这个值时，表明系统处于空闲状态，可以降低频率以节能。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">引入迟滞机制 (Hysteresis):</strong>为了避免CPU利用率在单个阈值附近小幅波动时导致频率频繁切换（"抖动"），我们采用双阈值迟滞机制：只有当系统处于高频状态且利用率<strong class="font-semibold">下降到$UTIL_{LOW}$以下</strong>时，才触发降频；反之，只有当系统处于低频状态且利用率<strong class="font-semibold">上升到$UTIL_{HIGH}$以上</strong>时，才触发升频。在$UTIL_{LOW}$和$UTIL_{HIGH}$之间的"不敏感区"，系统将保持当前频率不变，有效过滤负载的微小波动.[1, 15]</li>
+</ul>
+<h3 id="section-42-安全网：建立最低安全频率$f_{safe}$" class="text-2xl">4.2 安全网：建立最低安全频率$f_{safe}$</h3>
+<p>这是本策略设计的生命线，是保障AAV安全飞行的关键。$f_{safe}$（minimum safe frequency）的定义是：<strong class="font-semibold">能够保证最关键的实时任务（如姿态控制循环）在最坏情况下也能按时完成的最低CPU运行频率</strong> [1, 15]。无论系统多么空闲，我们的DVFS策略绝不允许CPU频率低于$f_{safe}$。</p>
+<p>我们推荐一种简单可靠的实验方法来确定$f_{safe}$：</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">定义关键任务样本:</strong> 编写一个计算复杂度与您系统中最重要的实时任务（如姿态解算）相当的函数。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">锁定频率测试:</strong> 编写测试程序，在关闭DVFS的情况下，依次将CPU频率手动锁定在<strong class="font-semibold">表2</strong>中定义的各个操作点（480, 400, 300, 200 MHz等）。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">测量最坏情况执行时间 (WCET):</strong> 在每个固定频率下，重复运行关键任务样本上千次，并记录下<strong class="font-semibold">最长</strong>的一次执行时间（WCET）。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">确定$f_{safe}$:</strong> 将每个频率下的WCET与关键任务的截止时间（Deadline，如20 ms）进行比较。找到能使WCET仍然<strong class="font-semibold">显著小于</strong>截止时间的最低频率（例如，要求WCET &lt; 14 ms，即周期的70%），该频率即为系统的$f_{safe}$。</li>
+</ol>
+<h3 id="section-43-完整算法：决策流程图与伪代码" class="text-2xl">4.3 完整算法：决策流程图与伪代码</h3>
+<p>我们将上述所有元素整合在一起，形成一个完整的决策算法。</p>
+<p><strong class="font-semibold">决策流程图:</strong></p>
+<div class="my-8 p-4 border rounded-lg bg-white shadow-sm">
+        <h4 class="text-center font-bold mb-6">DVFS决策流程图</h4>
+        <div class="flex flex-col items-center space-y-2">
+            <div class="flowchart-node">开始</div>
+            <div class="flowchart-arrow"></div>
+            <div class="flowchart-node">获取当前利用率 Util_curr <br> 和当前频率 Freq_curr</div>
+            <div class="flowchart-arrow"></div>
+            <div class="flowchart-node flowchart-diamond"><span>Freq_curr > f_safe?</span></div>
+            
+            <div class="w-full flex">
+                <div class="w-1/2 flex flex-col items-center">
+                    <div class="flowchart-decision-line decision-yes" data-label="是"></div>
+                    <div class="flowchart-arrow mt-8"></div>
+                    <div class="flowchart-node flowchart-diamond"><span>Util_curr < UTIL_LOW?</span></div>
+                     <div class="w-full flex">
+                        <div class="w-1/2 flex flex-col items-center">
+                            <div class="flowchart-decision-line decision-yes" data-label="是"></div>
+                            <div class="flowchart-arrow mt-8"></div>
+                            <div class="flowchart-node" style="border-color: #f472b6;">决策: 降频至下一档</div>
+                        </div>
+                        <div class="w-1/2 flex flex-col items-center">
+                             <div class="flowchart-decision-line decision-no" data-label="否"></div>
+                             <div class="flowchart-arrow mt-8"></div>
+                             <div class="flowchart-node">决策: 保持当前频率</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/2 flex flex-col items-center">
+                    <div class="flowchart-decision-line decision-no" data-label="否"></div>
+                    <div class="flowchart-arrow mt-8"></div>
+                    <div class="flowchart-node flowchart-diamond"><span>Util_curr > UTIL_HIGH?</span></div>
+                     <div class="w-full flex">
+                        <div class="w-1/2 flex flex-col items-center">
+                            <div class="flowchart-decision-line decision-yes" data-label="是"></div>
+                            <div class="flowchart-arrow mt-8"></div>
+                             <div class="flowchart-node" style="border-color: #60a5fa;">决策: 升频至下一档</div>
+                        </div>
+                        <div class="w-1/2 flex flex-col items-center">
+                             <div class="flowchart-decision-line decision-no" data-label="否"></div>
+                              <div class="flowchart-arrow mt-8"></div>
+                             <div class="flowchart-node">决策: 保持当前频率</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <p class="text-xs text-gray-500 mt-4">... 之后进行安全频率检查与执行 ...</p>
+        </div>
+    </div>
+<p><strong class="font-semibold">伪代码:</strong></p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-c">// 全局或静态变量
+current_frequency = F_MAX; // 初始频率为最高
+F_SAFE = 200; // 假设通过实验确定为 200 MHz
+UTIL_LOW = 30;
+UTIL_HIGH = 80;
+
+// DVFS监控线程周期性调用的函数
+FUNCTION dvfs_update_policy():
+    current_utilization = read_cpu_utilization();
+    target_frequency = current_frequency;
+
+    IF (current_frequency > F_SAFE) AND (current_utilization < UTIL_LOW):
+        // 当前处于高频状态，且负载低，考虑降频
+        target_frequency = get_next_lower_frequency(current_frequency);
+    ELSE IF (current_frequency < F_MAX) AND (current_utilization > UTIL_HIGH):
+        // 当前处于非最高频状态，且负载高，考虑升频
+        target_frequency = get_next_higher_frequency(current_frequency);
+    END IF
+
+    // 最终决策必须服从安全底线
+    IF target_frequency < F_SAFE:
+        target_frequency = F_SAFE;
+    END IF
+
+    // 如果决策出的目标频率与当前频率不同，则执行切换
+    IF target_frequency!= current_frequency:
+        log("DVFS: Util= %d%%, Freq change: %d -> %d MHz",
+            current_utilization, current_frequency, target_frequency);
+        set_cpu_frequency_and_voltage(target_frequency);
+        current_frequency = target_frequency;
+    END IF
+END FUNCTION
+</code></pre></div>
+<p>这个清晰的逻辑为您在下一章的编码实现工作铺平了道路。</p>
+<h2 id="section-第五章：系统实现：从算法到可执行代码" class="text-3xl">第五章：系统实现：从算法到可执行代码</h2>
+<p>本章是一份详细的编码教程，将指导您如何在Zephyr RTOS上，利用STM32Cube HAL库，将设计的DVFS策略和负载模型变为现实。这是对您动手能力的真正考验。</p>
+<h3 id="section-51-项目创建与配置" class="text-2xl">5.1 项目创建与配置</h3>
+<p>首先，我们需要为我们的DVFS项目创建一个标准的Zephyr应用程序结构。这解决了原教程中项目文件存放位置不明晰的问题。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">创建应用目录</strong>在您之前创建的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">zephyrproject</code>工作区内，创建一个新的、独立的应用目录。标准的做法是将其与<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">zephyr</code>, <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">bootloader</code>, <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">modules</code>等目录并列存放。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">cd ~/zephyrproject
+mkdir my_aav_app
+cd my_aav_app
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">创建项目文件</strong>在<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">my_aav_app</code>目录下，创建以下文件和目录结构：</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">my_aav_app/
+├── CMakeLists.txt
+├── prj.conf
+└── src/
+    └── main.c
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">编写<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">CMakeLists.txt</code></strong>这是项目的构建脚本，它告诉CMake如何找到Zephyr并编译我们的源代码。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-cmake"># CMakeLists.txt
+cmake_minimum_required(VERSION 3.20.0)
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(my_aav_app)
+
+target_sources(app PRIVATE src/main.c)
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">编写<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">prj.conf</code>配置文件</strong>这个文件用于开启Zephyr的各项内核功能。我们在此处明确启用所有需要的功能，特别是<strong class="font-semibold">Shell</strong>功能，以响应用户的反馈。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-ini"># prj.conf
+
+# --- 日志和控制台配置 ---
+CONFIG_LOG=y
+CONFIG_LOG_DEFAULT_LEVEL=3 # 3 = INF, 4 = DBG
+CONFIG_SERIAL=y
+CONFIG_CONSOLE=y
+CONFIG_UART_CONSOLE=y
+
+# --- Shell功能配置 (新增) ---
+CONFIG_SHELL=y
+CONFIG_SHELL_BACKEND_SERIAL=y
+CONFIG_SHELL_CMDS=y
+CONFIG_SHELL_PROMPT_UART="aav_dvfs_shell> " # 自定义提示符，便于识别
+
+# --- 性能监控配置 ---
+CONFIG_CPU_LOAD_LOG_PERIODIC=y
+CONFIG_THREAD_NAME=y
+CONFIG_THREAD_STACK_INFO=y
+CONFIG_TIMING_FUNCTIONS=y
+
+# --- 硬件支持配置 ---
+CONFIG_FPU=y # 开启浮点数运算支持
+# 开启对STM32Cube HAL库的支持，这是调用底层硬件函数的关键
+CONFIG_USE_STM32_HAL_RCC=y
+CONFIG_USE_STM32_HAL_PWR=y
+CONFIG_USE_STM32_HAL_FLASH=y
+</code></pre></div>
+<h3 id="section-52-实现频率切换硬件抽象层 -(代码补完)" class="text-2xl">5.2 实现频率切换硬件抽象层 (代码补完)</h3>
+<p>这是与硬件直接交互的部分，也是原教程中留白的核心环节。我们将提供一个完整的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">set_cpu_frequency</code>函数，它严格按照STM32数据手册的要求来安全地改变CPU频率、电压和Flash延迟。</p>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">小贴士：PLL参数计算</strong></p></div>
+<p>以下代码中的PLL（锁相环）参数是基于8 MHz的HSE（外部高速晶振）时钟源计算得出的，这是NUCLEO开发板的典型配置 [23]。计算公式如下：</p>
+<ul>
+<li class="ml-6 list-disc">PLL输入时钟 = $HSE / PLLM$</li>
+<li class="ml-6 list-disc">VCO输出时钟 = $PLL_{in} \times PLLN$</li>
+<li class="ml-6 list-disc">系统时钟 (SYSCLK) = $VCO_{out} / PLLP$</li>
+</ul>
+<p>关键约束：$PLL_{in}$ 必须在特定范围内（例如1-2 MHz），$VCO_{out}$ 也必须在特定范围内（例如192-960 MHz） [14]。我们的参数选择遵循了这些约束。</p>
+<p>在您的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">src</code>目录下创建一个新文件<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">dvfs_control.c</code>，并添加以下内容：</p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-c">// src/dvfs_control.c
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <stm32h7xx_hal.h>
+
+// 这是一个完整的频率切换函数，解决了原教程的空白问题
+int set_cpu_frequency(uint32_t target_freq_mhz) {
+    RCC_ClkInitTypeDef clk_init = {0};
+    RCC_OscInitTypeDef osc_init = {0};
+    uint32_t flash_latency;
+    uint32_t vos_level;
+    HAL_StatusTypeDef ret = HAL_OK;
+
+    // 1. 根据目标频率从表2查得所需参数
+    if (target_freq_mhz == 480) {
+        vos_level = PWR_REGULATOR_VOLTAGE_SCALE0;
+        flash_latency = FLASH_LATENCY_4;
+    } else if (target_freq_mhz == 400) {
+        vos_level = PWR_REGULATOR_VOLTAGE_SCALE1;
+        flash_latency = FLASH_LATENCY_2;
+    } else if (target_freq_mhz == 200) {
+        vos_level = PWR_REGULATOR_VOLTAGE_SCALE3;
+        flash_latency = FLASH_LATENCY_0;
+    } else {
+        printk("Error: Unsupported frequency %d MHz\n", target_freq_mhz);
+        return -EINVAL;
+    }
+
+    // 关键的切换序列：进入临界区，禁止所有中断，防止时钟切换时发生意外
+    unsigned int key = irq_lock();
+
+    uint32_t current_hclk = HAL_RCC_GetHCLKFreq();
+
+    // 2. 判断是升频还是降频，执行不同顺序的操作
+    if (target_freq_mhz * 1000000 > current_hclk) {
+        // **升频操作：先升压，再提速**
+        
+        // 2.1 提升电压等级 (VOS)
+        HAL_PWREx_ControlVoltageScaling(vos_level);
+        // 等待电压稳定
+        while (__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY) == 0) {}
+
+        // 2.2 配置PLL参数并使能
+        osc_init.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+        osc_init.HSEState = RCC_HSE_ON; // 假设HSE已作为系统时钟源开启
+        osc_init.PLL.PLLState = RCC_PLL_ON;
+        osc_init.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+
+        // 示例：从8MHz HSE生成目标频率
+        if (target_freq_mhz == 480) {
+            // 8MHz/M(4) * N(480) / P(2) = 480MHz
+            osc_init.PLL.PLLM = 4;
+            osc_init.PLL.PLLN = 480;
+            osc_init.PLL.PLLP = 2;
+        } else if (target_freq_mhz == 400) {
+            // 8MHz/M(4) * N(400) / P(2) = 400MHz
+            osc_init.PLL.PLLM = 4;
+            osc_init.PLL.PLLN = 400;
+            osc_init.PLL.PLLP = 2;
+        }
+        // 其他频率档位...
+        osc_init.PLL.PLLQ = 4; // 根据需要配置
+        osc_init.PLL.PLLR = 2; // 根据需要配置
+        osc_init.PLL.PLLRGE = RCC_PLL1VCIRANGE_1; // VCO输入频率范围
+        osc_init.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE; // 宽VCO范围
+        osc_init.PLL.PLLFRACN = 0;
+        ret = HAL_RCC_OscConfig(&osc_init);
+        if (ret!= HAL_OK) goto error;
+
+        // 2.3 配置系统时钟并设置Flash延迟
+        clk_init.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
+                             RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 |
+                             RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
+        clk_init.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+        clk_init.SYSCLKDivider = RCC_SYSCLK_DIV1;
+        clk_init.AHBCLKDivider = RCC_HCLK_DIV2; // HCLK = SYSCLK / 2
+        clk_init.APB1CLKDivider = RCC_APB1_DIV2;
+        clk_init.APB2CLKDivider = RCC_APB2_DIV2;
+        clk_init.APB3CLKDivider = RCC_APB3_DIV2;
+        clk_init.APB4CLKDivider = RCC_APB4_DIV2;
+        ret = HAL_RCC_ClockConfig(&clk_init, flash_latency);
+        if (ret!= HAL_OK) goto error;
+
+    } else {
+        // **降频操作：先降速，再降压**
+        
+        // 2.1 配置PLL到较低频率并设置Flash延迟
+        osc_init.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+        osc_init.HSEState = RCC_HSE_ON;
+        osc_init.PLL.PLLState = RCC_PLL_ON;
+        osc_init.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+
+        if (target_freq_mhz == 200) {
+            // 8MHz/M(4) * N(200) / P(2) = 200MHz
+            osc_init.PLL.PLLM = 4;
+            osc_init.PLL.PLLN = 200;
+            osc_init.PLL.PLLP = 2;
+        }
+        // 其他频率档位...
+        osc_init.PLL.PLLQ = 4;
+        osc_init.PLL.PLLR = 2;
+        osc_init.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
+        osc_init.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
+        osc_init.PLL.PLLFRACN = 0;
+        ret = HAL_RCC_OscConfig(&osc_init);
+        if (ret!= HAL_OK) goto error;
+
+        clk_init.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_D1PCLK1 | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1);
+        clk_init.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+        clk_init.SYSCLKDivider = RCC_SYSCLK_DIV1;
+        clk_init.AHBCLKDivider = RCC_HCLK_DIV2;
+        clk_init.APB1CLKDivider = RCC_APB1_DIV2;
+        clk_init.APB2CLKDivider = RCC_APB2_DIV2;
+        clk_init.APB3CLKDivider = RCC_APB3_DIV2;
+        clk_init.APB4CLKDivider = RCC_APB4_DIV2;
+        ret = HAL_RCC_ClockConfig(&clk_init, flash_latency);
+        if (ret!= HAL_OK) goto error;
+
+        // 2.2 最后降低电压
+        HAL_PWREx_ControlVoltageScaling(vos_level);
+        while (__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY) == 0) {}
+    }
+
+error:
+    // 退出临界区
+    irq_unlock(key);
+    
+    if (ret!= HAL_OK) {
+        printk("Error: Clock configuration failed!\n");
+        return -EIO;
+    }
+
+    // 更新系统时钟变量，供其他HAL函数和Zephyr内核使用
+    SystemCoreClockUpdate();
+    return 0;
+}
+</code></pre></div>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">注意：严格的执行顺序</strong></p></div>
+<p>升频时必须<strong class="font-semibold">"先升压，再提速"</strong>，降频时必须<strong class="font-semibold">"先降速，再降压"</strong>。违反这个顺序可能导致芯片在当前电压下无法支持过高的频率而直接崩溃（HardFault）[1, 15]。上述代码严格遵循了这一顺序。同时，整个切换过程使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">irq_lock()</code>和<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">irq_unlock()</code>保护，以防止时钟切换瞬间发生中断导致系统时序错乱。</p>
+<h3 id="section-53-实现自定义shell命令 -(新增详解)" class="text-2xl">5.3 实现自定义Shell命令 (新增详解)</h3>
+<p>为了能从外部方便地控制我们的实验（例如，切换负载模式），我们需要实现自定义的Shell命令。这解决了原教程中仅提及此功能但未提供实现方法的逻辑跳跃问题。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">在<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">src/main.c</code>中添加Shell命令实现</strong>我们将创建一个<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run</code>命令，它接受一个参数（负载模式的名称），并调用一个函数来改变系统的负载状态。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-c">// src/main.c (部分代码)
+#include <zephyr/kernel.h>
+#include <zephyr/shell/shell.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 声明在其他文件中定义的负载模式枚举和设置函数
+// 假设在 load_generator.h 中定义
+typedef enum { LOW_CRUISE, MED_HOVER, BURST_TRANSITION } load_mode_t;
+extern void set_load_mode(load_mode_t mode);
+
+// "run" 命令的处理函数
+static int cmd_run(const struct shell *sh, size_t argc, char **argv)
+{
+    // 检查参数数量是否正确
+    if (argc < 2) {
+        shell_error(sh, "Missing mode. Usage: run <low_cruise|med_hover|burst_transition>");
+        return -EINVAL;
+    }
+
+    // 根据第二个参数（argv[1]）来设置负载模式
+    if (strcmp(argv[1], "low_cruise") == 0) {
+        set_load_mode(LOW_CRUISE);
+        shell_print(sh, "Switched to LOW_CRUISE mode.");
+    } else if (strcmp(argv[1], "med_hover") == 0) {
+        set_load_mode(MED_HOVER);
+        shell_print(sh, "Switched to MED_HOVER mode.");
+    } else if (strcmp(argv[1], "burst_transition") == 0) {
+        set_load_mode(BURST_TRANSITION);
+        shell_print(sh, "Switched to BURST_TRANSITION mode.");
+    } else {
+        shell_error(sh, "Unknown mode: %s", argv[1]);
+        return -EINVAL;
+    }
+
+    return 0;
+}
+
+// 使用Zephyr提供的宏来注册我们的自定义命令
+// 参数：命令名, 子命令集(无), 帮助文本, 命令处理函数, 必需参数个数, 可选参数个数
+SHELL_CMD_ARG_REGISTER(run, NULL, 
+                       "Run a specific load profile (e.g., run low_cruise)", 
+                       cmd_run, 2, 0);
+
+//... main函数和其他代码...
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">代码解析</strong>
+<ul>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">#include <zephyr/shell/shell.h></code>: 包含了所有Shell相关的API和宏定义。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">cmd_run(...)</code>: 这是命令的<strong class="font-semibold">处理函数</strong>。当用户在终端输入<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run...</code>并回车后，Shell系统会调用这个函数。<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">argc</code>是参数数量（包括命令本身），<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">argv</code>是一个指向各个参数字符串的指针数组。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">SHELL_CMD_ARG_REGISTER(...)</code>: 这是一个功能强大的宏，它负责创建命令并将其注册到Zephyr的Shell系统中 [24, 25, 26]。我们通过它定义了<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run</code>命令，并指定了它的处理函数、帮助文本和参数要求。</li>
+</ul>
+</li>
+</ol>
+<p>现在，当我们的程序运行时，就可以在串口终端输入<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run low_cruise</code>来切换到低负载模式，这为后续的自动化测试打下了坚实的基础。</p>
+<h3 id="section-54-编译、烧录与调试自定义项目" class="text-2xl">5.4 编译、烧录与调试自定义项目</h3>
+<p>现在我们已经编写了所有核心代码，是时候将它们编译、烧录到开发板上，并验证其功能了。</p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">编译项目</strong>在您的<strong class="font-semibold">自定义应用目录</strong>（<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">~/zephyrproject/my_aav_app</code>）下执行构建命令。<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>工具很智能，当在应用目录下执行时，它会自动找到当前目录下的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">CMakeLists.txt</code>和<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">prj.conf</code>进行编译 [15, 22]。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">cd ~/zephyrproject/my_aav_app
+west build -b nucleo_h755zi_q/stm32h755xx/m7
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">烧录项目</strong>构建成功后，使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code>将程序烧录到开发板。</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">west flash
+</code></pre></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">交互验证</strong>打开串口终端，按下复位键。您应该能看到您在<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">prj.conf</code>中设置的自定义提示符<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">aav_dvfs_shell> </code>。现在，尝试输入您刚刚创建的命令：</li>
+</ol>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">aav_dvfs_shell> run low_cruise
+Switched to LOW_CRUISE mode.
+aav_dvfs_shell> run med_hover
+Switched to MED_HOVER mode.
+</code></pre></div>
+<p>如果能看到这些输出，说明您的自定义Shell命令已经成功集成并工作了！</p>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">小贴士：调试入门</strong></p></div>
+<p>如果程序行为不符合预期或发生崩溃（HardFault），可以使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west debug</code>命令启动调试会话 [1, 27, 28]。</p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-bash">west debug
+</code></pre></div>
+<p>这条命令会自动烧录程序并启动一个GDB调试服务器，然后将您的终端带入GDB命令行界面。在这里，您可以使用标准的GDB命令，例如：</p>
+<ul>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">b main.c:150</code>: 在<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">main.c</code>文件的第150行设置一个断点。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">c</code> (continue): 继续运行程序直到遇到下一个断点。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">p my_variable</code>: 打印变量<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">my_variable</code>的当前值。</li>
+<li class="ml-6 list-disc"><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">bt</code> (backtrace): 查看当前的函数调用栈，这在程序崩溃时非常有用。</li>
+</ul>
+<p>对于更友好的图形化调试体验，强烈推荐在VS Code中安装<strong class="font-semibold">Cortex-Debug</strong>插件。</p>
+<h2 id="section-第六章：构建实验测试平台" class="text-3xl">第六章：构建实验测试平台</h2>
+<p>一个成功的实验离不开精确的测量。本章将指导您如何搭建一个能够量化DVFS策略效果的测试平台，包括如何精确测量功耗、如何量化实时性能，以及如何实现测试自动化。</p>
+<h3 id="section-61-功耗测量：stm32cubemonitor-power实战 -(图文教程)" class="text-2xl">6.1 功耗测量：STM32CubeMonitor-Power实战 (图文教程)</h3>
+<p>对于动态变化的系统，使用传统万用表测量电流几乎是不可能的 [1, 29]。幸运的是，NUCLEO-H755ZI-Q板载的ST-LINK/V3调试器，可以与ST官方免费软件<strong class="font-semibold">STM32CubeMonitor-Power</strong>无缝协作，提供高采样率的动态功耗测量能力，是完成本项目的"神器" [1, 12]。</p>
+<p><strong class="font-semibold">详细步骤如下：</strong></p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">安装与连接：</strong> 从ST官网下载并安装STM32CubeMonitor-Power [6, 30]。然后，只需像平常一样，用一根Micro-USB线将NUCLEO板上标有"ST-LINK"的USB口连接到电脑即可。电源供给和数据通信都通过这根线完成。</li>
+</ol>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">获取控制权：</strong> 打开STM32CubeMonitor-Power软件。在主界面右上角，软件会自动检测并显示连接的ST-LINK。选择它，然后点击<strong class="font-semibold">"Take Control"</strong>按钮。软件将与ST-LINK/V3建立连接，并显示"Configuration"面板 [12, 30]。</li>
+</ol>
+<div class="my-6 text-center"><img src="https://i.imgur.com/Gj9R2lX.png" alt="STM32CubeMonitor-Power主界面截图，高亮显示Take Control按钮" class="max-w-full lg:max-w-2xl mx-auto rounded-lg shadow-md"><p class="text-xs text-gray-500 mt-2">图3：STM32CubeMonitor-Power主界面，点击"Take Control"以连接开发板</p></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">配置测量参数：</strong> 在左侧的"Configuration"面板中，您可以设置几个关键参数：
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">Sampling Frequency:</strong> 设置数据采样率。为了捕捉DVFS切换带来的瞬时功耗变化，建议设置为较高的值，如 <strong class="font-semibold">10 kHz</strong> 或更高。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">Input Voltage:</strong> 设置开发板的供电电压，通常为 <strong class="font-semibold">3.3 V</strong>。</li>
+</ul>
+</li>
+</ol>
+<div class="my-6 text-center"><img src="https://i.imgur.com/g7tX5Yf.png" alt="STM32CubeMonitor-Power配置面板截图，高亮显示采样率和电压设置" class="max-w-full lg:max-w-2xl mx-auto rounded-lg shadow-md"><p class="text-xs text-gray-500 mt-2">图4：在配置面板中设置采样频率和输入电压</p></div>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">开始测量：</strong> 在图表上方的工具栏中，设置"Acquisition time"（例如10秒），然后点击绿色的<strong class="font-semibold">"Start acquisition"</strong>按钮。软件会开始实时绘制开发板的电流消耗曲线图。</li>
+</ol>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">分析与导出：</strong> 测量结束后，图表会停止更新。
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">查看报告：</strong> 点击"Shown reports"按钮，软件会弹出一个统计数据窗口，直接为您计算出本次测量期间的<strong class="font-semibold">最小、最大、平均电流</strong>以及<strong class="font-semibold">总消耗电荷/能量</strong> [12]。这些就是您实验报告中需要的核心数据。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">导出数据：</strong> 您还可以通过"Save graph"或"Add data log"按钮，将本次测量的原始数据保存为CSV文件，以便后续使用Python或Excel进行更深入的分析和绘图 [12]。</li>
+</ul>
+</li>
+</ol>
+<div class="my-6 text-center"><img src="https://i.imgur.com/d9fV4zH.png" alt="STM32CubeMonitor-Power测量到的电流曲线示意图" class="max-w-full lg:max-w-2xl mx-auto rounded-lg shadow-md"><p class="text-xs text-gray-500 mt-2">图5：一个典型的功耗测量结果，显示了不同负载下电流的变化曲线</p></div>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">小贴士：</strong> 如果STM32CubeMonitor-Power未能检测到您的开发板，请首先确认ST-LINK驱动已在您的操作系统中正确安装，并且您已将USB数据线连接到了开发板上标有<strong class="font-semibold">"ST-LINK"</strong>的那个USB接口，而非"USER USB"接口。</p></div>
+<h3 id="section-62-性能量化：测量任务执行时间" class="text-2xl">6.2 性能量化：测量任务执行时间</h3>
+<p>为了评估DVFS对实时性能的影响，我们需要精确测量关键任务的执行时间。Zephyr提供了专门的高精度计时API，可以达到纳秒级的测量精度 [1, 31]。我们将在模拟的关键任务（<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">load_generator</code>线程中的计算部分）前后插入计时点。</p>
+<p><strong class="font-semibold">代码实现教程 (<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">load_generator.c</code>):</strong></p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-c">#include <zephyr/timing/timing.h> // 引入计时API头文件
+
+void load_generator_thread(void)
+{
+    //...
+    timing_t start_time, end_time;
+    uint64_t total_cycles, total_ns;
+
+    // 在线程循环的开始处初始化计时器
+    timing_init();
+    timing_start();
+
+    while (1) {
+        //... (根据模式设置compute_ms等参数)
+
+        // 在关键计算任务开始前记录起始时间
+        start_time = timing_counter_get();
+
+        // === 您要测量的关键计算代码段 ===
+        // if (compute_ms > 0) {
+        //     busy_wait_ms(compute_ms);
+        // }
+        // ===============================
+
+        // 在关键计算任务结束后记录结束时间
+        end_time = timing_counter_get();
+
+        // 计算经过的时钟周期数和纳秒数
+        total_cycles = timing_cycles_get(&start_time, &end_time);
+        total_ns = timing_cycles_to_ns(total_cycles);
+
+        // 将测量结果打印到日志
+        LOG_INF("TaskExecTime:%llu", total_ns);
+
+        //... 线程的其余部分...
+    }
+}
+</code></pre></div>
+<p>通过这种方式，您可以为每一次任务执行都记录下精确的耗时，从而计算出平均执行时间（ACET）和最坏情况执行时间（WCET） [1, 31]。</p>
+<h3 id="section-63-高级指标：测量任务抖动" class="text-2xl">6.3 高级指标：测量任务抖动</h3>
+<p>任务抖动（Jitter）是衡量实时系统稳定性的一个重要指标。它指的是周期性任务两次执行间隔时间的变化量 [1, 32]。我们将记录下每次任务执行的精确时间戳，然后计算连续两次时间戳之间的差值，最后分析这些差值的分布情况 [1, 33]。</p>
+<p><strong class="font-semibold">代码实现教程 (<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">load_generator.c</code>):</strong></p>
+<div class="code-block"><button class="copy-btn">复制</button><pre><code class="language-c">#define JITTER_BUFFER_SIZE 1000
+int64_t timestamps[JITTER_BUFFER_SIZE];
+int jitter_idx = 0;
+
+void load_generator_thread(void)
+{
+    while (1) {
+        // 在任务周期的最开始记录时间戳（单位：ticks）
+        if (jitter_idx < JITTER_BUFFER_SIZE) {
+            timestamps[jitter_idx++] = k_uptime_ticks();
+        }
+
+        //... 执行任务负载...
+        
+        // 休眠至下一个周期
+        // k_msleep(...);
+    }
+}
+
+// 通过一个shell命令或其他方式将timestamps数组中的数据打印出来
+void print_jitter_data(void)
+{
+    printk("JitterDataStart\n");
+    for (int i = 1; i < jitter_idx; i++) {
+        // 计算两次执行的间隔（单位：ms）
+        int32_t interval_ms = k_ticks_to_ms_floor32(timestamps[i] - timestamps[i-1]);
+        printk("%d,", interval_ms);
+    }
+    printk("\nJitterDataEnd\n");
+}
+</code></pre></div>
+<div class="custom-blockquote"><p class="m-0"><strong class="font-semibold">示例输出与分析：</strong></p></div>
+<p>当运行抖动测量代码并调用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">print_jitter_data</code>后，您将在串口终端看到类似这样的输出：</p>
+<p><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">JitterDataStart</code><br><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">20,20,19,20,21,20,20,19,20,20,20,21,20,...</code><br><code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">JitterDataEnd</code></p>
+<p>这些数据代表了每次任务执行的精确间隔（单位：毫秒）。您可以将这些数据直接复制粘贴到一个Python脚本或Excel表格中，用于后续绘制直方图和进行统计分析（如计算标准差）。一个又高又窄的直方图尖峰（例如，绝大多数间隔都在20 ms）代表系统非常稳定，抖动小。</p>
+<h3 id="section-64-测试自动化：使用python和uart" class="text-2xl">6.4 测试自动化：使用Python和UART</h3>
+<p>为了高效、可重复地进行大量实验，我们可以编写一个Python脚本，通过串口（UART）来自动控制开发板上的实验流程并收集数据。</p>
+<p><strong class="font-semibold">工作流程：</strong></p>
+<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">PC端 (Python):</strong> 运行一个Python脚本，使用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">pyserial</code>库打开与NUCLEO板连接的虚拟COM口。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">PC -> 板:</strong> Python脚本向串口发送我们之前定义的<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run</code>命令，例如<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">run low_cruise\n</code>。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">板端 (Zephyr):</strong> Zephyr应用中的Shell模块接收到命令，调用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">cmd_run</code>处理函数，进而调用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">set_load_mode()</code>来启动对应的测试场景。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">板 -> PC:</strong> Zephyr应用在实验过程中，将所有测量数据（如<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOG_INF("TaskExecTime:%llu",...)</code>）通过<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">printk</code>或<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">LOG_INF</code>打印到串口。</li>
+<li class="ml-6 list-decimal"><strong class="font-semibold">PC端 (Python):</strong> Python脚本循环读取串口发来的数据，进行解析（例如，按特定格式提取数字），并将结构化的数据实时写入一个CSV文件中，以备后续分析。</li>
+</ol>
+<p>通过以上测试平台的搭建，您已经具备了进行科学、严谨、高效实验的所有条件。</p>
+<hr class="my-8"/>
+<h2 id="section-第三部分：实验、分析与总结" class="text-3xl">第三部分：实验、分析与总结</h2>
+<p>在这一部分，我们将系统性地执行实验，收集数据，并对结果进行深入分析，最终得出您研究的核心结论。</p>
+<h2 id="section-第七章：实验活动与数据采集" class="text-3xl">第七章：实验活动与数据采集</h2>
+<p>本章将指导您系统性地执行一系列精心设计的实验，以全面评估您所提出的DVFS策略。</p>
+<h3 id="section-71-测试协议：定义场景与对比策略" class="text-2xl">7.1 测试协议：定义场景与对比策略</h3>
+<p>一个有说服力的实验结论，必须建立在严格的对比之上。我们将采用"控制变量法"，在相同的负载场景下，对比不同DVFS策略的表现。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">负载场景 (Workload Scenarios):</strong> 我们将使用第三章中定义的四个核心负载模型：
+<ul>
+<li class="ml-6 list-disc">模型A：稳态低负载 (模拟水下巡航)</li>
+<li class="ml-6 list-disc">模型B：稳态中高负载 (模拟空中悬停/机动)</li>
+<li class="ml-6 list-disc">模型C：突发负载响应 (模拟跨介质转换)</li>
+<li class="ml-6 list-disc">模型D：混合任务序列 (模拟完整任务剖面)</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">对比策略 (Comparative Strategies):</strong> 为了证明您的自适应策略的优越性，必须将其与两个基准策略进行比较：
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">静态最高频 (Static-Max):</strong> 将CPU频率锁定在最高的480 MHz。此策略代表了<strong class="font-semibold">最佳性能、最差能效</strong>的基准。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">静态安全频 (Static-$f_{safe}$):</strong> 将CPU频率锁定在您之前确定的最低安全频率$f_{safe}$。此策略代表了<strong class="font-semibold">潜在最大节能、但性能可能不足</strong>的基准。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">自适应策略 (Adaptive DVFS):</strong> 您在第四章中设计的、基于阈值和$f_{safe}$的自适应DVFS策略。这是您要验证的核心方案。</li>
+</ul>
+</li>
+</ul>
+<h3 id="section-72-执行测试矩阵与采集原始数据" class="text-2xl">7.2 执行测试矩阵与采集原始数据</h3>
+<p>您将通过第六章搭建的自动化测试脚本，依次执行"场景 × 策略"构成的测试矩阵。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">执行流程:</strong>
+<ol>
+<li class="ml-6 list-decimal">对于每个负载场景（A, B, C, D），分别运行三种对比策略（Static-Max, Static-$f_{safe}$, Adaptive）。</li>
+<li class="ml-6 list-decimal">对于稳态场景（A, B），建议每个策略运行较长时间（如60秒），以便功耗和性能指标稳定。</li>
+<li class="ml-6 list-decimal">在切换策略或场景时，通过<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code>重新烧录程序或通过shell命令确保系统状态被完全重置。</li>
+</ol>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">数据采集清单:</strong> 在每一次实验运行中，您需要同步采集以下三类数据：
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">能耗数据:</strong> 使用STM32CubeMonitor-Power，记录整个实验过程的<strong class="font-semibold">平均功耗 (mW)</strong> 和 <strong class="font-semibold">总能耗 (mJ)</strong>。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">性能数据:</strong> 通过Python自动化脚本，从串口日志中捕获并保存每次关键任务的<strong class="font-semibold">执行时间 (ns)</strong>和<strong class="font-semibold">周期性间隔 (ms)</strong>。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">DVFS行为数据 (仅适用于自适应策略):</strong> 在日志中记录<strong class="font-semibold">频率切换的总次数</strong>和每次切换的<strong class="font-semibold">触发原因</strong>。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">确保数据质量:</strong> 对每个测试组合（如"模型A"+"自适应策略"）<strong class="font-semibold">至少重复运行3-5次</strong>，以便后续计算平均值和标准差，评估结果的稳定性。</li>
+</ul>
+<h2 id="section-第八章：结果分析与解读" class="text-3xl">第八章：结果分析与解读</h2>
+<p>本章是您研究工作的"收获"阶段。我们将把上一章收集的原始数据，通过整理、计算和可视化，转化为有意义的图表和深刻的结论。</p>
+<h3 id="section-81-能效分析：量化节能效果" class="text-2xl">8.1 能效分析：量化节能效果</h3>
+<p>这是评估您策略价值的核心。我们将使用<strong class="font-semibold">平均功耗 (mW)</strong>和<strong class="font-semibold">总能耗 (Joule)</strong>作为核心指标。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">数据可视化:</strong> 使用Excel或Python的Matplotlib/Seaborn库，为每个负载场景创建一个<strong class="font-semibold">柱状图</strong>。图表的X轴是三种对比策略，Y轴是平均功耗或总能耗。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">节能率计算:</strong> 在自适应策略的柱子上，可以标注出相比于Static-Max基准节省的能耗百分比：$$ \text{Energy Saving \%} = \frac{E_{\text{Static-Max}} - E_{\text{Adaptive}}}{E_{\text{Static-Max}}} \times 100\% $$</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">结果解读:</strong>
+<ul>
+<li class="ml-6 list-disc">在<strong class="font-semibold">低负载场景</strong>，自适应策略的能耗应非常接近Static-$f_{safe}$，展现出<strong class="font-semibold">显著的节能效果</strong>。</li>
+<li class="ml-6 list-disc">在<strong class="font-semibold">高负载场景</strong>，自适应策略的能耗会接近Static-Max，节能空间有限。</li>
+<li class="ml-6 list-disc">在<strong class="font-semibold">混合任务场景</strong>，总能耗的节省百分比将直观地反映出您策略在模拟的AAV完整任务中的综合节能表现。</li>
+</ul>
+</li>
+</ul>
+<h3 id="section-82-实时性能分析：截止时间与抖动" class="text-2xl">8.2 实时性能分析：截止时间与抖动</h3>
+<p>节能不能以牺牲安全为代价。本节将证明您的策略在节省能源的同时，没有损害系统的实时性。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">核心指标:</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">最坏情况执行时间 (WCET):</strong> 从记录的所有任务执行时间数据中，找出每个场景、每种策略下的最大值。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">截止时间未命中率 (Deadline Miss Rate):</strong> 统计WCET超过任务截止时间（如20 ms）的次数。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">任务抖动 (Jitter):</strong> 计算任务执行周期时间间隔的标准差（Standard Deviation）。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">数据可视化:</strong> 同样使用<strong class="font-semibold">柱状图</strong>比较三种策略的WCET和Jitter。为关键场景绘制<strong class="font-semibold">抖动直方图</strong>。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">结果解读:</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">关键结论:</strong> 证明在所有测试场景下，您的<strong class="font-semibold">自适应策略的Deadline Miss Rate均为0%</strong>。这是证明策略安全有效的最有力证据。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">性能权衡:</strong> 对比自适应策略和Static-Max策略的WCET。通常，自适应策略的WCET会略高一些，但这微小的性能"损失"换来了显著的能耗节省，是值得的。</li>
+</ul>
+</li>
+</ul>
+<h3 id="section-83-dvfs行为分析：切换开销与动态响应" class="text-2xl">8.3 DVFS行为分析：切换开销与动态响应</h3>
+<p>本节旨在深入探究您的DVFS策略自身的工作特性。切换开销（Switching Overhead）指CPU从一个频率/电压点切换到另一个点所需的时间和能量成本 [1, 34]。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">测量切换时间开销:</strong> 您可以设计一个微基准测试（micro-benchmark）来近似测量切换时间：
+<ol>
+<li class="ml-6 list-decimal">配置一个GPIO引脚为推挽输出。</li>
+<li class="ml-6 list-decimal">编写测试函数：拉高GPIO -> 调用<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">set_cpu_frequency()</code> -> 立即拉低GPIO。</li>
+<li class="ml-6 list-decimal">使用示波器或逻辑分析仪测量该GPIO引脚上产生的高电平脉冲的宽度。这个宽度（通常在几十到几百微秒量级）就是频率切换所需的时间 [1, 35]。</li>
+</ol>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">分析与讨论:</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">开销估算:</strong> 统计您的策略在混合任务中总共切换了多少次频率，乘以单次切换时间开销，估算出总开销时间。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">论证:</strong> 您可以论证，这个总开销时间（可能是几毫秒）与整个任务的运行时长（几十秒）相比，占比极小，因此DVFS的切换开销对于本系统是可以忽略不计的。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">动态响应:</strong> 结合日志和功耗曲线，分析在突发负载场景下，您的策略响应有多快。</li>
+</ul>
+</li>
+</ul>
+<h3 id="section-84-深度解读：dvfs-vs-"冲刺至空闲"策略" class="text-2xl">8.4 深度解读：DVFS vs. "冲刺至空闲"策略</h3>
+<p>将您的分析提升到更高层次，将其置于嵌入式系统电源管理两大主流哲学思想的辩论中。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">两种哲学:</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">"冲刺至空闲" (Race-to-Idle, RtI):</strong> 主张始终以最高频率运行，尽快完成任务，然后让系统进入功耗极低的深度睡眠状态。其目标是最小化<strong class="font-semibold">泄漏功耗</strong> [1, 36]。Static-Max策略是RtI思想的体现。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">DVFS:</strong> 主张在任务执行期间，根据负载动态降低频率和电压。其目标是最小化<strong class="font-semibold">动态功耗</strong> [1, 7]。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">谁更优越?</strong>答案取决于<strong class="font-semibold">工作负载类型</strong>和<strong class="font-semibold">系统功耗特性</strong> [1, 22]：
+<ul>
+<li class="ml-6 list-disc">对于<strong class="font-semibold">计算密集型</strong>任务，RtI通常更优。</li>
+<li class="ml-6 list-disc">对于<strong class="font-semibold">访存密集型</strong>任务，DVFS通常更优。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">结合您的实验结果进行论证:</strong>
+<ul>
+<li class="ml-6 list-disc">回顾您在模型B（高负载，计算密集型）下的数据，您的自适应策略是否比Static-Max更节能？如果不是，这完全符合理论预期。</li>
+<li class="ml-6 list-disc">回顾您在模型A（低负载，访存密集型）下的数据，您的自适应策略应该远比Static-Max节能，这证明了DVFS在非CPU密集型任务中的优势。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">最终结论:</strong> 您的自适应策略的价值在于，它能够在不同负载特性之间取得<strong class="font-semibold">动态的、次优的平衡</strong>，从而在复杂的混合任务中实现总体最优的能效。</li>
+</ul>
+<p>最后，将所有关键的量化结果汇总到一张总表中，这将是您结果章节的核心。</p>
+<p><strong class="font-semibold">表4：实验结果汇总摘要</strong></p>
+<div><table class="w-full text-sm border-collapse border border-gray-300 mb-6"><thead><tr class="bg-gray-100"><th class="border border-gray-300 p-2 font-semibold text-left">负载场景</th><th class="border border-gray-300 p-2 font-semibold text-left">对比策略</th><th class="border border-gray-300 p-2 font-semibold text-left">平均功耗 (mW)</th><th class="border border-gray-300 p-2 font-semibold text-left">相对节能率 (%)</th><th class="border border-gray-300 p-2 font-semibold text-left">最大执行时间 (ms)</th><th class="border border-gray-300 p-2 font-semibold text-left">截止时间未命中率 (%)</th><th class="border border-gray-300 p-2 font-semibold text-left">任务抖动 (µs, StdDev)</th></tr></thead><tbody>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><strong class="font-semibold">模型A: 低负载</strong></td><td class="border border-gray-300 p-2">Static-Max</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">0%</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">0%</td><td class="border border-gray-300 p-2">[数据]</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Static-$f_{safe}$</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[计算值]</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[数据]</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"><strong class="font-semibold">Adaptive</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[计算值]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">0%</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"><strong class="font-semibold">模型D: 混合</strong></td><td class="border border-gray-300 p-2">Static-Max</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">0%</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">0%</td><td class="border border-gray-300 p-2">[数据]</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2">Static-$f_{safe}$</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[计算值]</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[数据]</td><td class="border border-gray-300 p-2">[数据]</td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2"></td><td class="border border-gray-300 p-2"><strong class="font-semibold">Adaptive</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[计算值]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">0%</strong></td><td class="border border-gray-300 p-2"><strong class="font-semibold">[数据]</strong></td></tr>
+<tr class="hover:bg-gray-50"><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td><td class="border border-gray-300 p-2">...</td></tr>
+</tbody></table></div>
+<h2 id="section-第九章：结论、局限性与未来展望" class="text-3xl">第九章：结论、局限性与未来展望</h2>
+<p>本章是您论文的点睛之笔，旨在凝练您的研究成果，客观评价其价值与不足，并为后续研究者指明方向。</p>
+<h3 id="section-91-研究工作总结与核心结论" class="text-2xl">9.1 研究工作总结与核心结论</h3>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">研究目的重述:</strong> 本文旨在解决AAV在多变任务场景下的能耗优化问题，设计并实现了一种基于规则的自适应DVFS策略。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">方法与实现概述:</strong> 在NUCLEO-H755ZI-Q和Zephyr平台上，通过构建负载模型、设计结合双阈值迟滞和$f_{safe}$的算法，并搭建实验平台进行了全面评估。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">核心发现与量化结论:</strong> 实验结果表明，所提出的自适应DVFS策略在保证实时性的前提下（截止时间满足率100%），相比于静态最高频策略，在模拟的AAV混合任务剖面下实现了 <strong class="font-semibold">X%</strong> 的总能耗节省（请填入您在表4中的核心数据），证明了策略的有效性和安全性。</li>
+</ul>
+<h3 id="section-92-研究贡献点" class="text-2xl">9.2 研究贡献点</h3>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">面向特定应用的策略设计:</strong> 针对AAV这一独特场景，提出并实现了一种定制化的自适应DVFS策略。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">$f_{safe}$的实用化方法:</strong> 提出了一种通过实验测量来确定嵌入式实时系统最低安全频率的实用方法。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">详尽的实验评估与数据:</strong> 在高性能STM32平台和Zephyr RTOS上，对应用于AAV模拟负载的DVFS策略进行了详尽的量化评估，为后续研究提供了宝贵基准。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">面向初学者的完整实践指南:</strong> 本文本身就是一份详尽的、手把手的工程实践指南，系统性地总结了从理论到实践的全过程。</li>
+</ul>
+<h3 id="section-93-局限性坦诚分析" class="text-2xl">9.3 局限性坦诚分析</h3>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">负载模型的局限性:</strong> 采用的负载模型终究是实验室环境下的模拟，真实环境的负载可能更为复杂和随机 [1, 15]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">策略的反应式本质:</strong> 策略本质上是"反应式"的，对于可预测的负载剧变无法做出"预判"，总是存在一定的响应延迟 [1, 15]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">参数设定的经验性:</strong> 策略中的关键参数（如阈值、$f_{safe}$）依赖于实验调优和经验判断，而非严格的数学推导。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">平台特定性:</strong> 研究的实现和结论强相关于STM32H755ZI-Q和Zephyr RTOS平台，移植到其他平台可能需要重新适配和评估。</li>
+</ul>
+<h3 id="section-94-未来工作展望" class="text-2xl">9.4 未来工作展望</h3>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">迈向真实系统验证:</strong> 将本策略移植并部署到一台真实的AAV硬件平台上，在实际飞行测试中检验其效果 [1, 15]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">引入预测与智能:</strong> 开发更智能的"上下文感知"（Context-Aware）DVFS策略，甚至探索使用轻量级机器学习模型来预测CPU需求 [1, 37]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">与RTOS调度器深度融合:</strong> 探索将DVFS决策逻辑与Zephyr的内核调度器进行更深度的集成，实现从应用层DVFS到内核级DVFS的跨越 [1, 38]。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">混合策略研究:</strong> 设计一种能在线识别任务是计算密集型还是访存密集型，并动态选择采用RtI或DVFS的混合策略。</li>
+</ul>
+<h2 id="section-第十章：论文撰写与答辩实用指南" class="text-3xl">第十章：论文撰写与答辩实用指南</h2>
+<p>本章为您提供最后的实用建议，帮助您将研究成果凝聚成一份高质量的学位论文，并自信地通过答辩。</p>
+<h3 id="section-101-论文结构与撰写技巧" class="text-2xl">10.1 论文结构与撰写技巧</h3>
+<p>您的学位论文可以遵循本指南的章节划分，这是一个经过验证的良好蓝图。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">标准章节结构:</strong> 绪论、相关技术与平台分析、AAV能效优化策略设计、系统实现与实验平台搭建、实验结果与分析、总结与展望、参考文献、致谢、附录。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">写作技巧:</strong> 语言客观严谨，多使用图表，引用规范，反复迭代修改。</li>
+</ul>
+<h3 id="section-102-答辩演示文稿（ppt）制作" class="text-2xl">10.2 答辩演示文稿（PPT）制作</h3>
+<p>PPT应力求简洁、清晰、重点突出。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">内容结构 (约15-20页):</strong> 封面、研究背景、研究目标、核心方法、系统实现、<strong class="font-semibold">实验结果与分析（重中之重）</strong>、结论与贡献、未来展望、致谢。</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">制作技巧:</strong> 少即是多，视觉化呈现，风格统一。</li>
+</ul>
+<h3 id="section-103-答辩常见问题与准备" class="text-2xl">10.3 答辩常见问题与准备</h3>
+<p>提前思考评委可能会问什么，能让您在答辩时从容不迫。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">常见问题示例:</strong>
+<ul>
+<li class="ml-6 list-disc">"你为什么选择80%和30%作为高低阈值？有没有试过其他值？"</li>
+<li class="ml-6 list-disc">"你的$f_{safe}$是如何确定的？它在所有情况下都能保证安全吗？"</li>
+<li class="ml-6 list-disc">"你的策略是反应式的，如果负载可以预测，效果会不会更好？"</li>
+<li class="ml-6 list-disc">"相比于'冲刺至空闲'策略，你的DVFS方法在哪些场景下有优势，哪些场景下有劣势？"</li>
+<li class="ml-6 list-disc">"这项研究的创新点主要体现在哪里？"</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">准备策略:</strong> 对每个问题准备简洁的答案，用PPT里的图或数据支撑。坦诚承认工作的局限性，并引申到"未来工作"。进行模拟答辩。</li>
+</ul>
+<p>最后，祝您研究顺利，成功获得学位！</p>
+<h2 id="section-附录：常见问题解答 -(faq)" class="text-3xl">附录：常见问题解答 (FAQ)</h2>
+<p>本节汇总了新手在实践过程中最容易遇到的问题及其解决方案，旨在为您提供快速排障指引。</p>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">问：<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code> 命令找不到或 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code> 提示 'flash' 不是一个有效命令。怎么办？</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">答：</strong> 这通常有两个原因。第一，您忘记激活Python虚拟环境。请在终端中运行 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">source ~/zephyrproject/.venv/bin/activate</code>。第二，您可能在一个<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west</code>工作区之外的目录运行命令。请确保您的终端位于 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">~/zephyrproject</code> 或其子目录（如您的应用目录 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">~/zephyrproject/my_aav_app</code>）中 [31]。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">问：<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west flash</code> 失败，提示 "permission denied" 或 "could not open device"。</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">答：</strong> 这是典型的Linux/WSL权限问题。您需要为ST-LINK设置udev规则。请返回 <strong class="font-semibold">第一章 1.4节</strong> 并严格按照步骤操作。如果规则已设置，尝试拔插USB线并运行 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">sudo udevadm control --reload</code>。作为最后的手段，您可以尝试使用 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">sudo west flash</code>，但这表明您的udev规则并未正确生效。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">问：烧录成功后，串口终端没有任何输出。</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">答：</strong> 请按以下步骤排查：<ol>
+<li class="ml-6 list-decimal"><strong class="font-semibold">按下开发板上的黑色复位(RESET)按钮</strong>。程序通常只在启动时打印一次初始化日志。</li>
+<li class="ml-6 list-decimal">确认您的串口终端工具连接到了正确的COM端口（Windows下在设备管理器查看，Linux下通常是 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">/dev/ttyACM0</code>）。</li>
+<li class="ml-6 list-decimal">确认波特率设置为 <strong class="font-semibold">115200</strong>。</li>
+<li class="ml-6 list-decimal">确认USB线连接牢固，并且开发板上的电源LED灯已亮起。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">问：我修改了代码，但重新编译烧录后，行为似乎没有变化。</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">答：</strong> Zephyr的构建系统有缓存机制。为了确保所有文件都被重新编译，请使用 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west build -p always</code> 命令进行一次"纯净构建"(pristine build)。这会删除旧的构建产物，解决许多由缓存引起的"奇怪"问题 [15, 22]。</li>
+</ul>
+</li>
+<li class="ml-6 list-disc"><strong class="font-semibold">问：如何使用 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west debug</code> 进行调试？</strong>
+<ul>
+<li class="ml-6 list-disc"><strong class="font-semibold">答：</strong> 在您的应用目录下运行 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west debug</code>。这会自动烧录程序并启动一个GDB调试服务器。您的终端会进入GDB命令行界面。您可以使用标准的GDB命令，如 <code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">b main.c:100</code> (在main.c的100行设置断点)，<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">c</code> (continue, 继续运行)，<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">p my_variable</code> (打印变量值)。对于图形化调试，我们推荐在VS Code中安装Cortex-Debug插件，它能与<code class="bg-gray-200 text-red-600 font-mono py-0.5 px-1.5 rounded text-sm">west debug</code>无缝集成。</li>
+</ul>
+</li>
+</ul>
+            </article>
+        </main>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // This script now only handles interactivity, not content loading.
+    
+    // 1. Auto-generate Table of Contents from existing H tags
+    const mainContent = document.getElementById('main-content');
+    const tocNav = document.getElementById('toc');
+    const headings = mainContent.querySelectorAll('h2, h3, h4');
+    
+    headings.forEach(heading => {
+        const level = parseInt(heading.tagName.substring(1), 10);
+        const link = document.createElement('a');
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        link.classList.add('toc-link');
+        if (level === 3) {
+            link.classList.add('level-3');
+        } else if (level === 4) {
+            link.classList.add('level-4');
+        }
+        tocNav.appendChild(link);
+    });
+
+    // 2. Add copy functionality to buttons
+    document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const pre = e.target.nextElementSibling;
+            const code = pre.textContent;
+            
+            const textArea = document.createElement('textarea');
+            textArea.value = code;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                e.target.textContent = '已复制!';
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                e.target.textContent = '复制失败';
+            }
+            document.body.removeChild(textArea);
+
+            setTimeout(() => {
+                e.target.textContent = '复制';
+            }, 2000);
+        });
+    });
+
+    // 3. TOC scrollspy to highlight current section
+    const tocLinks = document.querySelectorAll('#toc a');
+    
+    const observer = new IntersectionObserver(entries => {
+        let activeId = '';
+        
+        // Find the topmost visible or recently-scrolled-past heading
+        for (let i = 0; i < headings.length; i++) {
+            const rect = headings[i].getBoundingClientRect();
+            // A heading is considered active if its top is within the top 40% of the viewport
+            if (rect.top >= 0 && rect.top <= window.innerHeight * 0.4) {
+                activeId = headings[i].id;
+                break;
+            }
+        }
+        
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (activeId && link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+                link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }
+        });
+
+    }, { rootMargin: "0px 0px -60% 0px", threshold: 0 });
+
+    headings.forEach(heading => {
+        observer.observe(heading);
+    });
+});
+</script>
+</body>
+</html>

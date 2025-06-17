@@ -6,7 +6,7 @@
   <link href="https://xiaobendaoke.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaobendaoke.github.io/"/>
-  <updated>2025-06-17T07:39:21.787Z</updated>
+  <updated>2025-06-17T10:21:46.657Z</updated>
   <id>https://xiaobendaoke.github.io/</id>
   
   <author>
@@ -21,16 +21,14 @@
     <link href="https://xiaobendaoke.github.io/2025/06/17/%E6%95%99%E7%A8%8B/"/>
     <id>https://xiaobendaoke.github.io/2025/06/17/%E6%95%99%E7%A8%8B/</id>
     <published>2025-06-17T10:07:19.865Z</published>
-    <updated>2025-06-17T07:39:21.787Z</updated>
+    <updated>2025-06-17T10:21:46.657Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;面向新手的终极指南：在STM32H755ZI-Q与Zephyr上实现DVFS能效优化（重制详解版）
-引言：开启嵌入式能效探索之旅&lt;/p&gt;
-&lt;ol</summary>
+    <summary type="html">&lt;p&gt;🚀 新手终极指南：在STM32H755ZI-Q与Zephyr上实现DVFS能效优化（重制详解版）引言：开启嵌入式能效探索之旅1.</summary>
         
       
     
@@ -51,11 +49,7 @@
       
         
         
-    <summary type="html">&lt;h2 id=&quot;a算法&quot;&gt;A*算法&lt;/h2&gt;
-&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*
-算法&lt;/strong&gt;，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;一句话解释-a-算法&quot;&gt;一句话解释</summary>
+    <summary type="html">&lt;h2 id=&quot;A-算法&quot;&gt;&lt;a href=&quot;#A-算法&quot; class=&quot;headerlink&quot; title=&quot;A*算法&quot;&gt;&lt;/a&gt;A*算法&lt;/h2&gt;&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*</summary>
         
       
     

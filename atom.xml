@@ -6,7 +6,7 @@
   <link href="https://xiaobendaoke.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaobendaoke.github.io/"/>
-  <updated>2025-07-12T09:23:55.459Z</updated>
+  <updated>2025-07-14T08:29:55.801Z</updated>
   <id>https://xiaobendaoke.github.io/</id>
   
   <author>
@@ -21,13 +21,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/09-%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/09-%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83/</id>
     <published>2025-07-12T08:01:03.343Z</published>
-    <updated>2025-07-12T09:23:55.459Z</updated>
+    <updated>2025-07-14T08:29:55.801Z</updated>
     
     
     <summary type="html">本章详解多平台打包、自动更新与 CI/CD 发布，保障产品高效、安全交付。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -36,13 +40,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/08-%E4%BB%A3%E7%A0%81%E5%AE%9E%E8%B7%B5/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/08-%E4%BB%A3%E7%A0%81%E5%AE%9E%E8%B7%B5/</id>
     <published>2025-07-12T07:55:44.690Z</published>
-    <updated>2025-07-12T09:16:40.927Z</updated>
+    <updated>2025-07-14T08:29:50.649Z</updated>
     
     
     <summary type="html">本章汇总关键代码模块与实用案例，助力高效开发与质量保障。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -51,13 +59,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/07-%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/07-%E9%A3%8E%E9%99%A9%E6%8E%A7%E5%88%B6/</id>
     <published>2025-07-12T07:50:09.736Z</published>
-    <updated>2025-07-12T09:10:44.039Z</updated>
+    <updated>2025-07-14T08:29:48.062Z</updated>
     
     
     <summary type="html">本章聚焦错误处理、安全机制与可观测性，提升系统稳定性与数据安全。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -66,13 +78,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/06-%E9%A3%8E%E9%99%A9%E4%B8%8E%E8%A1%A5%E5%85%A8%E6%A8%A1%E5%9D%97/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/06-%E9%A3%8E%E9%99%A9%E4%B8%8E%E8%A1%A5%E5%85%A8%E6%A8%A1%E5%9D%97/</id>
     <published>2025-07-12T07:44:48.440Z</published>
-    <updated>2025-07-12T09:06:11.191Z</updated>
+    <updated>2025-07-14T08:29:45.522Z</updated>
     
     
     <summary type="html">本章梳理项目风险点，提出补全建议，保障产品可持续发展与高质量交付。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -81,13 +97,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/05-%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/05-%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD/</id>
     <published>2025-07-12T07:40:40.226Z</published>
-    <updated>2025-07-12T09:00:36.725Z</updated>
+    <updated>2025-07-14T08:29:42.853Z</updated>
     
     
     <summary type="html">本章介绍 RAG 检索增强生成，实现基于文档的智能问答与上下文理解能力。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -96,13 +116,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/04-%E7%BC%96%E8%BE%91%E5%99%A8%E6%A0%B8%E5%BF%83/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/04-%E7%BC%96%E8%BE%91%E5%99%A8%E6%A0%B8%E5%BF%83/</id>
     <published>2025-07-12T07:37:37.439Z</published>
-    <updated>2025-07-12T08:58:01.835Z</updated>
+    <updated>2025-07-14T08:29:33.029Z</updated>
     
     
     <summary type="html">本章详解 AI 编辑核心实现，包括 LLMProvider 抽象、多模型接入与差异化审阅插件开发。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -111,13 +135,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/03-%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/03-%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1/</id>
     <published>2025-07-12T07:35:41.627Z</published>
-    <updated>2025-07-12T08:56:45.744Z</updated>
+    <updated>2025-07-14T08:28:40.158Z</updated>
     
     
     <summary type="html">本章聚焦编辑器界面设计，涵盖 Ribbon 工具栏、主题/语言切换与无障碍体验优化。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -126,13 +154,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/02-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/02-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
     <published>2025-07-12T07:34:49.174Z</published>
-    <updated>2025-07-12T08:55:56.667Z</updated>
+    <updated>2025-07-14T08:28:34.916Z</updated>
     
     
     <summary type="html">本章详细讲解开发环境准备、依赖安装与项目初始化，为后续开发打下坚实基础。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -160,13 +192,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/03/%E9%A1%B9%E7%9B%AE/"/>
     <id>https://xiaobendaoke.github.io/2025/07/03/%E9%A1%B9%E7%9B%AE/</id>
     <published>2025-07-03T08:33:31.567Z</published>
-    <updated>2025-07-12T07:33:08.445Z</updated>
+    <updated>2025-07-14T08:30:04.565Z</updated>
     
     
     <summary type="html">有东西被加密了, 请输入密码查看.</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   

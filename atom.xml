@@ -141,13 +141,17 @@
     <link href="https://xiaobendaoke.github.io/2025/07/12/01-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0/"/>
     <id>https://xiaobendaoke.github.io/2025/07/12/01-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0/</id>
     <published>2025-07-12T07:34:09.904Z</published>
-    <updated>2025-07-12T09:37:34.014Z</updated>
+    <updated>2025-07-14T08:20:03.125Z</updated>
     
     
     <summary type="html">本章介绍项目的核心理念、技术栈选择与产品愿景，阐明打造新一代 AI 写作伙伴的目标与定位。</summary>
     
     
     
+    <category term="软件" scheme="https://xiaobendaoke.github.io/categories/%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="软件" scheme="https://xiaobendaoke.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -193,11 +197,7 @@
       
         
         
-    <summary type="html">&lt;h2 id=&quot;a算法&quot;&gt;A*算法&lt;/h2&gt;
-&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*
-算法&lt;/strong&gt;，然后再带你理解它背后的数学原理，最后我会画个图帮你形象理解。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;一句话解释-a-算法&quot;&gt;一句话解释</summary>
+    <summary type="html">&lt;h2 id=&quot;A-算法&quot;&gt;&lt;a href=&quot;#A-算法&quot; class=&quot;headerlink&quot; title=&quot;A*算法&quot;&gt;&lt;/a&gt;A*算法&lt;/h2&gt;&lt;p&gt;我们先来通俗解释一下这篇论文中使用的 &lt;strong&gt;A*</summary>
         
       
     
